@@ -1,0 +1,117 @@
+body {
+    font-family: 'Bebas Neue', sans-serif;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.light-mode {
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.dark-mode {
+    background-color: #333;
+    color: #f4f4f4;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+    background-color: #444;
+    margin: 0 0 20px;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+.theme-toggle {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+}
+
+#theme-switch {
+    display: none;
+}
+
+#theme-switch + span::before {
+    content: '🌞';
+    display: inline-block;
+    width: 2em;
+    height: 1em;
+    background-color: #ff0;
+    border-radius: 1em;
+    text-align: center;
+    line-height: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#theme-switch:checked + span::before {
+    content: '🌜';
+    background-color: #333;
+}
+
+.container, .news-container {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.container h1, .news-container h1 {
+    text-align: center;
+    color: #333;
+    font-weight: 700;
+    animation: fadeIn 2s;
+}
+
+.news-item {
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+    font-size: 1.2em;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+}
+
+.news-item h2 {
+    font-size: 1.5em;
+    margin: 0;
+}
+
+.news-item p {
+    margin: 5px 0 10px;
+}
+
+.news-item a {
+    color: #1e90ff;
+    text-decoration: none;
+}
+
+.news-item a:hover {
+    text-decoration: underline;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/data/css/styles.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/index.html">Home</a></li>
+            <li><a href="/pages/about.html">About Us</a></li>
+            <li><a href="/pages/news.html">News</a></li>
+            <li><a href="/pages/contact.html">Contact</a></li>
+        </ul>
+        <div class="theme-toggle">
+            <span id="theme-label">Light Mode</span>
+            <input type="checkbox" id="theme-switch">
+        </div>
+    </nav>
+    <div class="container">
+        <h1>Contact Us</h1>
+        <form action="https://formspree.io/f/your-form-id" method="POST">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+    <script src="/data/js/script.js"></script>
+</body>
+</html>
