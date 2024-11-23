@@ -23,6 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
             themeLabel.textContent = 'Light Mode';
         }
     });
+});
+
 
     // Fetch and display news articles
     const apiKey = 'bb9fe86a125e428d97a795251cfe4bdf';

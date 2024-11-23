@@ -48,7 +48,7 @@ nav ul li a:hover {
     display: none;
 }
 
-#theme-switch + span::before {
+#theme-switch + label::before {
     content: '🌞';
     display: inline-block;
     width: 2em;
@@ -61,57 +61,16 @@ nav ul li a:hover {
     transition: background-color 0.3s;
 }
 
-#theme-switch:checked + span::before {
+#theme-switch:checked + label::before {
     content: '🌜';
     background-color: #333;
 }
 
-.container, .news-container {
+.container {
     max-width: 800px;
     margin: 20px auto;
     background-color: #fff;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.container h1, .news-container h1 {
-    text-align: center;
-    color: #333;
-    font-weight: 700;
-    animation: fadeIn 2s;
-}
-
-.news-item {
-    border-bottom: 1px solid #eee;
-    padding: 10px 0;
-    font-size: 1.2em;
-    opacity: 0;
-    animation: fadeIn 1s forwards;
-}
-
-.news-item h2 {
-    font-size: 1.5em;
-    margin: 0;
-}
-
-.news-item p {
-    margin: 5px 0 10px;
-}
-
-.news-item a {
-    color: #1e90ff;
-    text-decoration: none;
-}
-
-.news-item a:hover {
-    text-decoration: underline;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    transition: background-color 0.3s, color 0.3s;
 }
