@@ -1,29 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const themeSwitch = document.getElementById('theme-switch');
-    const themeLabel = document.getElementById('theme-label');
+    const themeButton = document.getElementById('theme-button');
     const currentTheme = localStorage.getItem('theme') || 'light';
 
-    if (currentTheme === 'dark') {
-        document.body.classList.add('dark-mode');
-        themeSwitch.checked = true;
-        themeLabel.textContent = 'Dark Mode';
-    } else {
-        document.body.classList.add('light-mode');
-        themeLabel.textContent = 'Light Mode';
-    }
-
-    themeSwitch.addEventListener('change', () => {
-        if (themeSwitch.checked) {
-            document.body.classList.replace('light-mode', 'dark-mode');
+    const setTheme = (theme) => {
+        if (theme === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.body.classList.remove('light-mode');
+            themeButton.textContent = 'Light Mode';
             localStorage.setItem('theme', 'dark');
-            themeLabel.textContent = 'Dark Mode';
         } else {
-            document.body.classList.replace('dark-mode', 'light-mode');
+            document.body.classList.add('light-mode');
+            document.body.classList.remove('dark-mode');
+            themeButton.textContent = 'Dark Mode';
             localStorage.setItem('theme', 'light');
-            themeLabel.textContent = 'Light Mode';
         }
+    };
+
+    setTheme(currentTheme);
+
+    themeButton.addEventListener('click', () => {
+        const newTheme = document.body.classList.contains('light-mode') ? 'dark' : 'light';
+        setTheme(newTheme);
     });
 });
+
 
 
     // Fetch and display news articles
