@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Lazy loading for images
     const lazyloadImages = document.querySelectorAll("img.lazyload");
-    const lazyloadThrottleTimeout;
+    let lazyloadThrottleTimeout;
 
     function lazyload() {
         if(lazyloadThrottleTimeout) {
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }    
 
         lazyloadThrottleTimeout = setTimeout(function() {
-            const scrollTop = window.pageOffset;
+            const scrollTop = window.pageYOffset;
             lazyloadImages.forEach(function(img) {
                 if(img.offsetTop < (window.innerHeight + scrollTop)) {
                     img.src = img.dataset.src;
