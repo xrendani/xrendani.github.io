@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentTheme = localStorage.getItem('theme') || 'light';
 
     const setTheme = (theme) => {
+        document.body.classList.add('transition');
         if (theme === 'dark') {
             document.body.classList.add('dark-mode');
             document.body.classList.remove('light-mode');
@@ -14,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
             themeButton.textContent = 'Dark Mode';
             localStorage.setItem('theme', 'light');
         }
+        setTimeout(() => document.body.classList.remove('transition'), 500);
     };
 
     setTheme(currentTheme);
@@ -22,9 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const newTheme = document.body.classList.contains('light-mode') ? 'dark' : 'light';
         setTheme(newTheme);
     });
-});
-
-
 
     // Fetch and display news articles
     const apiKey = 'bb9fe86a125e428d97a795251cfe4bdf';
