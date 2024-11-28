@@ -25,6 +25,57 @@ document.addEventListener('DOMContentLoaded', () => {
         setTheme(newTheme);
     });
 
+    // Smooth scroll for nav links
+    document.querySelectorAll('nav a').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    // Hover effect for links
+    document.querySelectorAll('a').forEach(link => {
+        link.addEventListener('mouseover', () => {
+            link.style.transition = 'color 0.3s';
+            link.style.color = '#ff6347'; // Change to your preferred hover color
+        });
+        link.addEventListener('mouseout', () => {
+            link.style.color = ''; // Revert to original color
+        });
+    });
+
+    // Lazy loading for images
+    const lazyloadImages = document.querySelectorAll("img.lazyload");
+    const lazyloadThrottleTimeout;
+
+    function lazyload() {
+        if(lazyloadThrottleTimeout) {
+            clearTimeout(lazyloadThrottleTimeout);
+        }    
+
+        lazyloadThrottleTimeout = setTimeout(function() {
+            const scrollTop = window.pageYOffset;
+            lazyloadImages.forEach(function(img) {
+                if(img.offsetTop < (window.innerHeight + scrollTop)) {
+                    img.src = img.dataset.src;
+                    img.classList.add('loaded');
+                    img.classList.remove('lazyload');
+                }
+            });
+            if(lazyloadImages.length == 0) { 
+                document.removeEventListener("scroll", lazyload);
+                window.removeEventListener("resize", lazyload);
+                window.removeEventListener("orientationChange", lazyload);
+            }
+        }, 20);
+    }
+
+    document.addEventListener("scroll", lazyload);
+    window.addEventListener("resize", lazyload);
+    window.addEventListener("orientationChange", lazyload);
+
     // Fetch and display news articles
     const apiKey = 'bb9fe86a125e428d97a795251cfe4bdf';
     const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`;
