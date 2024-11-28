@@ -7,12 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (theme === 'dark') {
             document.body.classList.add('dark-mode');
             document.body.classList.remove('light-mode');
-            themeButton.textContent = 'Light Mode';
+            themeButton.innerHTML = '<i class="fas fa-sun"></i> Light Mode';
             localStorage.setItem('theme', 'dark');
         } else {
             document.body.classList.add('light-mode');
             document.body.classList.remove('dark-mode');
-            themeButton.textContent = 'Dark Mode';
+            themeButton.innerHTML = '<i class="fas fa-moon"></i> Dark Mode';
             localStorage.setItem('theme', 'light');
         }
         setTimeout(() => document.body.classList.remove('transition'), 500);
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }    
 
         lazyloadThrottleTimeout = setTimeout(function() {
-            const scrollTop = window.pageYOffset;
+            const scrollTop = window.pageOffset;
             lazyloadImages.forEach(function(img) {
                 if(img.offsetTop < (window.innerHeight + scrollTop)) {
                     img.src = img.dataset.src;
