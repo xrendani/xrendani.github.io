@@ -22,21 +22,21 @@ nav .navbar-nav .nav-link.active {
 }
 
 .main {
-    padding: 20px;
+    padding: 0;
 }
 
 .chatbox {
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     padding: 20px;
     background: white;
-    max-width: 600px;
-    margin: 0 auto;
 }
 
 .messages {
-    height: 400px;
-    overflow-y: scroll;
+    flex: 1;
+    overflow-y: auto;
     margin-bottom: 10px;
     border-bottom: 1px solid #ccc;
     padding-bottom: 10px;

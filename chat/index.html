@@ -21,27 +21,27 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
-                <li class="nav-item"><a class="nav-link" href="/services/">Services</a></li>
-                <li class="nav-item"><a class="nav-link" href="/contact/">Contact</a></li>
-                <li class="nav-item"><a class="nav-link" href="/chat/">AI Chat</a></li>
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+                <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="payment.html">Payment</a></li>
+                <li class="nav-item"><a class="nav-link active" href="chat.html">AI Chat</a></li>
             </ul>
         </div>
     </nav>
-    <main class="container mt-4">
-        <div class="content">
-            <h2>AI Chat</h2>
-            <div id="chatbox" class="chatbox">
-                <div id="messages" class="messages"></div>
-                <div class="input-group mb-3">
-                    <input type="text" id="userInput" class="form-control" placeholder="Type a message...">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" id="sendButton">Send</button>
-                    </div>
+    <main class="container-fluid p-0 m-0">
+        <div id="chatbox" class="chatbox">
+            <div id="messages" class="messages"></div>
+            <div class="input-group mb-3">
+                <input type="text" id="userInput" class="form-control" placeholder="Type a message...">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" id="sendButton">Send</button>
                 </div>
             </div>
         </div>
+        <script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js"></script>
+        <script src="https://files.bpcontent.cloud/2024/12/02/00/20241202005751-ELT4XG6Q.js"></script>
     </main>
     <footer class="bg-dark text-white text-center p-3">
         <p>&copy; 2024 WizCann. All rights reserved.</p>
