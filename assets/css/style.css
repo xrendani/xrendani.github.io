@@ -1,0 +1,57 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+header {
+    background-color: #282c34;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+nav .navbar-nav .nav-link {
+    color: white !important;
+}
+
+nav .navbar-nav .nav-link.active {
+    color: #d4af37 !important;
+}
+
+.main {
+    padding: 20px;
+}
+
+.chatbox {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    background: white;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.messages {
+    height: 400px;
+    overflow-y: scroll;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.input-group {
+    position: relative;
+}
+
+.input-group .form-control {
+    border-radius: 0;
+}
+
+.input-group .btn {
+    border-radius: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
