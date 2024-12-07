@@ -8,6 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.botpress.cloud/webchat/v0/inject.js"></script>
 </head>
 <body>
     <header class="bg-dark text-white text-center p-4">
@@ -21,12 +22,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-                <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
-                <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-                <li class="nav-item"><a class="nav-link" href="payment.html">Payment</a></li>
-                <li class="nav-item"><a class="nav-link active" href="chat.html">AI Chat</a></li>
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="/services/">Services</a></li>
+                <li class="nav-item"><a class="nav-link" href="/contact/">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="/chat/">AI Chat</a></li>
             </ul>
         </div>
     </nav>
@@ -40,8 +40,26 @@
                 </div>
             </div>
         </div>
-        <script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js"></script>
-        <script src="https://files.bpcontent.cloud/2024/12/02/00/20241202005751-ELT4XG6Q.js"></script>
+        <script>
+            window.botpressWebChat.init({
+                "botId": "e3842ef7-74f5-445e-8b84-ad3906884710",
+                "clientId": "<your-client-id>",
+                "hostUrl": "https://cdn.botpress.cloud/webchat/v0",
+                "messagingUrl": "https://messaging.botpress.cloud",
+                "botName": "CodeCrafter",
+                "containerWidth": "100%",
+                "layoutWidth": "100%",
+                "hideWidget": true,
+                "disableAnimations": true,
+            });
+
+            window.botpressWebChat.onEvent(
+                function () {
+                    window.botpressWebChat.sendEvent({ type: "show" });
+                },
+                ["LIFECYCLE.LOADED"]
+            );
+        </script>
     </main>
     <footer class="bg-dark text-white text-center p-3">
         <p>&copy; 2024 WizCann. All rights reserved.</p>
