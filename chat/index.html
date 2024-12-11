@@ -6,17 +6,14 @@
   <title>Chat with Codecrafter</title>
   <link rel="stylesheet" href="../assets/css/styles.css">
   <script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js"></script>
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-  <script src="https://files.bpcontent.cloud/2024/12/02/00/20241202005751-ELT4XG6Q.js"></script>
   <style>
-    /* Fullscreen styling to make it feel like an app */
     body, html {
       margin: 0;
       padding: 0;
       height: 100%;
       overflow: hidden;
       font-family: Arial, sans-serif;
-      background: #f4f4f4; /* Neutral background to match app style */
+      background: #f4f4f4;
     }
 
     .chat-container {
@@ -27,27 +24,16 @@
     }
 
     .app-header {
-      background: #4CAF50; /* Green app bar */
+      background: #4CAF50;
       color: white;
       padding: 1rem;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    }
-
-    .app-header .title {
+      justify-content: center;
       font-size: 1.5rem;
       font-weight: bold;
       text-align: center;
-    }
-
-    .app-header .menu-btn {
-      font-size: 1.2rem;
-      cursor: pointer;
-      background: none;
-      border: none;
-      color: white;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     }
 
     .chat-widget {
@@ -55,7 +41,7 @@
       position: relative;
     }
 
-    /* Force Botpress Webchat to take full height */
+    /* Ensure Botpress Widget takes full height */
     .bp-widget-web {
       height: 100% !important;
     }
@@ -63,21 +49,16 @@
 </head>
 <body>
   <div class="chat-container">
-    <!-- App-like Header -->
     <header class="app-header">
-      <button class="menu-btn">
-        <i class="fas fa-bars"></i>
-      </button>
-      <div class="title">Chat with Codecrafter</div>
+      Chat with Codecrafter
     </header>
 
-    <!-- Chat Widget -->
     <div class="chat-widget">
       <script>
         // Botpress Webchat Configuration
         window.botpressWebChat.init({
           hostUrl: "https://cdn.botpress.cloud/webchat/v2.2",
-          botId: "e3842ef7-74f5-445e-8b84-ad3906884710",
+          botId: "e3842ef7-74f5-445e-8b84-ad3906884710", // Your bot ID
           enableReset: true,
           closeButton: true,
           hideWidget: false,
