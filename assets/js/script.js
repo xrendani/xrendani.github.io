@@ -1,32 +1,60 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const userInput = document.getElementById('userInput');
-    const sendButton = document.getElementById('sendButton');
-    const messages = document.getElementById('messages');
+// main.js
 
-    sendButton.addEventListener('click', function() {
-        const userMessage = userInput.value.trim();
-        if (userMessage) {
-            addMessage('user', userMessage);
-            userInput.value = '';
+// Handle Navigation Toggle for Mobile
+const navToggle = document.querySelector('.nav-toggle');
+const navLinks = document.querySelector('.nav-links');
 
-            // Simulate AI response
-            setTimeout(function() {
-                addMessage('ai', 'This is a response from the AI.');
-            }, 500);
-        }
-    });
+if (navToggle) {
+  navToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+  });
+}
 
-    userInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            sendButton.click();
-        }
-    });
-
-    function addMessage(sender, text) {
-        const message = document.createElement('div');
-        message.classList.add('message', sender);
-        message.innerText = text;
-        messages.appendChild(message);
-        messages.scrollTop = messages.scrollHeight;
+// Smooth Scroll for Internal Links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
     }
+  });
 });
+
+// Dynamically Add Social Media Icons
+const socialsContainer = document.querySelector('.footer-socials');
+if (socialsContainer) {
+  const socials = [
+    { platform: 'Twitter', url: 'https://twitter.com/wizcann', icon: 'fab fa-twitter' },
+    { platform: 'GitHub', url: 'https://github.com/wizcann', icon: 'fab fa-github' },
+    { platform: 'Instagram', url: 'https://instagram.com/wizcann', icon: 'fab fa-instagram' },
+    { platform: 'Facebook', url: 'https://facebook.com/wiizcann', icon: 'fab fa-facebook' },
+  ];
+
+  socials.forEach(({ platform, url, icon }) => {
+    const socialLink = document.createElement('a');
+    socialLink.href = url;
+    socialLink.target = '_blank';
+    socialLink.rel = 'noopener noreferrer';
+    socialLink.innerHTML = `<i class="${icon}" aria-hidden="true"></i>`;
+    socialLink.title = `Follow me on ${platform}`;
+    socialsContainer.appendChild(socialLink);
+  });
+}
+
+// Change Favicon Dynamically
+function setFavicon(iconUrl) {
+  let link = document.querySelector("link[rel~='icon']");
+  if (!link) {
+    link = document.createElement('link');
+    link.rel = 'icon';
+    document.head.appendChild(link);
+  }
+  link.href = iconUrl;
+}
+
+// Set your custom favicon here
+setFavicon('https://corebel.github.io/assets/images/favicon.ico');
