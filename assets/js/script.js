@@ -57,4 +57,4 @@ function setFavicon(iconUrl) {
 }
 
 // Set your custom favicon here
-setFavicon('https://corebel.github.io/assets/images/favicon.ico');
+setFavicon('https://wizcann.is-a.dev/assets/images/favicon.ico');
