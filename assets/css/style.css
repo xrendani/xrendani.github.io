@@ -1,74 +1,133 @@
-/* Add this to your main CSS file */
-body {
+/* Global Styles */
+body, html {
   margin: 0;
   padding: 0;
+  font-family: 'Fira Code', monospace; /* Developer-inspired font */
+  background: #121212; /* Deep dark background */
+  color: #e0e0e0; /* Light gray text */
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* Navigation Bar */
+.navbar {
+  background: linear-gradient(135deg, #1e1e1e, #2b2b2b);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar a {
+  color: #61dafb; /* React-inspired accent */
+  text-decoration: none;
+  margin: 0 1rem;
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
+.navbar a:hover {
+  color: #e06c75; /* Stylish pink hover */
+}
+
+.navbar .nav-toggle {
+  display: none;
+}
+
+/* Footer */
+footer {
+  background: #1a1a1a;
+  padding: 2rem;
+  text-align: center;
+  border-top: 2px solid #282c34;
+  color: #bdbdbd;
+}
+
+.footer-socials a {
+  margin: 0 0.5rem;
+  color: #61dafb;
+  font-size: 1.5rem;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.footer-socials a:hover {
+  color: #e06c75;
+  transform: scale(1.2);
+}
+
+/* Section Styling */
+section {
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #1b1b1b, #2d2d2d);
+  margin: 1rem 0;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #61dafb;
+}
+
+p {
+  line-height: 1.6;
+}
+
+button {
+  background: #e06c75;
+  color: #ffffff;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #c75b63;
+}
+
+/* Gradient Buttons */
+.button-gradient {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  color: #ffffff;
+  background: linear-gradient(45deg, #e06c75, #61dafb);
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 1rem;
+  text-align: center;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.button-gradient:hover {
+  background: linear-gradient(45deg, #61dafb, #e06c75);
+  transform: translateY(-3px);
+}
+
+/* Chat Page Specific */
+.chat-container {
+  background: linear-gradient(135deg, #1c1c1c, #292929);
   height: 100vh;
-  background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fbc2eb, #a1c4fd, #c2e9fb);
-  background-size: 300% 300%;
-  animation: gradientMove 15s ease infinite;
-  font-family: 'Open Sans', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Keyframes for gradient animation */
-@keyframes gradientMove {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+.chat-iframe {
+  width: 90%;
+  height: 90%;
+  border: none;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
 }
 
-
-header {
-    background-color: #282c34;
-    color: white;
-    padding: 20px;
-    text-align: center;
-}
-
-nav .navbar-nav .nav-link {
-    color: white !important;
-}
-
-nav .navbar-nav .nav-link.active {
-    color: #d4af37 !important;
-}
-
-.main {
-    padding: 0;
-}
-
-.chatbox {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 20px;
-    background: white;
-}
-
-.messages {
-    flex: 1;
-    overflow-y: auto;
-    margin-bottom: 10px;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 10px;
-}
-
-.input-group {
-    position: relative;
-}
-
-.input-group .form-control {
-    border-radius: 0;
-}
-
-.input-group .btn {
-    border-radius: 0;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+/* Fancy Hover Effects */
+a:hover, button:hover {
+  box-shadow: 0 0 10px rgba(97, 218, 251, 0.7), 0 0 40px rgba(224, 108, 117, 0.5);
 }
