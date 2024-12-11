@@ -1,69 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Chat - WizCann</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.botpress.cloud/webchat/v0/inject.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat with Codecrafter</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js"></script>
+  <script src="https://files.bpcontent.cloud/2024/12/02/00/20241202005751-ELT4XG6Q.js"></script>
+  <style>
+    /* Fullscreen styling to make it feel like an app */
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4; /* Neutral background to match app style */
+    }
+
+    .chat-container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+    }
+
+    .app-header {
+      background: #4CAF50; /* Green app bar */
+      color: white;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .app-header .title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .app-header .menu-btn {
+      font-size: 1.2rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: white;
+    }
+
+    .chat-widget {
+      flex: 1;
+      position: relative;
+    }
+
+    /* Force Botpress Webchat to take full height */
+    .bp-widget-web {
+      height: 100% !important;
+    }
+  </style>
 </head>
 <body>
-    <header class="bg-dark text-white text-center p-4">
-        <h1>WizCann</h1>
-        <p>For Software and Developers</p>
+  <div class="chat-container">
+    <!-- App-like Header -->
+    <header class="app-header">
+      <button class="menu-btn">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="title">Chat with Codecrafter</div>
     </header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="index.html">WizCann</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
-                <li class="nav-item"><a class="nav-link" href="/services/">Services</a></li>
-                <li class="nav-item"><a class="nav-link" href="/contact/">Contact</a></li>
-                <li class="nav-item"><a class="nav-link" href="/chat/">AI Chat</a></li>
-            </ul>
-        </div>
-    </nav>
-    <main class="container-fluid p-0 m-0">
-        <div id="chatbox" class="chatbox">
-            <div id="messages" class="messages"></div>
-            <div class="input-group mb-3">
-                <input type="text" id="userInput" class="form-control" placeholder="Type a message...">
-                <div class="input-group-append">
-                    <button class="btn btn-primary" id="sendButton">Send</button>
-                </div>
-            </div>
-        </div>
-        <script>
-            window.botpressWebChat.init({
-                "botId": "e3842ef7-74f5-445e-8b84-ad3906884710",
-                "clientId": "<your-client-id>",
-                "hostUrl": "https://cdn.botpress.cloud/webchat/v0",
-                "messagingUrl": "https://messaging.botpress.cloud",
-                "botName": "CodeCrafter",
-                "containerWidth": "100%",
-                "layoutWidth": "100%",
-                "hideWidget": true,
-                "disableAnimations": true,
-            });
 
-            window.botpressWebChat.onEvent(
-                function () {
-                    window.botpressWebChat.sendEvent({ type: "show" });
-                },
-                ["LIFECYCLE.LOADED"]
-            );
-        </script>
-    </main>
-    <footer class="bg-dark text-white text-center p-3">
-        <p>&copy; 2024 WizCann. All rights reserved.</p>
-    </footer>
-    <script src="main.js"></script>
+    <!-- Chat Widget -->
+    <div class="chat-widget">
+      <script>
+        // Botpress Webchat Configuration
+        window.botpressWebChat.init({
+          hostUrl: "https://cdn.botpress.cloud/webchat/v2.2",
+          botId: "e3842ef7-74f5-445e-8b84-ad3906884710",
+          enableReset: true,
+          closeButton: true,
+          hideWidget: false,
+          showPoweredBy: false,
+        });
+      </script>
+    </div>
+  </div>
 </body>
 </html>
