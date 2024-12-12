@@ -45,7 +45,6 @@
 
 /* Navigation Bar */
 .navbar {
-  background: linear-gradient(135deg, #1e1e1e, #2b2b2b);
   padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
@@ -96,7 +95,6 @@ footer {
 /* Section Styling */
 section {
   padding: 4rem 2rem;
-  background: linear-gradient(135deg, #1b1b1b, #2d2d2d);
   margin: 1rem 0;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
@@ -129,8 +127,7 @@ button:hover {
 .button-gradient {
   display: inline-block;
   padding: 0.8rem 1.5rem;
-  color: #ffffff;
-  background: linear-gradient(45deg, #e06c75, #61dafb);
+  color: #0000;
   border: none;
   border-radius: 5px;
   text-decoration: none;
@@ -140,7 +137,6 @@ button:hover {
 }
 
 .button-gradient:hover {
-  background: linear-gradient(45deg, #61dafb, #e06c75);
   transform: translateY(-3px);
 }
 
