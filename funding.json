@@ -1,0 +1,32 @@
+{
+  "foss_contributions": {
+    "vision": "Develop and maintain open-source applications and frameworks, including Corebel Engine, a lightweight 3D engine for developers focused on simplicity and performance.",
+    "financial_needs": {
+      "laptop": {
+        "amount": 3500,
+        "justification": "A mid-range laptop with high-performance specifications (16GB RAM, SSD storage, and a powerful GPU) is essential for developing, testing, and running 3D applications efficiently."
+      },
+      "setup_costs": {
+        "software_tools": 250,
+        "accessories": 300
+      },
+      "total_funding": 4050
+    },
+    "impact": {
+      "short_term": "Kickstart the development of Corebel Engine, releasing its alpha version as open-source.",
+      "long_term": "Create a suite of open-source tools and libraries for developers to enhance productivity and creativity."
+    }
+  },
+  "links": {
+    "website": "https://wizcann.is-a.dev",
+    "socials": {
+      "x": "https://x.com/wizcann",
+      "facebook": "https://facebook.com/wiizcann",
+      "instagram": "https://instagram.com/wizcann",
+      "linkedin": "https://linkedin.com/in/rendani-manugeni"
+    },
+    "funding_platforms": {
+      "github_sponsors": "https://github.com/sponsors/wizcann"
+    }
+  }
+}
