@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="../../../assets/css/main.css">
   <style>
     .moodify-logo {
-      font-family: 'Dela Gothic One', sans-serif;
+      font-family: 'Dela Gothic One', sans;
       font-size: 4rem;
       color: #bb86fc;
       text-shadow: 
@@ -16,6 +16,16 @@
         0 0 20px rgba(187, 134, 252, 0.7),
         0 0 30px rgba(187, 134, 252, 0.5);
       animation: bounce 2s infinite ease-in-out;
+      margin: 50px 0;
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-20px);
+      }
     }
   </style>
 </head>
