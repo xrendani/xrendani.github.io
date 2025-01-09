@@ -9,7 +9,7 @@
     "description": "An aspiring open-source developer working on projects like Corebell Engine, aimed at enhancing the FOSS ecosystem with developer-friendly tools and applications.",
     "webpageUrl": {
       "url": "https://wizcann.is-a.dev",
-      "wellKnown": "https://github.com/manugeni/manugeni.github.io/.well-known/funding-manifest-urls"
+      "wellKnown": "https://github.com/manugeni/CorebellEngine/.well-known/funding-manifest-urls"
     }
   },
   "projects": [
@@ -34,7 +34,7 @@
       {
         "guid": "github-sponsors",
         "type": "other",
-        "address": "https://github.com/sponsors/wizcann",
+        "address": "https://github.com/sponsors/manugeni",
         "description": "Support open-source development via GitHub Sponsors."
       }
     ],
