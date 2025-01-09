@@ -8,7 +8,8 @@
     "phone": "0635301006",
     "description": "An aspiring open-source developer working on projects like Corebell Engine, aimed at enhancing the FOSS ecosystem with developer-friendly tools and applications.",
     "webpageUrl": {
-      "url": "https://wizcann.is-a.dev"
+      "url": "https://wizcann.is-a.dev",
+      "wellKnown": "https://github.com/manugeni/manugeni.github.io/.well-known/funding-manifest-urls"
     }
   },
   "projects": [
@@ -17,7 +18,8 @@
       "name": "Corebell Engine",
       "description": "A lightweight, efficient 3D engine designed for developers seeking simplicity and performance in creating 3D applications.",
       "webpageUrl": {
-        "url": "https://wizcann.is-a.dev"
+        "url": "https://wizcann.is-a.dev",
+        "wellKnown": "https://github.com/manugeni/CorebellEngine/.well-known/funding-manifest-urls"
       },
       "repositoryUrl": {
         "url": "https://github.com/manugeni/CorebellEngine",
