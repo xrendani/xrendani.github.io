@@ -20,7 +20,8 @@
         "url": "https://wizcann.is-a.dev"
       },
       "repositoryUrl": {
-        "url": "https://github.com/Corebel/engine"
+        "url": "https://github.com/manugeni/CorebellEngine",
+        "wellKnown": "https://github.com/manugeni/CorebellEngine/.well-known/funding-manifest-urls"
       },
       "licenses": ["spdx:MIT"],
       "tags": ["developer-tools", "3d-engine", "open-source", "corebel"]
@@ -68,4 +69,4 @@
       }
     ]
   }
-}
+      }
