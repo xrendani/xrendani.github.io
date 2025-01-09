@@ -13,7 +13,7 @@
   },
   "projects": [
     {
-      "guid": "corebell-engine",
+      "guid": "corebell",
       "name": "Corebell Engine",
       "description": "A lightweight, efficient 3D engine designed for developers seeking simplicity and performance in creating 3D applications.",
       "webpageUrl": {
