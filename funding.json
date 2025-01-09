@@ -6,15 +6,15 @@
     "name": "Rendani Manugeni",
     "email": "rendaniman@outlook.com",
     "phone": "0635301006",
-    "description": "An aspiring open-source developer working on projects like Corebel Engine, aimed at enhancing the FOSS ecosystem with developer-friendly tools and applications.",
+    "description": "An aspiring open-source developer working on projects like Corebell Engine, aimed at enhancing the FOSS ecosystem with developer-friendly tools and applications.",
     "webpageUrl": {
       "url": "https://wizcann.is-a.dev"
     }
   },
   "projects": [
     {
-      "guid": "corebel-engine",
-      "name": "Corebel Engine",
+      "guid": "corebell-engine",
+      "name": "Corebell Engine",
       "description": "A lightweight, efficient 3D engine designed for developers seeking simplicity and performance in creating 3D applications.",
       "webpageUrl": {
         "url": "https://wizcann.is-a.dev"
@@ -24,7 +24,7 @@
         "wellKnown": "https://github.com/manugeni/CorebellEngine/.well-known/funding-manifest-urls"
       },
       "licenses": ["spdx:MIT"],
-      "tags": ["developer-tools", "3d-engine", "open-source", "corebel"]
+      "tags": ["developer-tools", "3d-engine", "open-source", "corebell-engine"]
     }
   ],
   "funding": {
@@ -65,8 +65,8 @@
         "expenses": 0,
         "taxes": 0,
         "currency": "ZAR",
-        "description": "First year of establishing funding and starting Corebel Engine development."
+        "description": "First year of establishing funding and starting Corebell Engine development."
       }
     ]
   }
-      }
+}
