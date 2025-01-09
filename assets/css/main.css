@@ -1,0 +1,157 @@
+/* File: main.css */
+
+/* Root variables for dark theme colors */
+:root {
+  --background-color: #121212;
+  --primary-text-color: #ffffff;
+  --secondary-text-color: #b0b0b0;
+  --accent-color: #bb86fc;
+  --hover-accent-color: #a075d1;
+  --border-color: #333333;
+  --card-background: #1e1e1e;
+  --button-hover-background: lighten(#bb86fc, 10%);
+}
+
+/* Global Styles */
+body {
+  background-color: var(--background-color);
+  color: var(--primary-text-color);
+  font-family: 'Prompt', sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--primary-text-color);
+  margin-bottom: 10px;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+/* Paragraphs */
+p {
+  color: var(--secondary-text-color);
+  margin-bottom: 15px;
+}
+
+/* Links */
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--hover-accent-color);
+}
+
+/* Navigation */
+nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: var(--card-background);
+  border-bottom: 1px solid var(--border-color);
+}
+
+nav a {
+  color: var(--primary-text-color);
+  text-decoration: none;
+  font-weight: bold;
+  padding: 10px;
+}
+
+nav a:hover {
+  color: var(--accent-color);
+}
+
+/* Buttons */
+button {
+  background-color: var(--accent-color);
+  color: var(--primary-text-color);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--button-hover-background);
+}
+
+/* Cards */
+.card {
+  background-color: var(--card-background);
+  color: var(--primary-text-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  margin: 15px 0;
+}
+
+.card h3 {
+  margin-top: 0;
+}
+
+/* Forms */
+input, textarea {
+  background-color: var(--card-background);
+  color: var(--primary-text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 10px;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+/* Footer */
+footer {
+  background-color: var(--card-background);
+  color: var(--secondary-text-color);
+  text-align: center;
+  padding: 20px 10px;
+  margin-top: 20px;
+  border-top: 1px solid var(--border-color);
+}
+
+/* Animations */
+button, a, nav a {
+  transition: all 0.3s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  transition: transform 0.3s ease;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+  }
+
+  nav a {
+    margin: 5px 0;
+  }
+    }
