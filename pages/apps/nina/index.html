@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Nina.AI - Your intelligent coding assistant.">
+  <title>Nina.AI | Rendani</title>
+  <link rel="stylesheet" href="../../../assets/css/main.css">
+</head>
+<body>
+  <!-- Header Section -->
+  <header>
+    <nav>
+      <a href="../../../index.html">Home</a>
+      <a href="#about">About Nina</a>
+      <a href="#features">Features</a>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <!-- About Nina -->
+    <section id="about" class="section">
+      <h1>Nina.AI</h1>
+      <p>Welcome to Nina.AI, your intelligent assistant designed to make coding smarter and faster.</p>
+      <div class="nina-avatar" id="ninaAvatar"></div>
+      <p>Interact with Nina's dynamic particle-based avatar as you explore her capabilities.</p>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Rendani. Nina.AI by CorebelI Engine.</p>
+  </footer>
+
+  <script>
+    // Particle animation for Nina's avatar
+    const avatar = document.getElementById('ninaAvatar');
+    function createParticle() {
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
+      const size = Math.random() * 10 + 5;
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      particle.style.top = `${Math.random() * 100}%`;
+      particle.style.left = `${Math.random() * 100}%`;
+      particle.style.animationDuration = `${Math.random() * 3 + 2}s`;
+      avatar.appendChild(particle);
+      particle.addEventListener('animationend', () => particle.remove());
+    }
+    setInterval(createParticle, 300);
+  </script>
+</body>
+</html>
