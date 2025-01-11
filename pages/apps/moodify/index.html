@@ -9,7 +9,7 @@
   <style>
     /* Moodify-specific styles */
     .moodify-logo {
-      font-family: 'Prompt', sans;
+      font-family: 'Dela Gothic One', sans-serif;
       font-size: 4rem;
       color: #bb86fc;
       text-shadow: 
@@ -62,9 +62,29 @@
       background-color: var(--card-background);
       border-radius: 5px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
     }
 
-    /* Loading spinner styles */
+    .track img.album-art {
+      width: 50px;
+      height: 50px;
+      border-radius: 5px;
+      object-fit: cover;
+    }
+
+    .track.playing {
+      background-color: var(--accent-color);
+      color: var(--background-color);
+    }
+
+    .track:hover {
+      transform: scale(1.03);
+    }
+
     #loading {
       display: none;
       margin: 20px auto;
@@ -84,24 +104,46 @@
         transform: rotate(360deg);
       }
     }
+
+    #player-controls {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    #player-controls button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: var(--accent-color);
+      color: var(--primary-text-color);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #player-controls button:hover {
+      background-color: var(--hover-accent-color);
+    }
   </style>
 </head>
 <body>
   <!-- Header Section -->
   <header>
     <nav>
-      <a href="index.html">Home</a>
+      <a href="../../../index.html">Home</a>
       <a href="#features">Features</a>
     </nav>
   </header>
 
   <!-- Main Content -->
   <main>
+    <!-- Moodify Logo -->
     <section id="features" class="section">
-      <h1>Moodify</h1>
-      <div class="moodify-logo">Moodify</div>
-      <p>Discover music that matches your mood. Select a mood to get personalized recommendations:</p>
-      
+      <h1 class="moodify-logo">Moodify</h1>
+      <p>Select your mood and discover personalized music:</p>
+
       <!-- Mood Buttons -->
       <div class="mood-buttons">
         <button class="mood-button" data-mood="Happy">Happy</button>
@@ -117,16 +159,23 @@
         <h2>Recommended Tracks</h2>
         <p>Select a mood to see tracks here.</p>
       </div>
+
+      <!-- Player Controls -->
+      <div id="player-controls">
+        <button id="prev-btn">Previous</button>
+        <button id="next-btn">Next</button>
+      </div>
     </section>
   </main>
 
   <!-- Footer -->
   <footer>
-    <p>&copy; 2025 Rendani. All Rights Reserved.</p>
+    <p>&copy; 2025 Rendani. Moodify powered by CorebelI Engine.</p>
   </footer>
 
   <!-- Scripts -->
-  <script type="module" src="../../../assets/js/API.js"></script>
+  <script type="module" src="../../../API.js"></script>
   <script type="module" src="moodify.js"></script>
 </body>
-</html>
+        </html>
+        
