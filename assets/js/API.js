@@ -1,9 +1,10 @@
 // File: API.js
 
 class API {
-  constructor(clientId, clientSecret) {
-    this.clientId = clientId;
-    this.clientSecret = clientSecret;
+  constructor() {
+    // Spotify Client Credentials (hardcoded for demo purposes)
+    this.clientId = '1ea4678f8cdf4141a8fd6ed6f0411cff';  // Your Spotify Client ID
+    this.clientSecret = 'a8fa287e25c74bd7a613b853b9d1818a'; // Your Spotify Client Secret
     this.accessToken = "";
     this.baseUrl = "https://api.spotify.com/v1"; // Default to Spotify API
   }
@@ -84,18 +85,26 @@ class API {
     }
   }
 
-  // Fetch Spotify recommendations
+  // Fetch Spotify recommendations (based on genres, moods, etc.)
   async getRecommendations(attributes) {
     try {
       const recommendations = await this.get("/recommendations", attributes);
       return recommendations.tracks.map((track) => ({
         title: track.name,
         artist: track.artists.map((artist) => artist.name).join(", "),
+        album: track.album.name,
+        url: track.external_urls.spotify,
       }));
     } catch (error) {
       console.error("Error fetching Spotify recommendations:", error);
       return [];
     }
+  }
+
+  // Fetch mood-based music recommendations (e.g., 'rock', 'pop', 'classical')
+  async getMoodRecommendations(mood) {
+    const attributes = { seed_genres: mood, limit: 10 };  // Fetch 10 tracks based on mood
+    return await this.getRecommendations(attributes);
   }
 
   // Advanced Website-Specific Features
