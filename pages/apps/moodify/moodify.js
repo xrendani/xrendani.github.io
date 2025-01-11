@@ -1,5 +1,5 @@
 // File: moodify.js
-import API from "./API.js";
+import API from ".../.../.../assets/js/API.js";
 
 // Initialize API with Spotify credentials
 const api = new API("1ea4678f8cdf4141a8fd6ed6f0411cff", "a8fa287e25c74bd7a613b853b9d1818a");
