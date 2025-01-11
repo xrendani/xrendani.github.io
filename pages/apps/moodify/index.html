@@ -5,177 +5,125 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Moodify - Music that matches your mood.">
   <title>Moodify | Rendani</title>
-  <link rel="stylesheet" href="../../../assets/css/main.css">
+  <link rel="stylesheet" href="../../../assets/css/main.css"> <!-- Assuming main.css is in this path -->
   <style>
-    /* Moodify-specific styles */
-    .moodify-logo {
-      font-family: 'Dela Gothic One', sans-serif;
-      font-size: 4rem;
-      color: #bb86fc;
-      text-shadow: 
-        2px 2px 10px rgba(0, 0, 0, 0.7),
-        0 0 20px rgba(187, 134, 252, 0.7),
-        0 0 30px rgba(187, 134, 252, 0.5);
-      animation: bounce 2s infinite ease-in-out;
-      margin: 20px 0;
+    /* Add any custom styles specific to Moodify here */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #1d1d1d;
+      color: #fff;
+      margin: 0;
+      padding: 0;
     }
 
-    @keyframes bounce {
-      0%, 100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-20px);
-      }
-    }
-
-    .mood-buttons {
+    header {
+      background-color: #333;
+      padding: 10px 0;
       display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin: 20px 0;
-    }
-
-    .mood-button {
-      padding: 10px 20px;
-      font-size: 1rem;
-      border: none;
-      background-color: var(--accent-color);
-      color: var(--primary-text-color);
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .mood-button:hover {
-      background-color: var(--hover-accent-color);
-    }
-
-    #results {
-      margin-top: 20px;
-      text-align: left;
-    }
-
-    .track {
-      padding: 10px;
-      margin: 5px 0;
-      background-color: var(--card-background);
-      border-radius: 5px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-      display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 15px;
-      cursor: pointer;
-      transition: transform 0.2s ease;
+      padding-left: 20px;
+      padding-right: 20px;
     }
 
-    .track img.album-art {
-      width: 50px;
-      height: 50px;
+    header nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 10px;
+      margin: 0 15px;
+      font-size: 16px;
+    }
+
+    header nav a:hover {
+      background-color: #555;
       border-radius: 5px;
-      object-fit: cover;
     }
 
-    .track.playing {
-      background-color: var(--accent-color);
-      color: var(--background-color);
-    }
-
-    .track:hover {
-      transform: scale(1.03);
-    }
-
-    #loading {
-      display: none;
-      margin: 20px auto;
-      border: 5px solid #f3f3f3;
-      border-top: 5px solid var(--accent-color);
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-
-    #player-controls {
-      margin-top: 20px;
+    main {
+      padding: 20px;
+      text-align: center;
       display: flex;
+      flex-direction: column;
       justify-content: center;
-      gap: 15px;
+      height: 80vh;
     }
 
-    #player-controls button {
-      padding: 10px 20px;
-      font-size: 1rem;
-      background-color: var(--accent-color);
-      color: var(--primary-text-color);
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
+    main h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
     }
 
-    #player-controls button:hover {
-      background-color: var(--hover-accent-color);
+    main p {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #333;
+      color: #fff;
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: #4CAF50;
     }
   </style>
 </head>
 <body>
-  <!-- Header Section -->
+
+  <!-- Header with Navigation -->
   <header>
     <nav>
-      <a href="../../../index.html">Home</a>
+      <a href="login.html" onclick="logout()">Logout</a> <!-- Logout Link -->
       <a href="#features">Features</a>
     </nav>
   </header>
 
-  <!-- Main Content -->
+  <!-- Main Section with App Content -->
   <main>
-    <!-- Moodify Logo -->
+    <h1>Welcome to Moodify</h1>
+    <p>Your personalized music player that matches your mood. Enjoy curated playlists and more!</p>
+
     <section id="features" class="section">
-      <h1 class="moodify-logo">Moodify</h1>
-      <p>Select your mood and discover personalized music:</p>
-
-      <!-- Mood Buttons -->
-      <div class="mood-buttons">
-        <button class="mood-button" data-mood="Happy">Happy</button>
-        <button class="mood-button" data-mood="Calm">Calm</button>
-        <button class="mood-button" data-mood="Energetic">Energetic</button>
-      </div>
-
-      <!-- Loading Spinner -->
-      <div id="loading"></div>
-
-      <!-- Results Section -->
-      <div id="results" class="section">
-        <h2>Recommended Tracks</h2>
-        <p>Select a mood to see tracks here.</p>
-      </div>
-
-      <!-- Player Controls -->
-      <div id="player-controls">
-        <button id="prev-btn">Previous</button>
-        <button id="next-btn">Next</button>
-      </div>
+      <h2>Features</h2>
+      <ul>
+        <li>Personalized music recommendations based on your mood.</li>
+        <li>Explore music genres and artists tailored for you.</li>
+        <li>Real-time mood tracking to help you discover the right music.</li>
+      </ul>
     </section>
   </main>
 
-  <!-- Footer -->
+  <!-- Footer Section -->
   <footer>
     <p>&copy; 2025 Rendani. Moodify powered by CorebelI Engine.</p>
+    <p>Developed with ❤️. <a href="https://wizcann.is-a.dev" target="_blank">Visit Wizcann</a></p>
   </footer>
 
-  <!-- Scripts -->
-  <script type="module" src="../../../API.js"></script>
-  <script type="module" src="moodify.js"></script>
+  <script>
+    // Check if the user is logged in
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    if (!isLoggedIn) {
+      // Redirect to login page if not logged in
+      window.location.href = "login.html";
+    }
+
+    // Logout function
+    function logout() {
+      localStorage.removeItem('isLoggedIn');
+      window.location.href = "login.html"; // Redirect to login page after logout
+    }
+  </script>
+  <script src="../../../assets/js/API.js"></script>
+  <script src="moodify.js"></script>
+  
+
 </body>
-        </html>
-        
+</html>
