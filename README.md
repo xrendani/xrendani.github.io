@@ -2,7 +2,7 @@ domain currently set to manugeni.github.io, due to changes being made.
 
 # manugeni's Multi-Tool website
 
-This repository contains the source code for the [manugeni.github.io](https://manugeni.github.io/) website. The website serves as a multi-tool platform, providing various functionalities and features.
+This repository contains the source code for the [manugeni.github.io](https://manugeni.is-a.dev/) website. The website serves as a multi-tool platform, providing various functionalities and features.
 
 ## Table of Contents
 
