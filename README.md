@@ -10,7 +10,6 @@ This repository contains the source code for the [manugeni.github.io](https://ma
 - [Features](#features)
 - [Technologies Used](#technologies-used)
 - [Development and Upgrades](#development-and-upgrades)
-- [Contributing](#contributing)
 - [License](#license)
 
 ## Introduction
@@ -35,11 +34,7 @@ The website is in constant development, with new features being added regularly.
 
 - **Enhanced Tool Integration**: Adding more tools and functionalities to the platform.
 - **Performance Improvements**: Optimizing the website for faster load times and better performance.
-- **User Feedback Integration**: Implementing features based on user feedback and suggestions.
-
-## Contributing
-
-Contributions are welcome! If you have ideas for new features or improvements, feel free to open an issue or submit a pull request. Please follow the [contribution guidelines](CONTRIBUTING.md) when contributing to the project.
+- **User Feedback Integration**: Implementing features based on user feedback and suggestions
 
 ## License
 
