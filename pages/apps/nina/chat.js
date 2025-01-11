@@ -19,7 +19,7 @@ class ChatBot {
                 {
                     method: "POST",
                     headers: {
-                        "Authorization": "Bearer YOUR_HUGGING_FACE_API_KEY", // Replace with your API key
+                        "Authorization": "Bearer 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", // Replace with your API key
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({ inputs: message }),
