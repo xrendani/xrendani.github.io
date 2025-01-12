@@ -1,4 +1,4 @@
-# Manugeni's Multi-Tool website
+# My Multi-Tool website
 
 This repository contains the source code for the [Multi-Tool](https://manugeni.is-a.dev/) website. The website serves as a multi-tool platform, providing various functionalities and features.
 
