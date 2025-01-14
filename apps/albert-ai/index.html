@@ -1,1 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Albert | Rendani</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #475569;
+            --background: #0f172a;
+            --text: #f8fafc;
+        }
 
+        .dark {
+            background-color: var(--background);
+            color: var(--text);
+        }
+
+        .chat-container {
+            height: calc(100vh - 300px);
+        }
+
+        .loading {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--secondary);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="dark">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-slate-900 shadow-lg z-50">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="text-xl font-bold">Rendani</div>
+                <div class="flex items-center space-x-6">
+                    <a href="/" class="hover:text-blue-400">Home</a>
+                    <a href="/apps/albert-ai/" class="hover:text-blue-400">Albert AI</a>
+                    <a href="/apps/corebell-engine/" class="hover:text-blue-400">Corebell Engine</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 pt-24 pb-24">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-3xl font-bold mb-8">Chat with Albert</h1>
+            <div class="bg-slate-800 rounded-lg shadow-xl p-6">
+                <div class="chat-container flex flex-col space-y-4 overflow-y-auto mb-6">
+                    <!-- Initial message -->
+                    <div class="flex justify-start">
+                        <div class="max-w-[70%] rounded-lg px-4 py-2 bg-slate-700">
+                            Hello! I'm Albert, your AI assistant. How can I help you today?
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <input type="text" id="user-input" class="flex-1 bg-slate-700 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Type your message...">
+                    <button id="send-button" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors">
+                        Send
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 py-6 fixed bottom-0 w-full">
+        <div class="container mx-auto px-6 text-center text-gray-400">
+            <p>&copy; 2025 Rendani. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Configuration (Replace with your actual API configuration)
+        const API_CONFIG = {
+            url: 'https://api-inference.huggingface.co/models/your-model',
+            headers: {
+                'Authorization': 'Bearer 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',
+                'Content-Type': 'application/json'
+            }
+        };
+
+        class ChatUI {
+            constructor() {
+                this.chatContainer = document.querySelector('.chat-container');
+                this.userInput = document.getElementById('user-input');
+                this.sendButton = document.getElementById('send-button');
+                this.setupEventListeners();
+            }
+
+            setupEventListeners() {
+                this.sendButton.addEventListener('click', () => this.sendMessage());
+                this.userInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.sendMessage();
+                });
+            }
+
+            addMessage(content, isUser = false) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `flex ${isUser ? 'justify-end' : 'justify-start'}`;
+                
+                const messageBubble = document.createElement('div');
+                messageBubble.className = `max-w-[70%] rounded-lg px-4 py-2 ${
+                    isUser ? 'bg-blue-600' : 'bg-slate-700'
+                }`;
+                messageBubble.textContent = content;
+                
+                messageDiv.appendChild(messageBubble);
+                this.chatContainer.appendChild(messageDiv);
+                this.chatContainer.scrollTop = this.chatContainer.scrollHeight;
+            }
+
+            async sendMessage() {
+                const message = this.userInput.value.trim();
+                if (!message) return;
+
+                this.addMessage(message, true);
+                this.userInput.value = '';
+
+                try {
+                    const response = await this.callAPI(message);
+                    this.addMessage(response);
+                } catch (error) {
+                    console.error('Error:', error);
+                    this.addMessage('Sorry, I encountered an error. Please try again.');
+                }
+            }
+
+            async callAPI(message) {
+                try {
+                    const response = await fetch(API_CONFIG.url, {
+                        method: 'POST',
+                        headers: API_CONFIG.headers,
+                        body: JSON.stringify({ inputs: message })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('API request failed');
+                    }
+
+                    const data = await response.json();
+                    return data[0].generated_text || 'I apologize, I couldn\'t generate a response.';
+                } catch (error) {
+                    throw new Error('Failed to get response from API');
+                }
+            }
+        }
+
+        // Initialize chat when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            const chat = new ChatUI();
+        });
+    </script>
+</body>
+  </html>
