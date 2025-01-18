@@ -13,8 +13,8 @@ The website is designed to offer a variety of tools and features to enhance user
 
 ## Apps (Using JavaScript, HTML5 and CSS3)
 
-- [Albert AI](https://manugeni.is-a.dev/apps/albert-ai/)
-- [Corebell Engine](https://manugeni.is-a.dev/apps/corebell-engine/)
+- [Nina AI](https://manugeni.is-a.dev/pages/apps/nina-chat/)
+- [Corebell Engine](https://manugeni.is-a.dev/pages/apps/corebell-engine/)
 
 ## License
 
