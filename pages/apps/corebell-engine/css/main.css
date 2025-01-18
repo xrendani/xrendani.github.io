@@ -1,0 +1,147 @@
+/* main.css */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+body {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+    overflow: hidden;
+}
+
+#canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #1a1a1a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.5s ease;
+}
+
+.loading-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.loader {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #3a3a3a;
+    border-top-color: #00ff9d;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* widgets.css */
+.widget {
+    position: absolute;
+    background: rgba(30, 30, 30, 0.85);
+    border-radius: 8px;
+    border: 1px solid #3a3a3a;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    min-width: 200px;
+    transition: transform 0.3s ease;
+    z-index: 100;
+}
+
+.widget-header {
+    padding: 10px;
+    background: rgba(40, 40, 40, 0.9);
+    border-radius: 8px 8px 0 0;
+    cursor: move;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.widget-title {
+    font-weight: bold;
+    color: #00ff9d;
+}
+
+.widget-controls button {
+    background: none;
+    border: none;
+    color: #e0e0e0;
+    cursor: pointer;
+    padding: 0 5px;
+    transition: color 0.3s ease;
+}
+
+.widget-controls button:hover {
+    color: #00ff9d;
+}
+
+.widget-content {
+    padding: 15px;
+}
+
+.widget.minimized .widget-content {
+    display: none;
+}
+
+.control-group {
+    margin-bottom: 15px;
+}
+
+.control-group h3 {
+    color: #00ff9d;
+    margin-bottom: 10px;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.control-btn {
+    background: #2a2a2a;
+    border: none;
+    color: #e0e0e0;
+    padding: 8px 15px;
+    margin: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+    background: #3a3a3a;
+    transform: translateY(-2px);
+}
+
+/* Initial widget positions */
+#stats-widget {
+    top: 20px;
+    left: 20px;
+}
+
+#controls-widget {
+    top: 20px;
+    right: 20px;
+}
+
+#file-widget {
+    bottom: 20px;
+    right: 20px;
+}
