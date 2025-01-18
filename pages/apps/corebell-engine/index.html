@@ -1,38 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="referrer" content="strict-origin">
-    <link rel="icon" href="/data/images/favicon.png">
-    <link rel="stylesheet" href="/data/css/main.css">
-    <title>An engine that does more than rendering. - Corebell Engine | Corebell</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interface | Corebell Engine</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/widgets.css">
 </head>
-<nav>
-    <a class="nav-link" href="/"><img src="/data/images/CorebellEngine_Logo.png" align="left" alt="Corebell Logo"></a>
-    <a class="nav-link" href="/pages/downloads/index.html">Downloads</a>
-    <a class="nav-link" href="/pages/games/index.html">Games</a>
-    <a class="nav-link" href="/pages/apps/moodify/index.html">Moodify</a>
-    <a class="nav-link" href="/pages/apps/corebell-engine/index.html">Corebell Engine</a>
-    <a class="nav-link" href="/pages/apps/nina-chat/index.html" style="background: linear-gradient(to left, #161864, #136c49);">Nina AI</a>
-    <a class="nav-link" href="/pages/blog/index.html">Blog</a>
-</nav>
-<hr>
 <body>
-    <h2 align="center">An engine that does more than rendering</h2>
+    <div class="loading-screen">
+        <div class="loader"></div>
+    </div>
+
+    <div id="canvas-container"></div>
+    
+    <div class="widget" id="stats-widget" draggable="true">
+        <div class="widget-header">
+            <span class="widget-title">Statistics</span>
+            <div class="widget-controls">
+                <button class="widget-minimize"><i class="fas fa-minus"></i></button>
+                <button class="widget-close"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+        <div class="widget-content">
+            <div>FPS: <span id="fps">60</span></div>
+            <div>Objects: <span id="object-count">0</span></div>
+            <div>Memory: <span id="memory-usage">0</span> MB</div>
+        </div>
+    </div>
+
+    <div class="widget" id="controls-widget" draggable="true">
+        <div class="widget-header">
+            <span class="widget-title">Controls</span>
+            <div class="widget-controls">
+                <button class="widget-minimize"><i class="fas fa-minus"></i></button>
+                <button class="widget-close"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+        <div class="widget-content">
+            <div class="control-group">
+                <h3>Camera Controls</h3>
+                <button class="control-btn" id="orbit"><i class="fas fa-sync"></i> Orbit</button>
+                <button class="control-btn" id="pan"><i class="fas fa-arrows-alt"></i> Pan</button>
+            </div>
+            <div class="control-group">
+                <h3>Scene Controls</h3>
+                <button class="control-btn" id="add-cube"><i class="fas fa-cube"></i> Add Cube</button>
+                <button class="control-btn" id="add-sphere"><i class="fas fa-globe"></i> Add Sphere</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="widget" id="file-widget" draggable="true">
+        <div class="widget-header">
+            <span class="widget-title">File Operations</span>
+            <div class="widget-controls">
+                <button class="widget-minimize"><i class="fas fa-minus"></i></button>
+                <button class="widget-close"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+        <div class="widget-content">
+            <div class="file-controls">
+                <input type="file" id="model-input" accept=".obj,.gltf,.glb" style="display: none">
+                <button class="control-btn" id="load-model">
+                    <i class="fas fa-file-import"></i> Load Model
+                </button>
+                <button class="control-btn" id="save-scene">
+                    <i class="fas fa-save"></i> Save Scene
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js"></script>
+    <script src="js/engine/core.js"></script>
+    <script src="js/engine/scene.js"></script>
+    <script src="js/engine/renderer.js"></script>
+    <script src="js/ui/widgets.js"></script>
+    <script src="js/ui/controls.js"></script>
+    <script src="js/loaders/fileLoader.js"></script>
+    <script src="js/loaders/modelLoader.js"></script>
 </body>
-<hr>
-<footer>
-    <ul>
-    <h3>All links</h3>
-    <a target="_blank" class="nav-link" href="mailto:rendaniman@outlook.com">Email Me</a>
-    <a target="_blank" class="nav-link" href="https://github.com/sponsor/wizcann">Sponsor Me on GitHub</a>
-    <a target="_blank" class="nav-link" href="https://github.com/wizcann">My GitHub</a>
-    <h3>Apps</h3>
-    <a class="nav-link" href="/pages/apps/moodify/index.html">Moodify</a>
-    <a class="nav-link" href="/pages/apps/nina-chat/index.html">Nina AI</a>
-    <a class="nav-link" href="/pages/apps/corebell-engine/index.html">Corebell Engine</a>
-    </ul>
-</footer>
-        <p style="text-align: center;"> 2025 &copy Corebell. All Rights Reserved.</p>
 </html>
