@@ -4,9 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interface | Corebell Engine</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" as="script">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" as="style">
+    
+    <!-- Critical CSS inline -->
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+                @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
 
         * {
             margin: 0;
@@ -116,85 +121,89 @@
             opacity: 1;
             transform: translateY(0);
         }
-
-        /* Rest of your existing CSS */
     </style>
-    <link rel="stylesheet" href="css/widgets.css">
+    
+    <!-- Defer non-critical CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
 </head>
 <body>
     <div class="loading-screen">
         <div class="loader"></div>
-        <div style="margin-top: 20px">Loading Engine...</div>
+        <div class="loading-progress">0%</div>
     </div>
 
     <div class="welcome-screen">
         <div class="welcome-content">
-            <h1 class="welcome-title">Welcome to 3D Engine</h1>
-            <p class="welcome-text">
-                This powerful 3D engine allows you to create and manipulate 3D objects in real-time. 
-                Use the widgets to add objects, control the camera, and load external models. 
-                Drag widgets to reposition them, and press 'C' or 'S' to quickly add cubes or spheres.
-            </p>
-            <button class="welcome-button">Get Started</button>
+            <h1 class="welcome-title">3D Engine</h1>
+            <p class="welcome-text">Loading completed. Click to start.</p>
+            <button class="welcome-button">Launch Engine</button>
         </div>
     </div>
 
     <div id="canvas-container"></div>
     
-    <!-- Your existing widgets HTML -->
+    <!-- Minimal initial widgets -->
+    <div class="widget" id="controls-widget" draggable="true">
+        <div class="widget-header">Controls</div>
+        <div class="widget-content">
+            <button class="control-btn" id="add-cube">Add Cube</button>
+            <button class="control-btn" id="add-sphere">Add Sphere</button>
+        </div>
+    </div>
 
-    <!-- Required Three.js dependencies -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js"></script>
-    
-    <!-- Your engine scripts -->
-    <script src="js/engine/core.js"></script>
-    <script src="js/engine/scene.js"></script>
-    <script src="js/engine/renderer.js"></script>
-    <script src="js/ui/widgets.js"></script>
-    <script src="js/ui/controls.js"></script>
-    <script src="js/loaders/fileLoader.js"></script>
-    <script src="js/loaders/modelLoader.js"></script>
-
+    <!-- Load scripts efficiently -->
     <script>
-        // Initialize everything
-        document.addEventListener('DOMContentLoaded', () => {
-            // Show loading screen
-            const loadingScreen = document.querySelector('.loading-screen');
-            const welcomeScreen = document.querySelector('.welcome-screen');
-            const startButton = document.querySelector('.welcome-button');
+        // Progress tracking
+        let loadedResources = 0;
+        const totalResources = 5;
+        
+        function updateProgress() {
+            loadedResources++;
+            const progress = Math.round((loadedResources / totalResources) * 100);
+            document.querySelector('.loading-progress').textContent = `${progress}%`;
+            
+            if (loadedResources === totalResources) {
+                initEngine();
+            }
+        }
 
-            // Initialize engine
-            const engine = new Engine();
-            const controls = new Controls(engine);
-            const widgetManager = new WidgetManager();
-            const modelLoader = new ModelLoader(engine.scene);
-            const fileLoader = new FileLoader(engine, modelLoader);
-
-            // Hide loading screen and show welcome screen after everything is loaded
-            setTimeout(() => {
-                loadingScreen.style.opacity = '0';
-                setTimeout(() => {
-                    loadingScreen.style.display = 'none';
-                    welcomeScreen.classList.add('show');
-                }, 500);
-            }, 1500);
-
-            // Handle start button click
-            startButton.addEventListener('click', () => {
-                welcomeScreen.classList.remove('show');
-                setTimeout(() => {
-                    welcomeScreen.style.display = 'none';
-                }, 500);
+        // Load scripts dynamically
+        function loadScript(src) {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = src;
+                script.onload = () => {
+                    updateProgress();
+                    resolve();
+                };
+                script.onerror = reject;
+                document.body.appendChild(script);
             });
+        }
 
-            // Add some initial objects for visual interest
-            engine.scene.addCube({ x: -2, y: 0, z: -2 });
-            engine.scene.addSphere({ x: 2, y: 0, z: 2 });
-        });
+        // Initialize engine
+        async function initEngine() {
+            const engine = new Engine();
+            await engine.init();
+            
+            // Show welcome screen
+            document.querySelector('.loading-screen').style.display = 'none';
+            document.querySelector('.welcome-screen').classList.add('show');
+            
+            // Handle start button
+            document.querySelector('.welcome-button').onclick = () => {
+                document.querySelector('.welcome-screen').classList.remove('show');
+            };
+        }
+
+        // Load resources in parallel
+        Promise.all([
+            loadScript('https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js'),
+            loadScript('https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js'),
+            loadScript('js/engine/core.js'),
+            loadScript('js/engine/scene.js'),
+            loadScript('js/engine/renderer.js')
+        ]).catch(console.error);
     </script>
 </body>
 </html>
