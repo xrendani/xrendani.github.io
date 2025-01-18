@@ -1,0 +1,50 @@
+html {
+    scroll-behavior: smooth;
+    flex: auto;
+    margin: 15px;
+    font-display: inherit;
+}
+
+body {
+    background: rgb(0 0 0 );
+    font-family: 'Prompt', sans;
+    color: rgb(220 237 237);
+    accent-color: rgb(163 207 207);
+    webkit-border-horizontal-spacing: inherit;
+}
+
+.nav-link {
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: rgb(112 184 199 / 44%);
+}
+
+img {
+    content: rgb(189 231 231);
+    image-rendering: optimizespeed, optimizequality;
+}
+
+ul a {
+    color: rgb(220 237 237);
+}
+
+nav a {
+    margin: 2px;
+    text-spacing-trim: space-all;
+    text-decoration: none;
+    text-decoration: underline;
+    color: rgb(220 237 237);
+}
+
+footer div {
+    flex-flow: row, column;
+    flex-basis: content;
+}
+
+footer {
+    margin: 2px;
+    border: rgb(23 119 119), solid;
+    flex: auto;
+}
