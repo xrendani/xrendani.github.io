@@ -1,5 +1,5 @@
 // corebell-assets.js
-export class AssetLoader {
+class AssetLoader {
   constructor() {
     this.textureLoader = new THREE.TextureLoader();
     this.gltfLoader = new THREE.GLTFLoader();
@@ -18,7 +18,7 @@ export class AssetLoader {
   }
 }
 
-export class ObjectLibrary {
+class ObjectLibrary {
   static createCube(size = 1, color = 0x00ff00) {
     const geometry = new THREE.BoxGeometry(size, size, size);
     const material = new THREE.MeshBasicMaterial({ color });
