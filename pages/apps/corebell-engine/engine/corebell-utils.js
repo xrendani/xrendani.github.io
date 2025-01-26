@@ -1,7 +1,5 @@
 // corebell-utils.js
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.146.0/build/three.module.js';
-
-class RaycasterHelper {
+export class RaycasterHelper {
   constructor(engine) {
     this.engine = engine;
     this.raycaster = new THREE.Raycaster();
@@ -24,5 +22,3 @@ class RaycasterHelper {
     }
   }
 }
-
-export { RaycasterHelper };
