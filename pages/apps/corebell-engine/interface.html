@@ -6,13 +6,37 @@
   <title>Interface | Corebell Engine</title>
   <style>
     body { margin: 0; overflow: hidden; }
-    canvas { display: block; }
+    #viewport { width: 100%; height: 100vh; }
+    .toolbar {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 10px;
+      border-radius: 5px;
+      color: white;
+      z-index: 1;
+    }
+    .controls {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 10px;
+      border-radius: 5px;
+      color: white;
+      z-index: 1;
+    }
   </style>
 </head>
 <body>
+  <!-- Viewport for 3D rendering -->
+  <div id="viewport"></div>
+
   <!-- Load Three.js and Cannon-es from CDN -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/build/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/controls/OrbitControls.js"></script>
 
   <!-- Load Corebell Engine scripts -->
   <script src="./engine/corebell-core.js"></script>
@@ -23,7 +47,7 @@
   <!-- Main Script -->
   <script>
     // Initialize the engine
-    const engine = new CorebellEngine();
+    const engine = new CorebellEngine(document.getElementById('viewport'));
     const ui = new CorebellUI(engine);
     const raycaster = new RaycasterHelper(engine);
 
