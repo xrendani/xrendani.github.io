@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Welcome | Corebell Engine</title>
+  <!-- Font Awesome for Social Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -40,6 +42,31 @@
     a:hover {
       text-decoration: underline;
     }
+    .credits {
+      margin-top: 30px;
+      font-size: 0.9rem;
+      color: #aaaaaa;
+    }
+    .credits a {
+      color: #00ff00;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .credits a:hover {
+      text-decoration: underline;
+    }
+    .social-icons {
+      margin-top: 10px;
+    }
+    .social-icons a {
+      color: #ffffff;
+      margin: 0 10px;
+      font-size: 1.5rem;
+      transition: color 0.3s ease;
+    }
+    .social-icons a:hover {
+      color: #00ff00;
+    }
   </style>
 </head>
 <body>
@@ -61,6 +88,19 @@
       <li>Complex animations or skeletal rigging.</li>
     </ul>
     <p>Ready to get started? <a href="interface.html">Launch the Interface</a></p>
+
+    <!-- Credits Section with Social Icons -->
+    <div class="credits">
+      <p>Made with ❤️ by Rendani Manugeni.</p>
+      <div class="social-icons">
+        <a href="https://twitter.com/intent/follow?screen_name=callmerendani" target="_blank" title="Follow on X (Twitter)">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="https://github.com/manugeni" target="_blank" title="GitHub">
+          <i class="fab fa-github"></i>
+        </a>
+      </div>
+    </div>
   </div>
 </body>
 </html>
