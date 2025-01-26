@@ -10,6 +10,11 @@
   </style>
 </head>
 <body>
+  <!-- Load Three.js and Cannon-es from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.min.js"></script>
+
+  <!-- Load Corebell Engine scripts -->
   <script type="module">
     import CorebellEngine from './engine/corebell-core.js';
     import { AssetLoader, ObjectLibrary } from './engine/corebell-assets.js';
