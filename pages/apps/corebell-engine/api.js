@@ -50,34 +50,17 @@ function initializeEngine() {
       this.light.position.set(5, 5, 5);
       this.scene.add(this.light);
 
-      // Post-processing
-      this.composer = new THREE.EffectComposer(this.renderer);
-      this.composer.addPass(new THREE.RenderPass(this.scene, this.camera));
-
-      // Bloom effect
-      const bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
-      this.composer.addPass(bloomPass);
-
       this.world = new CANNON.World();
       this.world.gravity.set(0, -9.82, 0);
 
       this.objects = []; // Track all objects in the scene
       this.selectedObject = null; // Currently selected object
-      this.history = []; // Undo/redo history
     }
 
     addObject(object) {
       this.scene.add(object.mesh);
       if (object.body) this.world.addBody(object.body);
       this.objects.push(object);
-      this.history.push({ type: 'add', object });
-    }
-
-    removeObject(object) {
-      this.scene.remove(object.mesh);
-      if (object.body) this.world.removeBody(object.body);
-      this.objects = this.objects.filter(obj => obj !== object);
-      this.history.push({ type: 'remove', object });
     }
 
     selectObject(object) {
@@ -90,15 +73,14 @@ function initializeEngine() {
       }
     }
 
-    undo() {
-      const action = this.history.pop();
-      if (action) {
-        if (action.type === 'add') {
-          this.removeObject(action.object);
-        } else if (action.type === 'remove') {
-          this.addObject(action.object);
-        }
+    changeObjectColor(color) {
+      if (this.selectedObject) {
+        this.selectedObject.mesh.material.color.set(color);
       }
+    }
+
+    changeBackgroundColor(color) {
+      this.renderer.setClearColor(color);
     }
 
     animate() {
@@ -118,8 +100,7 @@ function initializeEngine() {
         }
       });
 
-      // Render with post-processing
-      this.composer.render();
+      this.renderer.render(this.scene, this.camera);
     }
   }
 
@@ -279,17 +260,29 @@ function initializeEngine() {
         }
       };
 
-      // Undo Button
-      const undoButton = document.createElement('button');
-      undoButton.innerText = 'Undo';
-      undoButton.onclick = () => {
-        this.engine.undo();
+      // Change Object Color Button
+      const colorPicker = document.createElement('input');
+      colorPicker.type = 'color';
+      colorPicker.value = '#ff0000';
+      colorPicker.onchange = (e) => {
+        const color = new THREE.Color(e.target.value);
+        this.engine.changeObjectColor(color);
+      };
+
+      // Change Background Color Button
+      const bgColorPicker = document.createElement('input');
+      bgColorPicker.type = 'color';
+      bgColorPicker.value = '#1e1e1e';
+      bgColorPicker.onchange = (e) => {
+        const color = new THREE.Color(e.target.value);
+        this.engine.changeBackgroundColor(color);
       };
 
       controls.appendChild(moveButton);
       controls.appendChild(rotateButton);
       controls.appendChild(scaleButton);
-      controls.appendChild(undoButton);
+      controls.appendChild(colorPicker);
+      controls.appendChild(bgColorPicker);
       document.body.appendChild(controls);
 
       return controls;
