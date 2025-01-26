@@ -3,18 +3,12 @@ class CorebellUI {
   constructor(engine) {
     this.engine = engine;
     this.toolbar = this.createToolbar();
-    this.lightControls = this.createLightControls();
+    this.controls = this.createControls();
   }
 
   createToolbar() {
     const toolbar = document.createElement('div');
-    toolbar.style.position = 'absolute';
-    toolbar.style.top = '10px';
-    toolbar.style.left = '10px';
-    toolbar.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-    toolbar.style.padding = '10px';
-    toolbar.style.borderRadius = '5px';
-    toolbar.style.color = 'white';
+    toolbar.className = 'toolbar';
 
     // Add Cube Button
     const addCubeButton = document.createElement('button');
@@ -39,15 +33,9 @@ class CorebellUI {
     return toolbar;
   }
 
-  createLightControls() {
+  createControls() {
     const controls = document.createElement('div');
-    controls.style.position = 'absolute';
-    controls.style.top = '10px';
-    controls.style.right = '10px';
-    controls.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-    controls.style.padding = '10px';
-    controls.style.borderRadius = '5px';
-    controls.style.color = 'white';
+    controls.className = 'controls';
 
     // Light Intensity Slider
     const intensityLabel = document.createElement('label');
