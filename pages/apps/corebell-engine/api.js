@@ -50,17 +50,34 @@ function initializeEngine() {
       this.light.position.set(5, 5, 5);
       this.scene.add(this.light);
 
+      // Post-processing
+      this.composer = new THREE.EffectComposer(this.renderer);
+      this.composer.addPass(new THREE.RenderPass(this.scene, this.camera));
+
+      // Bloom effect
+      const bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
+      this.composer.addPass(bloomPass);
+
       this.world = new CANNON.World();
       this.world.gravity.set(0, -9.82, 0);
 
       this.objects = []; // Track all objects in the scene
       this.selectedObject = null; // Currently selected object
+      this.history = []; // Undo/redo history
     }
 
     addObject(object) {
       this.scene.add(object.mesh);
       if (object.body) this.world.addBody(object.body);
       this.objects.push(object);
+      this.history.push({ type: 'add', object });
+    }
+
+    removeObject(object) {
+      this.scene.remove(object.mesh);
+      if (object.body) this.world.removeBody(object.body);
+      this.objects = this.objects.filter(obj => obj !== object);
+      this.history.push({ type: 'remove', object });
     }
 
     selectObject(object) {
@@ -70,6 +87,17 @@ function initializeEngine() {
       this.selectedObject = object;
       if (this.selectedObject) {
         this.selectedObject.mesh.material.color.set(0xff0000); // Highlight selected object
+      }
+    }
+
+    undo() {
+      const action = this.history.pop();
+      if (action) {
+        if (action.type === 'add') {
+          this.removeObject(action.object);
+        } else if (action.type === 'remove') {
+          this.addObject(action.object);
+        }
       }
     }
 
@@ -90,7 +118,8 @@ function initializeEngine() {
         }
       });
 
-      this.renderer.render(this.scene, this.camera);
+      // Render with post-processing
+      this.composer.render();
     }
   }
 
@@ -159,6 +188,7 @@ function initializeEngine() {
       this.engine = engine;
       this.toolbar = this.createToolbar();
       this.controls = this.createControls();
+      this.propertiesPanel = this.createPropertiesPanel();
     }
 
     createToolbar() {
@@ -249,12 +279,49 @@ function initializeEngine() {
         }
       };
 
+      // Undo Button
+      const undoButton = document.createElement('button');
+      undoButton.innerText = 'Undo';
+      undoButton.onclick = () => {
+        this.engine.undo();
+      };
+
       controls.appendChild(moveButton);
       controls.appendChild(rotateButton);
       controls.appendChild(scaleButton);
+      controls.appendChild(undoButton);
       document.body.appendChild(controls);
 
       return controls;
+    }
+
+    createPropertiesPanel() {
+      const panel = document.createElement('div');
+      panel.className = 'properties-panel';
+      panel.style.position = 'absolute';
+      panel.style.top = '120px';
+      panel.style.left = '10px';
+      panel.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+      panel.style.padding = '10px';
+      panel.style.borderRadius = '5px';
+      panel.style.color = 'white';
+      panel.style.zIndex = '1';
+
+      const title = document.createElement('h3');
+      title.innerText = 'Object Properties';
+      panel.appendChild(title);
+
+      const positionLabel = document.createElement('label');
+      positionLabel.innerText = 'Position: ';
+      panel.appendChild(positionLabel);
+
+      const positionInput = document.createElement('input');
+      positionInput.type = 'text';
+      positionInput.disabled = true;
+      panel.appendChild(positionInput);
+
+      document.body.appendChild(panel);
+      return panel;
     }
   }
 
