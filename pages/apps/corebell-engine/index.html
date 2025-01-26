@@ -97,13 +97,6 @@
     }
   </style>
 </head>
-  <nav>
-    <a class="nav-link" href="/"><img src="/data/images/Blog_Logo.png" align="left" alt="Blog's Logo"></a>
-    <a class="nav-link" href="/pages/apps/corebell-engine/">Corebell Engine</a>
-    <a class="nav-link" href="/pages/apps/moodify/">Moodify</a>
-    <a class="nav-link" href="/pages/apps/nina-chat/">Nina AI</a>
-    <a class="nav-link" href="/pages/blog/">Blog</a>
-</nav>
 <body>
   <!-- Loading Screen -->
   <div id="loading-screen">Loading Corebell Engine...</div>
@@ -115,9 +108,12 @@
   <div id="fps">FPS: 0</div>
 
   <!-- Toolbar -->
-  <div class="toolbar">
+  <div class="toolbar widget">
     <button id="add-cube">Add Cube</button>
     <button id="add-sphere">Add Sphere</button>
+    <button id="add-cylinder">Add Cylinder</button>
+    <button id="add-cone">Add Cone</button>
+    <button id="add-torus">Add Torus</button>
   </div>
 
   <!-- Controls -->
@@ -127,38 +123,17 @@
     <button id="scale-object">Scale Object</button>
   </div>
 
-  <!-- Load Three.js and Cannon-es from CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/controls/OrbitControls.js"></script>
-
   <!-- Load Corebell Engine API -->
   <script src="./api.js"></script>
 
   <!-- Main Script -->
   <script>
     // Initialize the engine
-    const engine = new CorebellEngine(document.getElementById('viewport'));
-    const ui = new CorebellUI(engine);
-    const raycaster = new RaycasterHelper(engine);
-
-    // Add a ground plane
-    const ground = ObjectLibrary.createCube(10, 0x888888);
-    ground.body.position.set(0, -5, 0);
-    ground.body.mass = 0; // Static object
-    engine.addObject(ground);
-
-    // Add a light
-    const light = new THREE.DirectionalLight(0xffffff, 1);
-    light.position.set(5, 5, 5);
-    engine.scene.add(light);
+    let engine, ui, raycaster;
 
     // Hide loading screen once everything is loaded
     const loadingScreen = document.getElementById('loading-screen');
     loadingScreen.style.display = 'none';
-
-    // Start the animation loop
-    engine.animate();
 
     // FPS Counter
     const fpsDisplay = document.getElementById('fps');
@@ -180,7 +155,29 @@
       requestAnimationFrame(updateFPS);
     }
 
-    updateFPS();
+    // Initialize the engine after scripts are loaded
+    function initializeEngine() {
+      engine = new CorebellEngine(document.getElementById('viewport'));
+      ui = new CorebellUI(engine);
+      raycaster = new RaycasterHelper(engine);
+
+      // Add a ground plane
+      const ground = ObjectLibrary.createCube(10, 0x888888);
+      ground.body.position.set(0, -5, 0);
+      ground.body.mass = 0; // Static object
+      engine.addObject(ground);
+
+      // Add a light
+      const light = new THREE.DirectionalLight(0xffffff, 1);
+      light.position.set(5, 5, 5);
+      engine.scene.add(light);
+
+      // Start the animation loop
+      engine.animate();
+
+      // Start FPS counter
+      updateFPS();
+    }
 
     // Add Cube Button
     document.getElementById('add-cube').addEventListener('click', () => {
@@ -192,6 +189,24 @@
     document.getElementById('add-sphere').addEventListener('click', () => {
       const sphere = ObjectLibrary.createSphere();
       engine.addObject(sphere);
+    });
+
+    // Add Cylinder Button
+    document.getElementById('add-cylinder').addEventListener('click', () => {
+      const cylinder = ObjectLibrary.createCylinder();
+      engine.addObject(cylinder);
+    });
+
+    // Add Cone Button
+    document.getElementById('add-cone').addEventListener('click', () => {
+      const cone = ObjectLibrary.createCone();
+      engine.addObject(cone);
+    });
+
+    // Add Torus Button
+    document.getElementById('add-torus').addEventListener('click', () => {
+      const torus = ObjectLibrary.createTorus();
+      engine.addObject(torus);
     });
 
     // Move Object Button
