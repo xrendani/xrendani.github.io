@@ -1,9 +1,8 @@
 // corebell-ui.js
-class CorebellUI {
+export default class CorebellUI {
   constructor(engine) {
     this.engine = engine;
     this.toolbar = this.createToolbar();
-    this.selectedObject = null;
   }
 
   createToolbar() {
@@ -37,5 +36,3 @@ class CorebellUI {
     return toolbar;
   }
 }
-
-export default CorebellUI;
