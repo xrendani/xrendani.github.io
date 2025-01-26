@@ -18,7 +18,10 @@ export class RaycasterHelper {
     const intersects = this.raycaster.intersectObjects(this.engine.scene.children);
 
     if (intersects.length > 0) {
-      console.log('Clicked on:', intersects[0].object);
+      const selectedObject = this.engine.objects.find(obj => obj.mesh === intersects[0].object);
+      this.engine.selectObject(selectedObject);
+    } else {
+      this.engine.selectObject(null); // Deselect if no object is clicked
     }
   }
 }
