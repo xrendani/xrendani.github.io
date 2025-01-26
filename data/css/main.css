@@ -1,50 +1,92 @@
-html {
-    scroll-behavior: smooth;
-    flex: auto;
-    margin: 15px;
-    font-display: inherit;
+/* Link Cards */
+.card {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(163, 207, 207, 0.3);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
 }
 
-body {
-    background: rgb(0 0 0 );
-    font-family: 'Prompt', sans;
-    color: rgb(220 237 237);
-    accent-color: rgb(163 207 207);
-    webkit-border-horizontal-spacing: inherit;
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(163, 207, 207, 0.2);
 }
 
-.nav-link {
-    transition: color 0.2s ease;
+.link-icon {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
 }
 
-.nav-link:hover {
-    color: rgb(112 184 199 / 44%);
+.link-title {
+    font-size: 1.5rem;
+    margin: 10px 0;
 }
 
-img {
-    content: rgb(189 231 231);
-    image-rendering: optimizespeed, optimizequality;
+.link-description {
+    font-size: 1rem;
+    color: rgba(220, 237, 237, 0.8);
+    margin: 10px 0;
 }
 
-ul a {
-    color: rgb(220 237 237);
-}
-
-nav a {
-    margin: 2px;
-    text-spacing-trim: space-all;
+.link-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background: rgba(163, 207, 207, 0.1);
+    border: 1px solid rgba(163, 207, 207, 0.3);
+    color: rgb(220, 237, 237);
     text-decoration: none;
-    text-decoration: underline;
-    color: rgb(220 237 237);
+    border-radius: 5px;
+    transition: background 0.3s ease, transform 0.3s ease;
 }
 
-footer div {
-    flex-flow: row, column;
-    flex-basis: content;
+.link-button:hover {
+    background: rgba(163, 207, 207, 0.2);
+    transform: translateY(-3px);
 }
 
-footer {
-    margin: 2px;
-    border: rgb(23 119 119), solid;
-    flex: auto;
+/* Dark Mode */
+.dark-mode {
+    background: rgb(20, 20, 20);
+    color: rgb(220, 237, 237);
+}
+
+.dark-mode-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background: rgba(163, 207, 207, 0.1);
+    border: 1px solid rgba(163, 207, 207, 0.3);
+    color: rgb(220, 237, 237);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.dark-mode-button:hover {
+    background: rgba(163, 207, 207, 0.2);
+    transform: translateY(-3px);
+}
+
+/* Scroll to Top Button */
+.scroll-to-top-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background: rgba(163, 207, 207, 0.1);
+    border: 1px solid rgba(163, 207, 207, 0.3);
+    color: rgb(220, 237, 237);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+    display: none;
+}
+
+.scroll-to-top-button:hover {
+    background: rgba(163, 207, 207, 0.2);
+    transform: translateY(-3px);
 }
