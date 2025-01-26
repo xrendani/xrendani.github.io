@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interface | Corebell Engine</title>
+  <title>Corebell Engine</title>
   <style>
     /* Dark Theme */
     body {
@@ -121,6 +121,7 @@
     <button id="move-object">Move Object</button>
     <button id="rotate-object">Rotate Object</button>
     <button id="scale-object">Scale Object</button>
+    <button id="undo">Undo</button>
   </div>
 
   <!-- Load Corebell Engine API -->
@@ -231,6 +232,11 @@
       if (engine.selectedObject) {
         engine.selectedObject.mesh.scale.set(1.5, 1.5, 1.5); // Scale up by 50%
       }
+    });
+
+    // Undo Button
+    document.getElementById('undo').addEventListener('click', () => {
+      engine.undo();
     });
 
     // Make widgets movable
