@@ -1,8 +1,5 @@
 // corebell-assets.js
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.146.0/build/three.module.js';
-import * as CANNON from 'https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.min.js';
-
-class AssetLoader {
+export class AssetLoader {
   constructor() {
     this.textureLoader = new THREE.TextureLoader();
     this.gltfLoader = new THREE.GLTFLoader();
@@ -21,7 +18,7 @@ class AssetLoader {
   }
 }
 
-class ObjectLibrary {
+export class ObjectLibrary {
   static createCube(size = 1, color = 0x00ff00) {
     const geometry = new THREE.BoxGeometry(size, size, size);
     const material = new THREE.MeshBasicMaterial({ color });
@@ -44,5 +41,3 @@ class ObjectLibrary {
     return { mesh, body };
   }
 }
-
-export { AssetLoader, ObjectLibrary };
