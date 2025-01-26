@@ -15,12 +15,14 @@
   <script src="https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.min.js"></script>
 
   <!-- Load Corebell Engine scripts -->
-  <script type="module">
-    import CorebellEngine from './engine/corebell-core.js';
-    import { AssetLoader, ObjectLibrary } from './engine/corebell-assets.js';
-    import CorebellUI from './engine/corebell-ui.js';
-    import { RaycasterHelper } from './engine/corebell-utils.js';
+  <script src="./engine/corebell-core.js"></script>
+  <script src="./engine/corebell-assets.js"></script>
+  <script src="./engine/corebell-ui.js"></script>
+  <script src="./engine/corebell-utils.js"></script>
 
+  <!-- Main Script -->
+  <script>
+    // Initialize the engine
     const engine = new CorebellEngine();
     const ui = new CorebellUI(engine);
     const raycaster = new RaycasterHelper(engine);
@@ -36,6 +38,7 @@
     light.position.set(5, 5, 5);
     engine.scene.add(light);
 
+    // Start the animation loop
     engine.animate();
   </script>
 </body>
