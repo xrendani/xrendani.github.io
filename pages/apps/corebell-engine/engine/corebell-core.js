@@ -14,12 +14,23 @@ export default class CorebellEngine {
     this.world.gravity.set(0, -9.82, 0);
 
     this.objects = []; // Track all objects in the scene
+    this.selectedObject = null; // Currently selected object
   }
 
   addObject(object) {
     this.scene.add(object.mesh);
     if (object.body) this.world.addBody(object.body);
     this.objects.push(object);
+  }
+
+  selectObject(object) {
+    if (this.selectedObject) {
+      this.selectedObject.mesh.material.color.set(0x00ff00); // Reset color
+    }
+    this.selectedObject = object;
+    if (this.selectedObject) {
+      this.selectedObject.mesh.material.color.set(0xff0000); // Highlight selected object
+    }
   }
 
   animate() {
