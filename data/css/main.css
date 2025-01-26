@@ -1,92 +1,148 @@
-/* Link Cards */
-.card {
-    background: rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(163, 207, 207, 0.3);
-    border-radius: 10px;
-    padding: 20px;
-    margin: 10px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    text-align: center;
+/* Import Prompt font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;700&display=swap');
+
+/* Global Styles */
+body {
+  margin: 0;
+  font-family: 'Prompt', sans-serif; /* Apply Prompt font */
+  color: #ecf0f1;
+  min-height: 100vh;
+  overflow: hidden;
+  position: relative;
 }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(163, 207, 207, 0.2);
+/* Dynamic Blurred Background */
+body::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, #1e1e1e, #2c3e50, #1e1e1e, #2c3e50);
+  background-size: 400% 400%;
+  animation: moveBackground 15s ease infinite;
+  filter: blur(10px);
+  z-index: -1;
 }
 
-.link-icon {
-    width: 50px;
-    height: 50px;
-    margin-bottom: 10px;
+@keyframes moveBackground {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
-.link-title {
-    font-size: 1.5rem;
-    margin: 10px 0;
+/* Mood Selection Section */
+.mood-selection {
+  margin-bottom: 40px;
+  text-align: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-.link-description {
-    font-size: 1rem;
-    color: rgba(220, 237, 237, 0.8);
-    margin: 10px 0;
+.mood-selection h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+  font-weight: 700; /* Bold weight for headings */
 }
 
-.link-button {
-    display: inline-block;
-    padding: 10px 20px;
-    background: rgba(163, 207, 207, 0.1);
-    border: 1px solid rgba(163, 207, 207, 0.3);
-    color: rgb(220, 237, 237);
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background 0.3s ease, transform 0.3s ease;
+.mood-selection p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  font-weight: 400; /* Regular weight for paragraphs */
 }
 
-.link-button:hover {
-    background: rgba(163, 207, 207, 0.2);
-    transform: translateY(-3px);
+.mood-buttons {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-/* Dark Mode */
-.dark-mode {
-    background: rgb(20, 20, 20);
-    color: rgb(220, 237, 237);
+.mood-buttons button {
+  padding: 15px 30px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease, background 0.3s ease;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ecf0f1;
+  font-family: 'Prompt', sans-serif; /* Apply Prompt font to buttons */
+  font-weight: 500; /* Medium weight for buttons */
 }
 
-.dark-mode-button {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 10px 20px;
-    background: rgba(163, 207, 207, 0.1);
-    border: 1px solid rgba(163, 207, 207, 0.3);
-    color: rgb(220, 237, 237);
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.3s ease;
+.mood-buttons button:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.2);
 }
 
-.dark-mode-button:hover {
-    background: rgba(163, 207, 207, 0.2);
-    transform: translateY(-3px);
+/* Music Player Section */
+.music-player {
+  background: rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 600px;
+  text-align: center;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* Scroll to Top Button */
-.scroll-to-top-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    padding: 10px 20px;
-    background: rgba(163, 207, 207, 0.1);
-    border: 1px solid rgba(163, 207, 207, 0.3);
-    color: rgb(220, 237, 237);
-    border-radius: 50%;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.3s ease;
-    display: none;
+.music-player h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  font-weight: 600; /* Semi-bold weight for player title */
 }
 
-.scroll-to-top-button:hover {
-    background: rgba(163, 207, 207, 0.2);
-    transform: translateY(-3px);
+.music-player audio {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.playlist {
+  margin-top: 20px;
+}
+
+.playlist h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  font-weight: 500; /* Medium weight for playlist title */
+}
+
+.playlist ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.playlist li {
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  margin-bottom: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  font-weight: 400; /* Regular weight for playlist items */
+}
+
+.playlist li:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Footer */
+footer {
+  margin-top: 40px;
+  font-size: 0.9rem;
+  color: rgba(236, 240, 241, 0.7);
+  text-align: center;
+  font-weight: 300; /* Light weight for footer text */
 }
