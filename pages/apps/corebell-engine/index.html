@@ -3,10 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interface | Corebell Engine</title>
+  <title>Corebell Engine</title>
   <style>
-    body { margin: 0; overflow: hidden; }
-    #viewport { width: 100%; height: 100vh; }
+    /* Dark Theme */
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #1e1e1e;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Viewport */
+    #viewport {
+      width: 100%;
+      height: 100vh;
+    }
+
+    /* Loading Screen */
+    #loading-screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #1e1e1e;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+      z-index: 1000;
+    }
+
+    /* Toolbar */
     .toolbar {
       position: absolute;
       top: 10px;
@@ -17,7 +46,21 @@
       color: white;
       z-index: 1;
     }
+
+    /* Controls */
     .controls {
+      position: absolute;
+      top: 60px;
+      left: 10px;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 10px;
+      border-radius: 5px;
+      color: white;
+      z-index: 1;
+    }
+
+    /* FPS Display */
+    #fps {
       position: absolute;
       top: 10px;
       right: 10px;
@@ -27,22 +70,63 @@
       color: white;
       z-index: 1;
     }
+
+    /* Widgets */
+    .widget {
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 10px;
+      border-radius: 5px;
+      color: white;
+      z-index: 1;
+      cursor: move;
+    }
+
+    button {
+      margin: 5px;
+      background-color: #444;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #666;
+    }
   </style>
 </head>
 <body>
+  <!-- Loading Screen -->
+  <div id="loading-screen">Loading Corebell Engine...</div>
+
   <!-- Viewport for 3D rendering -->
   <div id="viewport"></div>
+
+  <!-- FPS Display -->
+  <div id="fps">FPS: 0</div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <button id="add-cube">Add Cube</button>
+    <button id="add-sphere">Add Sphere</button>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls widget">
+    <button id="move-object">Move Object</button>
+    <button id="rotate-object">Rotate Object</button>
+    <button id="scale-object">Scale Object</button>
+  </div>
 
   <!-- Load Three.js and Cannon-es from CDN -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/build/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/controls/OrbitControls.js"></script>
 
-  <!-- Load Corebell Engine scripts -->
-  <script src="./engine/corebell-core.js"></script>
-  <script src="./engine/corebell-assets.js"></script>
-  <script src="./engine/corebell-ui.js"></script>
-  <script src="./engine/corebell-utils.js"></script>
+  <!-- Load Corebell Engine API -->
+  <script src="./api.js"></script>
 
   <!-- Main Script -->
   <script>
@@ -62,8 +146,94 @@
     light.position.set(5, 5, 5);
     engine.scene.add(light);
 
+    // Hide loading screen once everything is loaded
+    const loadingScreen = document.getElementById('loading-screen');
+    loadingScreen.style.display = 'none';
+
     // Start the animation loop
     engine.animate();
+
+    // FPS Counter
+    const fpsDisplay = document.getElementById('fps');
+    let frameCount = 0;
+    let lastTime = performance.now();
+
+    function updateFPS() {
+      const now = performance.now();
+      const delta = now - lastTime;
+      frameCount++;
+
+      if (delta >= 1000) {
+        const fps = Math.round((frameCount * 1000) / delta);
+        fpsDisplay.textContent = `FPS: ${fps}`;
+        frameCount = 0;
+        lastTime = now;
+      }
+
+      requestAnimationFrame(updateFPS);
+    }
+
+    updateFPS();
+
+    // Add Cube Button
+    document.getElementById('add-cube').addEventListener('click', () => {
+      const cube = ObjectLibrary.createCube();
+      engine.addObject(cube);
+    });
+
+    // Add Sphere Button
+    document.getElementById('add-sphere').addEventListener('click', () => {
+      const sphere = ObjectLibrary.createSphere();
+      engine.addObject(sphere);
+    });
+
+    // Move Object Button
+    document.getElementById('move-object').addEventListener('click', () => {
+      if (engine.selectedObject) {
+        engine.selectedObject.body.position.x += 1; // Move right
+      }
+    });
+
+    // Rotate Object Button
+    document.getElementById('rotate-object').addEventListener('click', () => {
+      if (engine.selectedObject) {
+        engine.selectedObject.body.quaternion.setFromAxisAngle(
+          new CANNON.Vec3(0, 1, 0), // Rotate around Y-axis
+          Math.PI / 4 // 45 degrees
+        );
+      }
+    });
+
+    // Scale Object Button
+    document.getElementById('scale-object').addEventListener('click', () => {
+      if (engine.selectedObject) {
+        engine.selectedObject.mesh.scale.set(1.5, 1.5, 1.5); // Scale up by 50%
+      }
+    });
+
+    // Make widgets movable
+    const widgets = document.querySelectorAll('.widget');
+    widgets.forEach(widget => {
+      let isDragging = false;
+      let offsetX, offsetY;
+
+      widget.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        offsetX = e.clientX - widget.offsetLeft;
+        offsetY = e.clientY - widget.offsetTop;
+      });
+
+      document.addEventListener('mousemove', (e) => {
+        if (isDragging) {
+          widget.style.left = `${e.clientX - offsetX}px`;
+          widget.style.top = `${e.clientY - offsetY}px`;
+        }
+      });
+
+      document.addEventListener('mouseup', () => {
+        isDragging = false;
+      });
+    });
   </script>
 </body>
 </html>
