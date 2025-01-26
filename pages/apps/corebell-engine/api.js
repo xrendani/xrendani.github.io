@@ -17,6 +17,14 @@ class CorebellEngine {
     this.controls.enableDamping = true; // Smooth camera movement
     this.controls.dampingFactor = 0.05;
 
+    // Add a grid helper
+    const gridHelper = new THREE.GridHelper(20, 20);
+    this.scene.add(gridHelper);
+
+    // Add axes helper
+    const axesHelper = new THREE.AxesHelper(5);
+    this.scene.add(axesHelper);
+
     this.world = new CANNON.World();
     this.world.gravity.set(0, -9.82, 0);
 
@@ -84,6 +92,40 @@ class ObjectLibrary {
 
     return { mesh, body };
   }
+
+  static createCylinder(radius = 1, height = 2, color = 0x0000ff) {
+    const geometry = new THREE.CylinderGeometry(radius, radius, height, 32);
+    const material = new THREE.MeshBasicMaterial({ color });
+    const mesh = new THREE.Mesh(geometry, material);
+
+    const body = new CANNON.Body({ mass: 1 });
+    body.addShape(new CANNON.Cylinder(radius, radius, height, 32));
+
+    return { mesh, body };
+  }
+
+  static createCone(radius = 1, height = 2, color = 0xffff00) {
+    const geometry = new THREE.ConeGeometry(radius, height, 32);
+    const material = new THREE.MeshBasicMaterial({ color });
+    const mesh = new THREE.Mesh(geometry, material);
+
+    const body = new CANNON.Body({ mass: 1 });
+    body.addShape(new CANNON.Cylinder(0, radius, height, 32)); // Cone is a special case of cylinder
+
+    return { mesh, body };
+  }
+
+  static createTorus(radius = 1, tube = 0.4, color = 0xff00ff) {
+    const geometry = new THREE.TorusGeometry(radius, tube, 16, 100);
+    const material = new THREE.MeshBasicMaterial({ color });
+    const mesh = new THREE.Mesh(geometry, material);
+
+    const body = new CANNON.Body({ mass: 1 });
+    // Torus physics shape is not natively supported in Cannon.js, so we approximate it with a sphere
+    body.addShape(new CANNON.Sphere(radius));
+
+    return { mesh, body };
+  }
 }
 
 // UI Controls
@@ -114,8 +156,35 @@ class CorebellUI {
       this.engine.addObject(sphere);
     };
 
+    // Add Cylinder Button
+    const addCylinderButton = document.createElement('button');
+    addCylinderButton.innerText = 'Add Cylinder';
+    addCylinderButton.onclick = () => {
+      const cylinder = ObjectLibrary.createCylinder();
+      this.engine.addObject(cylinder);
+    };
+
+    // Add Cone Button
+    const addConeButton = document.createElement('button');
+    addConeButton.innerText = 'Add Cone';
+    addConeButton.onclick = () => {
+      const cone = ObjectLibrary.createCone();
+      this.engine.addObject(cone);
+    };
+
+    // Add Torus Button
+    const addTorusButton = document.createElement('button');
+    addTorusButton.innerText = 'Add Torus';
+    addTorusButton.onclick = () => {
+      const torus = ObjectLibrary.createTorus();
+      this.engine.addObject(torus);
+    };
+
     toolbar.appendChild(addCubeButton);
     toolbar.appendChild(addSphereButton);
+    toolbar.appendChild(addCylinderButton);
+    toolbar.appendChild(addConeButton);
+    toolbar.appendChild(addTorusButton);
     document.body.appendChild(toolbar);
 
     return toolbar;
@@ -134,7 +203,30 @@ class CorebellUI {
       }
     };
 
+    // Rotate Object Button
+    const rotateButton = document.createElement('button');
+    rotateButton.innerText = 'Rotate';
+    rotateButton.onclick = () => {
+      if (this.engine.selectedObject) {
+        this.engine.selectedObject.body.quaternion.setFromAxisAngle(
+          new CANNON.Vec3(0, 1, 0), // Rotate around Y-axis
+          Math.PI / 4 // 45 degrees
+        );
+      }
+    };
+
+    // Scale Object Button
+    const scaleButton = document.createElement('button');
+    scaleButton.innerText = 'Scale';
+    scaleButton.onclick = () => {
+      if (this.engine.selectedObject) {
+        this.engine.selectedObject.mesh.scale.set(1.5, 1.5, 1.5); // Scale up by 50%
+      }
+    };
+
     controls.appendChild(moveButton);
+    controls.appendChild(rotateButton);
+    controls.appendChild(scaleButton);
     document.body.appendChild(controls);
 
     return controls;
