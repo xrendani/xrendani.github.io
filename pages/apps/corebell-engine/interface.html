@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interface | Corebell Engine</title>
+  <style>
+    body { margin: 0; overflow: hidden; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <script type="module">
+    import CorebellEngine from './engine/corebell-core.js';
+    import { AssetLoader, ObjectLibrary } from './engine/corebell-assets.js';
+    import CorebellUI from './engine/corebell-ui.js';
+    import { RaycasterHelper } from './engine/corebell-utils.js';
+
+    const engine = new CorebellEngine();
+    const ui = new CorebellUI(engine);
+    const raycaster = new RaycasterHelper(engine);
+
+    // Add a ground plane
+    const ground = ObjectLibrary.createCube(10, 0x888888);
+    ground.body.position.set(0, -5, 0);
+    ground.body.mass = 0; // Static object
+    engine.addObject(ground);
+
+    // Add a light
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(5, 5, 5);
+    engine.scene.add(light);
+
+    engine.animate();
+  </script>
+</body>
+</html>
