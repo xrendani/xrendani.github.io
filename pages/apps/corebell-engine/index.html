@@ -3,104 +3,67 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome | Corebell Engine</title>
-  <!-- Font Awesome for Social Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <title>Interface | Corebell Engine</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #1e1e1e;
-      color: #ffffff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
+    body { margin: 0; overflow: hidden; }
+    #viewport { width: 100%; height: 100vh; }
+    .toolbar {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 10px;
+      border-radius: 5px;
+      color: white;
+      z-index: 1;
     }
-    .container {
-      text-align: center;
-      max-width: 600px;
-      padding: 20px;
-      background-color: #2e2e2e;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    }
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 20px;
-    }
-    ul {
-      text-align: left;
-      list-style-type: square;
-      padding-left: 20px;
-    }
-    a {
-      color: #00ff00;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    .credits {
-      margin-top: 30px;
-      font-size: 0.9rem;
-      color: #aaaaaa;
-    }
-    .credits a {
-      color: #00ff00;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    .credits a:hover {
-      text-decoration: underline;
-    }
-    .social-icons {
-      margin-top: 10px;
-    }
-    .social-icons a {
-      color: #ffffff;
-      margin: 0 10px;
-      font-size: 1.5rem;
-      transition: color 0.3s ease;
-    }
-    .social-icons a:hover {
-      color: #00ff00;
+    .controls {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 10px;
+      border-radius: 5px;
+      color: white;
+      z-index: 1;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Welcome to Corebell Engine</h1>
-    <p>Corebell Engine is a lightweight, modular 3D web engine designed for simplicity and performance. Here's what you can and cannot do with it:</p>
-    <h2>What You Can Do:</h2>
-    <ul>
-      <li>Render 3D objects (cubes, spheres, etc.).</li>
-      <li>Add physics to objects (gravity, collisions).</li>
-      <li>Interact with objects (click, drag, rotate).</li>
-      <li>Load external assets (models, textures).</li>
-      <li>Use a toolbar to add and manipulate objects.</li>
-    </ul>
-    <h2>What You Cannot Do (Yet):</h2>
-    <ul>
-      <li>Multiplayer or networking features.</li>
-      <li>Advanced post-processing effects (e.g., bloom, anti-aliasing).</li>
-      <li>Complex animations or skeletal rigging.</li>
-    </ul>
-    <p>Ready to get started? <a href="interface.html">Launch the Interface</a></p>
+  <!-- Viewport for 3D rendering -->
+  <div id="viewport"></div>
 
-    <!-- Credits Section with Social Icons -->
-    <div class="credits">
-      <p>Made with ❤️ by Rendani Manugeni.</p>
-      <div class="social-icons">
-        <a href="https://twitter.com/intent/follow?screen_name=callmerendani" target="_blank" title="Follow on X (Twitter)">
-          <i class="fab fa-twitter"></i>
-        </a>
-        <a href="https://github.com/manugeni" target="_blank" title="GitHub">
-          <i class="fab fa-github"></i>
-        </a>
-      </div>
-    </div>
-  </div>
+  <!-- Load Three.js and Cannon-es from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/controls/OrbitControls.js"></script>
+
+  <!-- Load Corebell Engine scripts -->
+  <script src="./engine/corebell-core.js"></script>
+  <script src="./engine/corebell-assets.js"></script>
+  <script src="./engine/corebell-ui.js"></script>
+  <script src="./engine/corebell-utils.js"></script>
+
+  <!-- Main Script -->
+  <script>
+    // Initialize the engine
+    const engine = new CorebellEngine(document.getElementById('viewport'));
+    const ui = new CorebellUI(engine);
+    const raycaster = new RaycasterHelper(engine);
+
+    // Add a ground plane
+    const ground = ObjectLibrary.createCube(10, 0x888888);
+    ground.body.position.set(0, -5, 0);
+    ground.body.mass = 0; // Static object
+    engine.addObject(ground);
+
+    // Add a light
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(5, 5, 5);
+    engine.scene.add(light);
+
+    // Start the animation loop
+    engine.animate();
+  </script>
 </body>
 </html>
