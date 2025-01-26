@@ -3,6 +3,7 @@ class CorebellUI {
   constructor(engine) {
     this.engine = engine;
     this.toolbar = this.createToolbar();
+    this.selectedObject = null;
   }
 
   createToolbar() {
