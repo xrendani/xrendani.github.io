@@ -121,7 +121,8 @@
     <button id="move-object">Move Object</button>
     <button id="rotate-object">Rotate Object</button>
     <button id="scale-object">Scale Object</button>
-    <button id="undo">Undo</button>
+    <input type="color" id="object-color" value="#ff0000">
+    <input type="color" id="background-color" value="#1e1e1e">
   </div>
 
   <!-- Load Corebell Engine API -->
@@ -234,9 +235,16 @@
       }
     });
 
-    // Undo Button
-    document.getElementById('undo').addEventListener('click', () => {
-      engine.undo();
+    // Change Object Color
+    document.getElementById('object-color').addEventListener('change', (e) => {
+      const color = new THREE.Color(e.target.value);
+      engine.changeObjectColor(color);
+    });
+
+    // Change Background Color
+    document.getElementById('background-color').addEventListener('change', (e) => {
+      const color = new THREE.Color(e.target.value);
+      engine.changeBackgroundColor(color);
     });
 
     // Make widgets movable
