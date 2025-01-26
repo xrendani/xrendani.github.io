@@ -1,5 +1,5 @@
 // corebell-utils.js
-export class RaycasterHelper {
+class RaycasterHelper {
   constructor(engine) {
     this.engine = engine;
     this.raycaster = new THREE.Raycaster();
