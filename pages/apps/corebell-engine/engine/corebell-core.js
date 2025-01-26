@@ -1,6 +1,6 @@
 // corebell-core.js
 class CorebellEngine {
-  constructor() {
+  constructor(viewport) {
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     this.camera.position.set(0, 5, 15);
@@ -8,7 +8,12 @@ class CorebellEngine {
 
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(this.renderer.domElement);
+    viewport.appendChild(this.renderer.domElement);
+
+    // Add OrbitControls
+    this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+    this.controls.enableDamping = true; // Smooth camera movement
+    this.controls.dampingFactor = 0.05;
 
     this.world = new CANNON.World();
     this.world.gravity.set(0, -9.82, 0);
@@ -35,6 +40,9 @@ class CorebellEngine {
 
   animate() {
     requestAnimationFrame(() => this.animate());
+
+    // Update OrbitControls
+    this.controls.update();
 
     // Update physics
     this.world.step(1 / 60);
