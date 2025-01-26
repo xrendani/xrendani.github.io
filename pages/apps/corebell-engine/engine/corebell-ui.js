@@ -1,5 +1,5 @@
 // corebell-ui.js
-export default class CorebellUI {
+class CorebellUI {
   constructor(engine) {
     this.engine = engine;
     this.toolbar = this.createToolbar();
@@ -32,18 +32,8 @@ export default class CorebellUI {
       this.engine.addObject(sphere);
     };
 
-    // Move Object Button
-    const moveButton = document.createElement('button');
-    moveButton.innerText = 'Move';
-    moveButton.onclick = () => {
-      if (this.engine.selectedObject) {
-        this.engine.selectedObject.body.position.x += 1; // Move right
-      }
-    };
-
     toolbar.appendChild(addCubeButton);
     toolbar.appendChild(addSphereButton);
-    toolbar.appendChild(moveButton);
     document.body.appendChild(toolbar);
 
     return toolbar;
