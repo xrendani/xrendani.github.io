@@ -3,273 +3,553 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Corebell Engine</title>
+  <title>Interface| Corebell Engine v0.0.01</title>
   <style>
-    /* Dark Theme */
+    :root {
+      --primary-bg: #1e1e1e;
+      --widget-bg: rgba(0, 0, 0, 0.8);
+      --text-color: #ffffff;
+      --button-bg: #444;
+      --button-hover: #666;
+      --accent-color: #007bff;
+    }
+
     body {
       margin: 0;
       overflow: hidden;
-      background-color: #1e1e1e;
-      color: #ffffff;
-      font-family: Arial, sans-serif;
+      background-color: var(--primary-bg);
+      color: var(--text-color);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
     }
 
-    /* Viewport */
     #viewport {
       width: 100%;
       height: 100vh;
     }
 
-    /* Loading Screen */
-    #loading-screen {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: #1e1e1e;
+    .loading-screen {
+      position: fixed;
+      inset: 0;
+      background-color: var(--primary-bg);
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      font-size: 2rem;
       z-index: 1000;
     }
 
-    /* Toolbar */
-    .toolbar {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background-color: rgba(0, 0, 0, 0.7);
-      padding: 10px;
-      border-radius: 5px;
-      color: white;
-      z-index: 1;
+    .loading-screen img {
+      width: 200px;
+      margin-bottom: 1rem;
     }
 
-    /* Controls */
-    .controls {
-      position: absolute;
-      top: 60px;
-      left: 10px;
-      background-color: rgba(0, 0, 0, 0.7);
-      padding: 10px;
-      border-radius: 5px;
-      color: white;
-      z-index: 1;
+    .loading-progress {
+      width: 200px;
+      height: 4px;
+      background: var(--widget-bg);
+      border-radius: 2px;
+      margin-top: 1rem;
     }
 
-    /* FPS Display */
-    #fps {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: rgba(0, 0, 0, 0.7);
-      padding: 10px;
-      border-radius: 5px;
-      color: white;
-      z-index: 1;
+    .loading-bar {
+      width: 0%;
+      height: 100%;
+      background: var(--accent-color);
+      border-radius: 2px;
+      transition: width 0.3s ease;
     }
 
-    /* Widgets */
     .widget {
       position: absolute;
-      background-color: rgba(0, 0, 0, 0.7);
-      padding: 10px;
-      border-radius: 5px;
-      color: white;
-      z-index: 1;
-      cursor: move;
+      background-color: var(--widget-bg);
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      color: var(--text-color);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.2s ease;
+    }
+
+    .widget:hover {
+      transform: translateY(-2px);
+    }
+
+    .toolbar {
+      top: 1rem;
+      left: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .toolbar img {
+      width: 40px;
+      height: 40px;
+    }
+
+    .controls {
+      top: 1rem;
+      right: 1rem;
+    }
+
+    .properties {
+      bottom: 1rem;
+      left: 1rem;
+    }
+
+    .performance {
+      bottom: 1rem;
+      right: 1rem;
     }
 
     button {
-      margin: 5px;
-      background-color: #444;
-      color: white;
+      background-color: var(--button-bg);
+      color: var(--text-color);
       border: none;
-      padding: 8px 12px;
-      border-radius: 5px;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
       cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     button:hover {
-      background-color: #666;
+      background-color: var(--button-hover);
+      transform: translateY(-1px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .button-group {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    input[type="color"] {
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .properties-panel {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .properties-panel input[type="number"] {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      padding: 0.25rem;
+      color: var(--text-color);
+      width: 80px;
+    }
+
+    .context-menu {
+      position: fixed;
+      background: var(--widget-bg);
+      border-radius: 4px;
+      padding: 0.5rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      display: none;
+    }
+
+    .context-menu.active {
+      display: block;
+    }
+
+    .context-menu button {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin: 0.25rem 0;
+    }
+
+    .modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--widget-bg);
+      padding: 1.5rem;
+      border-radius: 8px;
+      z-index: 1001;
+      display: none;
+    }
+
+    .modal.active {
+      display: block;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      display: none;
+    }
+
+    .modal-overlay.active {
+      display: block;
+    }
+
+    .scene-hierarchy {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      max-height: 50vh;
+      overflow-y: auto;
+    }
+
+    .scene-hierarchy ul {
+      list-style: none;
+      padding-left: 1rem;
+    }
+
+    .scene-hierarchy li {
+      padding: 0.25rem 0;
+      cursor: pointer;
+    }
+
+    .scene-hierarchy li:hover {
+      color: var(--accent-color);
     }
   </style>
 </head>
 <body>
-  <!-- Loading Screen -->
-  <div id="loading-screen">Loading Corebell Engine...</div>
+  <div class="loading-screen" id="loading-screen">
+    <img src="/data/images/CorebellEngine_Logo.png" alt="Corebell Engine Logo">
+    <h2>Loading Corebell Engine</h2>
+    <div class="loading-progress">
+      <div class="loading-bar" id="loading-bar"></div>
+    </div>
+  </div>
 
-  <!-- Viewport for 3D rendering -->
   <div id="viewport"></div>
 
-  <!-- FPS Display -->
-  <div id="fps">FPS: 0</div>
-
-  <!-- Toolbar -->
-  <div class="toolbar widget">
-    <button id="add-cube">Add Cube</button>
-    <button id="add-sphere">Add Sphere</button>
-    <button id="add-cylinder">Add Cylinder</button>
-    <button id="add-cone">Add Cone</button>
-    <button id="add-torus">Add Torus</button>
+  <div class="widget toolbar">
+    <img src="/data/images/CorebellEngine_Logo.png" alt="Corebell Engine Logo">
+    <div class="button-group">
+      <button id="add-cube" title="Add Cube">
+        <span class="material-icons">cube</span>
+        Cube
+      </button>
+      <button id="add-sphere" title="Add Sphere">
+        <span class="material-icons">sphere</span>
+        Sphere
+      </button>
+      <button id="add-model" title="Import Model">
+        <span class="material-icons">file_upload</span>
+        Import
+      </button>
+    </div>
   </div>
 
-  <!-- Controls -->
-  <div class="controls widget">
-    <button id="move-object">Move Object</button>
-    <button id="rotate-object">Rotate Object</button>
-    <button id="scale-object">Scale Object</button>
-    <input type="color" id="object-color" value="#ff0000">
-    <input type="color" id="background-color" value="#1e1e1e">
+  <div class="widget controls">
+    <div class="button-group">
+      <button id="transform" title="Transform Mode">
+        <span class="material-icons">open_with</span>
+      </button>
+      <button id="rotate" title="Rotate Mode">
+        <span class="material-icons">rotate_right</span>
+      </button>
+      <button id="scale" title="Scale Mode">
+        <span class="material-icons">transform</span>
+      </button>
+    </div>
+    <div class="control-options">
+      <input type="color" id="object-color" title="Object Color" value="#ff0000">
+      <input type="color" id="background-color" title="Background Color" value="#1e1e1e">
+    </div>
   </div>
 
-  <!-- Load Corebell Engine API -->
-  <script src="./api.js"></script>
+  <div class="widget properties">
+    <h3>Properties</h3>
+    <div class="properties-panel">
+      <label>Position X:</label>
+      <input type="number" id="pos-x" step="0.1">
+      <label>Position Y:</label>
+      <input type="number" id="pos-y" step="0.1">
+      <label>Position Z:</label>
+      <input type="number" id="pos-z" step="0.1">
+      
+      <label>Rotation X:</label>
+      <input type="number" id="rot-x" step="0.1">
+      <label>Rotation Y:</label>
+      <input type="number" id="rot-y" step="0.1">
+      <label>Rotation Z:</label>
+      <input type="number" id="rot-z" step="0.1">
+      
+      <label>Scale X:</label>
+      <input type="number" id="scale-x" step="0.1" value="1">
+      <label>Scale Y:</label>
+      <input type="number" id="scale-y" step="0.1" value="1">
+      <label>Scale Z:</label>
+      <input type="number" id="scale-z" step="0.1" value="1">
+    </div>
+  </div>
 
-  <!-- Main Script -->
-  <script>
-    // Initialize the engine
-    let engine, ui, raycaster;
+  <div class="widget performance">
+    <div id="stats"></div>
+    <div id="memory"></div>
+  </div>
 
-    // Hide loading screen once everything is loaded
+  <!-- Add Context Menu -->
+  <div class="context-menu" id="context-menu">
+    <button id="duplicate">Duplicate</button>
+    <button id="delete">Delete</button>
+    <button id="reset-transform">Reset Transform</button>
+    <button id="focus-camera">Focus Camera</button>
+  </div>
+
+  <!-- Add Modal for Settings -->
+  <div class="modal-overlay" id="settings-overlay"></div>
+  <div class="modal" id="settings-modal">
+    <h3>Engine Settings</h3>
+    <div class="properties-panel">
+      <label>Shadow Quality:</label>
+      <select id="shadow-quality">
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
+
+      <label>Antialiasing:</label>
+      <select id="antialiasing">
+        <option value="none">None</option>
+        <option value="fxaa">FXAA</option>
+        <option value="msaa">MSAA</option>
+      </select>
+
+      <label>Physics Quality:</label>
+      <select id="physics-quality">
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
+    </div>
+    <button id="close-settings">Close</button>
+  </div>
+
+  <!-- Scene Hierarchy -->
+  <div class="widget scene-hierarchy">
+    <h3>Scene Objects</h3>
+    <ul id="scene-tree"></ul>
+  </div>
+
+  <script type="module">
+    import { CorebellEngine, ObjectLibrary } from './api.js';
+    
+    let engine;
     const loadingScreen = document.getElementById('loading-screen');
-    loadingScreen.style.display = 'none';
-
-    // FPS Counter
-    const fpsDisplay = document.getElementById('fps');
-    let frameCount = 0;
-    let lastTime = performance.now();
-
-    function updateFPS() {
-      const now = performance.now();
-      const delta = now - lastTime;
-      frameCount++;
-
-      if (delta >= 1000) {
-        const fps = Math.round((frameCount * 1000) / delta);
-        fpsDisplay.textContent = `FPS: ${fps}`;
-        frameCount = 0;
-        lastTime = now;
+    const loadingBar = document.getElementById('loading-bar');
+    const contextMenu = document.getElementById('context-menu');
+    
+    async function initialize() {
+      try {
+        updateLoadingProgress(0);
+        
+        // Initialize engine
+        engine = new CorebellEngine(document.getElementById('viewport'));
+        updateLoadingProgress(30);
+        
+        // Set up event listeners
+        setupEventListeners();
+        updateLoadingProgress(50);
+        
+        // Load default scene
+        await loadDefaultScene();
+        updateLoadingProgress(80);
+        
+        // Initialize UI components
+        initializeUI();
+        updateLoadingProgress(90);
+        
+        // Start engine
+        engine.animate();
+        updateLoadingProgress(100);
+        
+        // Hide loading screen with fade
+        setTimeout(() => {
+          loadingScreen.style.opacity = '0';
+          setTimeout(() => {
+            loadingScreen.style.display = 'none';
+          }, 500);
+        }, 500);
+        
+      } catch (error) {
+        console.error('Initialization error:', error);
+        loadingScreen.innerHTML = `Error loading engine: ${error.message}`;
       }
-
-      requestAnimationFrame(updateFPS);
     }
 
-    // Initialize the engine after scripts are loaded
-    function initializeEngine() {
-      engine = new CorebellEngine(document.getElementById('viewport'));
-      ui = new CorebellUI(engine);
-      raycaster = new RaycasterHelper(engine);
-
-      // Add a ground plane
-      const ground = ObjectLibrary.createCube(10, 0x888888);
+    async function loadDefaultScene() {
+      // Create ground plane
+      const ground = await ObjectLibrary.createCube(20, {
+        albedoMap: 'textures/ground_albedo.jpg',
+        normalMap: 'textures/ground_normal.jpg',
+        roughnessMap: 'textures/ground_roughness.jpg',
+        aoMap: 'textures/ground_ao.jpg'
+      });
       ground.body.position.set(0, -5, 0);
-      ground.body.mass = 0; // Static object
+      ground.body.mass = 0;
       engine.addObject(ground);
 
-      // Add a light
-      const light = new THREE.DirectionalLight(0xffffff, 1);
-      light.position.set(5, 5, 5);
-      engine.scene.add(light);
+      // Add ambient light
+      const ambient = new THREE.AmbientLight(0x404040, 0.5);
+      engine.scene.add(ambient);
 
-      // Start the animation loop
-      engine.animate();
-
-      // Start FPS counter
-      updateFPS();
+      // Add directional light with shadows
+      const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+      dirLight.position.set(5, 5, 5);
+      dirLight.castShadow = true;
+      engine.scene.add(dirLight);
     }
 
-    // Add Cube Button
-    document.getElementById('add-cube').addEventListener('click', () => {
-      const cube = ObjectLibrary.createCube();
-      engine.addObject(cube);
-    });
-
-    // Add Sphere Button
-    document.getElementById('add-sphere').addEventListener('click', () => {
-      const sphere = ObjectLibrary.createSphere();
-      engine.addObject(sphere);
-    });
-
-    // Add Cylinder Button
-    document.getElementById('add-cylinder').addEventListener('click', () => {
-      const cylinder = ObjectLibrary.createCylinder();
-      engine.addObject(cylinder);
-    });
-
-    // Add Cone Button
-    document.getElementById('add-cone').addEventListener('click', () => {
-      const cone = ObjectLibrary.createCone();
-      engine.addObject(cone);
-    });
-
-    // Add Torus Button
-    document.getElementById('add-torus').addEventListener('click', () => {
-      const torus = ObjectLibrary.createTorus();
-      engine.addObject(torus);
-    });
-
-    // Move Object Button
-    document.getElementById('move-object').addEventListener('click', () => {
-      if (engine.selectedObject) {
-        engine.selectedObject.body.position.x += 1; // Move right
-      }
-    });
-
-    // Rotate Object Button
-    document.getElementById('rotate-object').addEventListener('click', () => {
-      if (engine.selectedObject) {
-        engine.selectedObject.body.quaternion.setFromAxisAngle(
-          new CANNON.Vec3(0, 1, 0), // Rotate around Y-axis
-          Math.PI / 4 // 45 degrees
-        );
-      }
-    });
-
-    // Scale Object Button
-    document.getElementById('scale-object').addEventListener('click', () => {
-      if (engine.selectedObject) {
-        engine.selectedObject.mesh.scale.set(1.5, 1.5, 1.5); // Scale up by 50%
-      }
-    });
-
-    // Change Object Color
-    document.getElementById('object-color').addEventListener('change', (e) => {
-      const color = new THREE.Color(e.target.value);
-      engine.changeObjectColor(color);
-    });
-
-    // Change Background Color
-    document.getElementById('background-color').addEventListener('change', (e) => {
-      const color = new THREE.Color(e.target.value);
-      engine.changeBackgroundColor(color);
-    });
-
-    // Make widgets movable
-    const widgets = document.querySelectorAll('.widget');
-    widgets.forEach(widget => {
-      let isDragging = false;
-      let offsetX, offsetY;
-
-      widget.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        offsetX = e.clientX - widget.offsetLeft;
-        offsetY = e.clientY - widget.offsetTop;
+    function setupEventListeners() {
+      // Window resize handler
+      window.addEventListener('resize', () => {
+        engine.handleResize();
       });
 
-      document.addEventListener('mousemove', (e) => {
-        if (isDragging) {
-          widget.style.left = `${e.clientX - offsetX}px`;
-          widget.style.top = `${e.clientY - offsetY}px`;
+      // Context menu
+      window.addEventListener('contextmenu', (e) => {
+        if (engine.selectedObject) {
+          e.preventDefault();
+          showContextMenu(e.clientX, e.clientY);
         }
       });
 
-      document.addEventListener('mouseup', () => {
-        isDragging = false;
+      // Click handler for context menu
+      window.addEventListener('click', (e) => {
+        if (!contextMenu.contains(e.target)) {
+          contextMenu.classList.remove('active');
+        }
       });
-    });
+
+      // Object creation handlers
+      document.getElementById('add-cube').addEventListener('click', async () => {
+        const cube = await ObjectLibrary.createCube();
+        const id = engine.addObject(cube);
+        updateSceneHierarchy();
+      });
+
+      // Transform control handlers
+      document.getElementById('transform').addEventListener('click', () => {
+        engine.setTransformMode('translate');
+      });
+
+      document.getElementById('rotate').addEventListener('click', () => {
+        engine.setTransformMode('rotate');
+      });
+
+      document.getElementById('scale').addEventListener('click', () => {
+        engine.setTransformMode('scale');
+      });
+
+      // Properties panel handlers
+      setupPropertiesPanel();
+
+      // Context menu handlers
+      setupContextMenuHandlers();
+    }
+
+    function setupPropertiesPanel() {
+      const positionInputs = ['pos-x', 'pos-y', 'pos-z'].map(id => document.getElementById(id));
+      const rotationInputs = ['rot-x', 'rot-y', 'rot-z'].map(id => document.getElementById(id));
+      const scaleInputs = ['scale-x', 'scale-y', 'scale-z'].map(id => document.getElementById(id));
+
+      function updateInputs() {
+        if (engine.selectedObject) {
+          const pos = engine.selectedObject.body.position;
+          const rot = engine.selectedObject.body.quaternion.toEuler();
+          const scale = engine.selectedObject.mesh.scale;
+
+          positionInputs.forEach((input, i) => input.value = [pos.x, pos.y, pos.z][i].toFixed(2));
+          rotationInputs.forEach((input, i) => input.value = [rot.x, rot.y, rot.z][i].toFixed(2));
+          scaleInputs.forEach((input, i) => input.value = [scale.x, scale.y, scale.z][i].toFixed(2));
+        }
+      }
+
+      // Update properties panel every frame
+      engine.onUpdate(() => updateInputs());
+
+      // Handle input changes
+      positionInputs.forEach((input, i) => {
+        input.addEventListener('input', (e) => {
+          if (engine.selectedObject) {
+            const pos = engine.selectedObject.body.position;
+            [pos.x, pos.y, pos.z][i] = parseFloat(e.target.value);
+          }
+        });
+      });
+
+      // Similar handlers for rotation and scale...
+    }
+
+    function setupContextMenuHandlers() {
+      document.getElementById('duplicate').addEventListener('click', () => {
+        if (engine.selectedObject) {
+          engine.duplicateObject(engine.selectedObject.uuid);
+          updateSceneHierarchy();
+        }
+        contextMenu.classList.remove('active');
+      });
+
+      document.getElementById('delete').addEventListener('click', () => {
+        if (engine.selectedObject) {
+          engine.removeObject(engine.selectedObject.uuid);
+          updateSceneHierarchy();
+        }
+        contextMenu.classList.remove('active');
+      });
+
+      // Additional context menu handlers...
+    }
+
+    function showContextMenu(x, y) {
+      contextMenu.style.left = `${x}px`;
+      contextMenu.style.top = `${y}px`;
+      contextMenu.classList.add('active');
+    }
+
+    function updateSceneHierarchy() {
+      const sceneTree = document.getElementById('scene-tree');
+      sceneTree.innerHTML = '';
+      
+      engine.objects.forEach((obj, uuid) => {
+        const li = document.createElement('li');
+        li.textContent = `Object ${uuid.slice(0, 8)}`;
+        li.addEventListener('click', () => engine.selectObject(uuid));
+        sceneTree.appendChild(li);
+      });
+    }
+
+    function updateLoadingProgress(progress) {
+      loadingBar.style.width = `${progress}%`;
+    }
+
+    // Start initialization
+    initialize();
   </script>
+  
+  <!-- Load Material Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+  <!-- Load Inter font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </body>
-</html>
+        </html>
