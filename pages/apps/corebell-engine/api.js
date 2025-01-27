@@ -53,21 +53,21 @@ function initializeEngine() {
       this.world = new CANNON.World();
       this.world.gravity.set(0, -9.82, 0);
 
-      this.objects = []; // Track all objects in the scene
+      this.objects = new Map(); // Track all objects in the scene
       this.selectedObject = null; // Currently selected object
     }
 
     addObject(object) {
       this.scene.add(object.mesh);
       if (object.body) this.world.addBody(object.body);
-      this.objects.push(object);
+      this.objects.set(object.mesh.uuid, object);
     }
 
-    selectObject(object) {
+    selectObject(uuid) {
       if (this.selectedObject) {
         this.selectedObject.mesh.material.color.set(0x00ff00); // Reset color
       }
-      this.selectedObject = object;
+      this.selectedObject = this.objects.get(uuid);
       if (this.selectedObject) {
         this.selectedObject.mesh.material.color.set(0xff0000); // Highlight selected object
       }
@@ -81,6 +81,12 @@ function initializeEngine() {
 
     changeBackgroundColor(color) {
       this.renderer.setClearColor(color);
+    }
+
+    handleResize() {
+      this.camera.aspect = window.innerWidth / window.innerHeight;
+      this.camera.updateProjectionMatrix();
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
     }
 
     animate() {
@@ -102,60 +108,72 @@ function initializeEngine() {
 
       this.renderer.render(this.scene, this.camera);
     }
+
+    onUpdate(callback) {
+      this.updateCallbacks = this.updateCallbacks || [];
+      this.updateCallbacks.push(callback);
+      this.animate = (() => {
+        const originalAnimate = this.animate.bind(this);
+        return () => {
+          originalAnimate();
+          this.updateCallbacks.forEach(cb => cb());
+        };
+      })();
+    }
   }
 
   // Asset Loading and Object Creation
   class ObjectLibrary {
-    static createCube(size = 1, color = 0x00ff00) {
+    static createCube(size = 1, options = {}) {
       const geometry = new THREE.BoxGeometry(size, size, size);
-      const material = new THREE.MeshBasicMaterial({ color });
+      const material = new THREE.MeshBasicMaterial({ color: options.color || 0x00ff00 });
       const mesh = new THREE.Mesh(geometry, material);
 
-      const body = new CANNON.Body({ mass: 1 });
+      const body = new CANNON.Body({ mass: options.mass || 1 });
       body.addShape(new CANNON.Box(new CANNON.Vec3(size / 2, size / 2, size / 2)));
 
       return { mesh, body };
     }
 
-    static createSphere(radius = 1, color = 0xff0000) {
+    static createSphere(radius = 1, options = {}) {
       const geometry = new THREE.SphereGeometry(radius);
-      const material = new THREE.MeshBasicMaterial({ color });
+      const material = new THREE.MeshBasicMaterial({ color: options.color || 0xff0000 });
       const mesh = new THREE.Mesh(geometry, material);
 
-      const body = new CANNON.Body({ mass: 1 });
+      const body = new CANNON.Body({ mass: options.mass || 1 });
       body.addShape(new CANNON.Sphere(radius));
 
       return { mesh, body };
     }
 
-    static createCylinder(radius = 1, height = 2, color = 0x0000ff) {
+    static createCylinder(radius = 1, height = 2, options = {}) {
       const geometry = new THREE.CylinderGeometry(radius, radius, height, 32);
-      const material = new THREE.MeshBasicMaterial({ color });
+      const material = new THREE.MeshBasicMaterial({ color: options.color || 0x0000ff });
       const mesh = new THREE.Mesh(geometry, material);
 
-      const body = new CANNON.Body({ mass: 1 });
+      const body = new CANNON.Body({ mass: options.mass || 1 });
       body.addShape(new CANNON.Cylinder(radius, radius, height, 32));
 
       return { mesh, body };
     }
 
-    static createCone(radius = 1, height = 2, color = 0xffff00) {
+    static createCone(radius = 1, height = 2, options = {}) {
       const geometry = new THREE.ConeGeometry(radius, height, 32);
-      const material = new THREE.MeshBasicMaterial({ color });
+      const material = new THREE.MeshBasicMaterial({ color: options.color || 0xffff00 });
       const mesh = new THREE.Mesh(geometry, material);
 
-      const body = new CANNON.Body({ mass: 1 });
+      const body = new CANNON.Body({ mass: options.mass || 1 });
       body.addShape(new CANNON.Cylinder(0, radius, height, 32)); // Cone is a special case of cylinder
 
       return { mesh, body };
     }
 
-    static createTorus(radius = 1, tube = 0.4, color = 0xff00ff) {
+    static createTorus(radius = 1, tube = 0.4, options = {}) {
       const geometry = new THREE.TorusGeometry(radius, tube, 16, 100);
-      const material = new THREE.MeshBasicMaterial({ color });
+      const material = new THREE.MeshBasicMaterial({ color: options.color || 0xff00ff });
       const mesh = new THREE.Mesh(geometry, material);
 
-      const body = new CANNON.Body({ mass: 1 });
+      const body = new CANNON.Body({ mass: options.mass || 1 });
       // Torus physics shape is not natively supported in Cannon.js, so we approximate it with a sphere
       body.addShape(new CANNON.Sphere(radius));
 
@@ -163,192 +181,7 @@ function initializeEngine() {
     }
   }
 
-  // UI Controls
-  class CorebellUI {
-    constructor(engine) {
-      this.engine = engine;
-      this.toolbar = this.createToolbar();
-      this.controls = this.createControls();
-      this.propertiesPanel = this.createPropertiesPanel();
-    }
-
-    createToolbar() {
-      const toolbar = document.createElement('div');
-      toolbar.className = 'toolbar';
-
-      // Add Cube Button
-      const addCubeButton = document.createElement('button');
-      addCubeButton.innerText = 'Add Cube';
-      addCubeButton.onclick = () => {
-        const cube = ObjectLibrary.createCube();
-        this.engine.addObject(cube);
-      };
-
-      // Add Sphere Button
-      const addSphereButton = document.createElement('button');
-      addSphereButton.innerText = 'Add Sphere';
-      addSphereButton.onclick = () => {
-        const sphere = ObjectLibrary.createSphere();
-        this.engine.addObject(sphere);
-      };
-
-      // Add Cylinder Button
-      const addCylinderButton = document.createElement('button');
-      addCylinderButton.innerText = 'Add Cylinder';
-      addCylinderButton.onclick = () => {
-        const cylinder = ObjectLibrary.createCylinder();
-        this.engine.addObject(cylinder);
-      };
-
-      // Add Cone Button
-      const addConeButton = document.createElement('button');
-      addConeButton.innerText = 'Add Cone';
-      addConeButton.onclick = () => {
-        const cone = ObjectLibrary.createCone();
-        this.engine.addObject(cone);
-      };
-
-      // Add Torus Button
-      const addTorusButton = document.createElement('button');
-      addTorusButton.innerText = 'Add Torus';
-      addTorusButton.onclick = () => {
-        const torus = ObjectLibrary.createTorus();
-        this.engine.addObject(torus);
-      };
-
-      toolbar.appendChild(addCubeButton);
-      toolbar.appendChild(addSphereButton);
-      toolbar.appendChild(addCylinderButton);
-      toolbar.appendChild(addConeButton);
-      toolbar.appendChild(addTorusButton);
-      document.body.appendChild(toolbar);
-
-      return toolbar;
-    }
-
-    createControls() {
-      const controls = document.createElement('div');
-      controls.className = 'controls';
-
-      // Move Object Button
-      const moveButton = document.createElement('button');
-      moveButton.innerText = 'Move';
-      moveButton.onclick = () => {
-        if (this.engine.selectedObject) {
-          this.engine.selectedObject.body.position.x += 1; // Move right
-        }
-      };
-
-      // Rotate Object Button
-      const rotateButton = document.createElement('button');
-      rotateButton.innerText = 'Rotate';
-      rotateButton.onclick = () => {
-        if (this.engine.selectedObject) {
-          this.engine.selectedObject.body.quaternion.setFromAxisAngle(
-            new CANNON.Vec3(0, 1, 0), // Rotate around Y-axis
-            Math.PI / 4 // 45 degrees
-          );
-        }
-      };
-
-      // Scale Object Button
-      const scaleButton = document.createElement('button');
-      scaleButton.innerText = 'Scale';
-      scaleButton.onclick = () => {
-        if (this.engine.selectedObject) {
-          this.engine.selectedObject.mesh.scale.set(1.5, 1.5, 1.5); // Scale up by 50%
-        }
-      };
-
-      // Change Object Color Button
-      const colorPicker = document.createElement('input');
-      colorPicker.type = 'color';
-      colorPicker.value = '#ff0000';
-      colorPicker.onchange = (e) => {
-        const color = new THREE.Color(e.target.value);
-        this.engine.changeObjectColor(color);
-      };
-
-      // Change Background Color Button
-      const bgColorPicker = document.createElement('input');
-      bgColorPicker.type = 'color';
-      bgColorPicker.value = '#1e1e1e';
-      bgColorPicker.onchange = (e) => {
-        const color = new THREE.Color(e.target.value);
-        this.engine.changeBackgroundColor(color);
-      };
-
-      controls.appendChild(moveButton);
-      controls.appendChild(rotateButton);
-      controls.appendChild(scaleButton);
-      controls.appendChild(colorPicker);
-      controls.appendChild(bgColorPicker);
-      document.body.appendChild(controls);
-
-      return controls;
-    }
-
-    createPropertiesPanel() {
-      const panel = document.createElement('div');
-      panel.className = 'properties-panel';
-      panel.style.position = 'absolute';
-      panel.style.top = '120px';
-      panel.style.left = '10px';
-      panel.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-      panel.style.padding = '10px';
-      panel.style.borderRadius = '5px';
-      panel.style.color = 'white';
-      panel.style.zIndex = '1';
-
-      const title = document.createElement('h3');
-      title.innerText = 'Object Properties';
-      panel.appendChild(title);
-
-      const positionLabel = document.createElement('label');
-      positionLabel.innerText = 'Position: ';
-      panel.appendChild(positionLabel);
-
-      const positionInput = document.createElement('input');
-      positionInput.type = 'text';
-      positionInput.disabled = true;
-      panel.appendChild(positionInput);
-
-      document.body.appendChild(panel);
-      return panel;
-    }
-  }
-
-  // Utilities (Raycasting)
-  class RaycasterHelper {
-    constructor(engine) {
-      this.engine = engine;
-      this.raycaster = new THREE.Raycaster();
-      this.mouse = new THREE.Vector2();
-
-      window.addEventListener('click', (event) => this.onClick(event));
-    }
-
-    onClick(event) {
-      // Convert mouse position to normalized device coordinates
-      this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-      this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-      // Raycast from the camera
-      this.raycaster.setFromCamera(this.mouse, this.engine.camera);
-      const intersects = this.raycaster.intersectObjects(this.engine.scene.children);
-
-      if (intersects.length > 0) {
-        const selectedObject = this.engine.objects.find(obj => obj.mesh === intersects[0].object);
-        this.engine.selectObject(selectedObject);
-      } else {
-        this.engine.selectObject(null); // Deselect if no object is clicked
-      }
-    }
-  }
-
   // Export the API
   window.CorebellEngine = CorebellEngine;
   window.ObjectLibrary = ObjectLibrary;
-  window.CorebellUI = CorebellUI;
-  window.RaycasterHelper = RaycasterHelper;
 }
