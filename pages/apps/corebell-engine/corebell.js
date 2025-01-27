@@ -93,6 +93,27 @@ class Corebell {
       case "sphere":
         geometry = new THREE.SphereGeometry(0.5, 32, 32);
         break;
+      case "cylinder":
+        geometry = new THREE.CylinderGeometry(0.5, 0.5, 1, 32);
+        break;
+      case "cone":
+        geometry = new THREE.ConeGeometry(0.5, 1, 32);
+        break;
+      case "torus":
+        geometry = new THREE.TorusGeometry(0.5, 0.2, 16, 100);
+        break;
+      case "plane":
+        geometry = new THREE.PlaneGeometry(2, 2);
+        break;
+      case "icosahedron":
+        geometry = new THREE.IcosahedronGeometry(1, 0);
+        break;
+      case "dodecahedron":
+        geometry = new THREE.DodecahedronGeometry(1, 0);
+        break;
+      case "tetrahedron":
+        geometry = new THREE.TetrahedronGeometry(1, 0);
+        break;
       default:
         console.error(`Unknown object type: ${type}`);
         return;
@@ -158,6 +179,27 @@ class Corebell {
               break;
             case "SphereGeometry":
               geometry = new THREE.SphereGeometry(0.5, 32, 32);
+              break;
+            case "CylinderGeometry":
+              geometry = new THREE.CylinderGeometry(0.5, 0.5, 1, 32);
+              break;
+            case "ConeGeometry":
+              geometry = new THREE.ConeGeometry(0.5, 1, 32);
+              break;
+            case "TorusGeometry":
+              geometry = new THREE.TorusGeometry(0.5, 0.2, 16, 100);
+              break;
+            case "PlaneGeometry":
+              geometry = new THREE.PlaneGeometry(2, 2);
+              break;
+            case "IcosahedronGeometry":
+              geometry = new THREE.IcosahedronGeometry(1, 0);
+              break;
+            case "DodecahedronGeometry":
+              geometry = new THREE.DodecahedronGeometry(1, 0);
+              break;
+            case "TetrahedronGeometry":
+              geometry = new THREE.TetrahedronGeometry(1, 0);
               break;
             default:
               console.error(`Unknown geometry type: ${data.type}`);
@@ -225,12 +267,19 @@ class Corebell {
   }
 }
 
-// Initialize Corebell only after DOM has loaded
+// Initialize Corebell
 document.addEventListener("DOMContentLoaded", () => {
   const engine = new Corebell("viewport");
 
   document.getElementById("addCube").addEventListener("click", () => engine.addObject("cube"));
   document.getElementById("addSphere").addEventListener("click", () => engine.addObject("sphere"));
+  document.getElementById("addCylinder").addEventListener("click", () => engine.addObject("cylinder"));
+  document.getElementById("addCone").addEventListener("click", () => engine.addObject("cone"));
+  document.getElementById("addTorus").addEventListener("click", () => engine.addObject("torus"));
+  document.getElementById("addPlane").addEventListener("click", () => engine.addObject("plane"));
+  document.getElementById("addIcosahedron").addEventListener("click", () => engine.addObject("icosahedron"));
+  document.getElementById("addDodecahedron").addEventListener("click", () => engine.addObject("dodecahedron"));
+  document.getElementById("addTetrahedron").addEventListener("click", () => engine.addObject("tetrahedron"));
   document.getElementById("toggleGrid").addEventListener("click", () => (engine.gridHelper.visible = !engine.gridHelper.visible));
   document.getElementById("deleteObject").addEventListener("click", () => engine.deleteSelectedObject());
   document.getElementById("lightIntensity").addEventListener("input", (e) => {
