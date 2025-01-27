@@ -11,12 +11,14 @@ class Corebell {
     this.initControls();
     this.initLighting();
     this.initGrid();
+    this.addGroundPlane();
 
     this.objects = [];
     this.selectedObject = null;
 
     this.animate = this.animate.bind(this);
-    window.addEventListener('resize', () => this.onWindowResize());
+    window.addEventListener("resize", () => this.onWindowResize());
+    this.container.addEventListener("click", (event) => this.onClick(event));
 
     this.animate();
   }
@@ -44,16 +46,16 @@ class Corebell {
   }
 
   initControls() {
-    this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
-    this.controls.enableDamping = true;
+    this.orbitControls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+    this.orbitControls.enableDamping = true;
 
     this.transformControls = new THREE.TransformControls(this.camera, this.renderer.domElement);
-    this.transformControls.addEventListener('dragging-changed', (event) => {
-      this.controls.enabled = !event.value;
+    this.transformControls.addEventListener("dragging-changed", (event) => {
+      this.orbitControls.enabled = !event.value;
     });
     this.scene.add(this.transformControls);
 
-    window.addEventListener('keydown', (event) => this.onKeyDown(event));
+    window.addEventListener("keydown", (event) => this.onKeyDown(event));
   }
 
   initLighting() {
@@ -63,60 +65,33 @@ class Corebell {
     this.directionalLight = new THREE.DirectionalLight(0xffffff, 1);
     this.directionalLight.position.set(10, 10, 10);
     this.directionalLight.castShadow = true;
-    this.directionalLight.shadow.mapSize.width = 2048;
-    this.directionalLight.shadow.mapSize.height = 2048;
     this.scene.add(this.directionalLight);
   }
 
   initGrid() {
-    this.gridHelper = new THREE.GridHelper(20, 20, 0x444444, 0x222222);
+    this.gridHelper = new THREE.GridHelper(20, 20);
     this.scene.add(this.gridHelper);
   }
 
-  onWindowResize() {
-    this.camera.aspect = window.innerWidth / window.innerHeight;
-    this.camera.updateProjectionMatrix();
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
-  }
-
-  onKeyDown(event) {
-    if (!this.selectedObject) return;
-
-    switch (event.key) {
-      case 't': // Translate mode
-        this.transformControls.setMode('translate');
-        break;
-      case 'r': // Rotate mode
-        this.transformControls.setMode('rotate');
-        break;
-      case 's': // Scale mode
-        this.transformControls.setMode('scale');
-        break;
-      case 'Delete': // Delete selected object
-        this.deleteSelectedObject();
-        break;
-    }
+  addGroundPlane() {
+    const planeGeometry = new THREE.PlaneGeometry(50, 50);
+    const planeMaterial = new THREE.ShadowMaterial({ opacity: 0.5 });
+    this.groundPlane = new THREE.Mesh(planeGeometry, planeMaterial);
+    this.groundPlane.rotation.x = -Math.PI / 2;
+    this.groundPlane.receiveShadow = true;
+    this.scene.add(this.groundPlane);
   }
 
   addObject(type) {
     let geometry;
-    const material = new THREE.MeshStandardMaterial({ color: 0x00aaff });
+    const material = new THREE.MeshStandardMaterial({ color: 0x007bff });
 
     switch (type) {
-      case 'cube':
+      case "cube":
         geometry = new THREE.BoxGeometry(1, 1, 1);
         break;
-      case 'sphere':
+      case "sphere":
         geometry = new THREE.SphereGeometry(0.5, 32, 32);
-        break;
-      case 'cylinder':
-        geometry = new THREE.CylinderGeometry(0.5, 0.5, 1, 32);
-        break;
-      case 'cone':
-        geometry = new THREE.ConeGeometry(0.5, 1, 32);
-        break;
-      case 'torus':
-        geometry = new THREE.TorusGeometry(0.5, 0.2, 16, 100);
         break;
       default:
         console.error(`Unknown object type: ${type}`);
@@ -139,36 +114,67 @@ class Corebell {
 
   deleteSelectedObject() {
     if (!this.selectedObject) return;
-
     this.scene.remove(this.selectedObject);
     this.objects = this.objects.filter((obj) => obj !== this.selectedObject);
     this.transformControls.detach();
     this.selectedObject = null;
   }
 
-  toggleGrid() {
-    this.gridHelper.visible = !this.gridHelper.visible;
+  onWindowResize() {
+    this.camera.aspect = window.innerWidth / window.innerHeight;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
-  setLightIntensity(intensity) {
-    this.directionalLight.intensity = intensity;
+  onClick(event) {
+    const mouse = new THREE.Vector2(
+      (event.clientX / window.innerWidth) * 2 - 1,
+      -(event.clientY / window.innerHeight) * 2 + 1
+    );
+    const raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(mouse, this.camera);
+
+    const intersects = raycaster.intersectObjects(this.objects);
+    if (intersects.length > 0) {
+      this.selectObject(intersects[0].object);
+    }
+  }
+
+  onKeyDown(event) {
+    if (!this.selectedObject) return;
+
+    switch (event.key) {
+      case "t":
+        this.transformControls.setMode("translate");
+        break;
+      case "r":
+        this.transformControls.setMode("rotate");
+        break;
+      case "s":
+        this.transformControls.setMode("scale");
+        break;
+      case "Delete":
+        this.deleteSelectedObject();
+        break;
+    }
   }
 
   animate() {
     requestAnimationFrame(this.animate);
-
-    this.controls.update();
+    this.orbitControls.update();
     this.renderer.render(this.scene, this.camera);
   }
 }
 
-// Initialize Corebell Engine
-document.addEventListener('DOMContentLoaded', () => {
-  const engine = new Corebell('viewport');
+// Initialize Corebell
+document.addEventListener("DOMContentLoaded", () => {
+  const engine = new Corebell("viewport");
 
-  // Sample UI interactions
-  document.getElementById('addCube').addEventListener('click', () => engine.addObject('cube'));
-  document.getElementById('addSphere').addEventListener('click', () => engine.addObject('sphere'));
-  document.getElementById('toggleGrid').addEventListener('click', () => engine.toggleGrid());
-  document.getElementById('setLight').addEventListener('input', (e) => engine.setLightIntensity(e.target.value));
+  document.getElementById("addCube").addEventListener("click", () => engine.addObject("cube"));
+  document.getElementById("addSphere").addEventListener("click", () => engine.addObject("sphere"));
+  document.getElementById("toggleGrid").addEventListener("click", () => engine.gridHelper.visible = !engine.gridHelper.visible);
+  document.getElementById("deleteObject").addEventListener("click", () => engine.deleteSelectedObject());
+  document.getElementById("lightIntensity").addEventListener("input", (e) => {
+    engine.directionalLight.intensity = parseFloat(e.target.value);
+  });
 });
