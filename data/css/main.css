@@ -9,7 +9,7 @@
 body {
     background-color: #0a0a0a; /* Ultra-dark background */
     color: #f5f5f5; /* Light text for contrast */
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     line-height: 1.6;
 }
 
@@ -18,12 +18,11 @@ nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 20px;
+    padding: 15px 20px;
     background-color: #111111; /* Slightly lighter dark background */
     border-bottom: 1px solid #222; /* Subtle border */
 }
 
-/* Logo Styling */
 .nav-link img {
     height: 40px; /* Adjust based on your logo size */
     transition: opacity 0.3s ease;
@@ -33,7 +32,6 @@ nav {
     opacity: 0.8; /* Slight fade on hover */
 }
 
-/* Navigation Menu */
 .nav-menu {
     display: flex;
     gap: 20px;
@@ -51,7 +49,6 @@ nav {
     transform: translateY(-2px); /* Slight lift effect */
 }
 
-/* Hamburger Menu (Mobile) */
 .nav-toggle {
     display: none; /* Hidden by default */
     font-size: 24px;
@@ -64,6 +61,47 @@ nav {
     color: #1e90ff; /* Highlight color on hover */
 }
 
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 60px 20px;
+    background-color: #111111;
+    border-bottom: 1px solid #222;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    color: #ccc;
+}
+
+/* Dynamic Content Section */
+#dynamic-content {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #111111;
+    border: 1px solid #222;
+    border-radius: 10px;
+    margin: 20px;
+}
+
+#random-quote {
+    font-style: italic;
+    color: #f5f5f5;
+    margin: 20px 0;
+}
+
+#random-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: 1px solid #222;
+}
+
 /* Footer Styling */
 footer {
     background-color: #111111;
@@ -72,17 +110,23 @@ footer {
     border-top: 1px solid #222;
 }
 
-footer ul {
-    list-style: none;
-    margin-bottom: 10px;
+.footer-content {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
 }
 
-footer h3 {
+.footer-section {
+    margin: 10px 20px;
+}
+
+.footer-section h3 {
     color: #1e90ff;
     margin-bottom: 10px;
 }
 
-footer a {
+.footer-link {
     color: #f5f5f5;
     text-decoration: none;
     display: block;
@@ -90,31 +134,13 @@ footer a {
     transition: color 0.3s ease;
 }
 
-footer a:hover {
+.footer-link:hover {
     color: #1e90ff;
 }
 
-/* Dynamic Content Section */
-#dynamic-content {
-    text-align: center;
-    margin: 20px;
-    padding: 20px;
-    background-color: #111111;
-    border: 1px solid #222;
-    border-radius: 10px;
-}
-
-#random-quote {
-    font-style: italic;
-    color: #f5f5f5;
-}
-
-#random-image {
-    max-width: 100%;
-    height: auto;
-    margin-top: 20px;
-    border-radius: 10px;
-    border: 1px solid #222;
+.footer-copyright {
+    font-size: 0.9rem;
+    color: #888;
 }
 
 /* Responsive Design */
@@ -124,7 +150,7 @@ footer a:hover {
         flex-direction: column;
         gap: 10px;
         position: absolute;
-        top: 60px; /* Adjust based on header height */
+        top: 70px; /* Adjust based on header height */
         right: 20px;
         background-color: #111111;
         padding: 10px;
@@ -139,4 +165,21 @@ footer a:hover {
     .nav-toggle {
         display: block; /* Show hamburger icon on mobile */
     }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    .footer-content {
+        flex-direction: column;
+    }
+}
+
+.nav-link.active {
+    color: #1e90ff; /* Highlight color */
+    font-weight: bold;
 }
