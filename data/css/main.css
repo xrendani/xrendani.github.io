@@ -1,298 +1,112 @@
-/* Import Prompt font from Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;700&display=swap');
-
-/* Global Styles */
-body {
-  margin: 0;
-  font-family: 'Prompt', sans-serif; /* Apply Prompt font */
-  color: #ecf0f1;
-  background-color: #000; /* Solid black background */
-  min-height: 100vh;
-  overflow-x: hidden; /* Prevent horizontal overflow */
-  position: relative;
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* Navigation Links */
+/* Body Styling */
+body {
+    background-color: #121212; /* Dark background */
+    color: #e0e0e0; /* Light text */
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+
+/* Navigation Bar */
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #1e1e1e; /* Slightly lighter dark background */
+    border-bottom: 1px solid #333;
+}
+
+/* Logo Styling */
+.nav-link img {
+    height: 40px; /* Adjust based on your logo size */
+    transition: opacity 0.3s ease;
+}
+
+.nav-link img:hover {
+    opacity: 0.8; /* Slight fade on hover */
+}
+
+/* Navigation Menu */
+.nav-menu {
+    display: flex;
+    gap: 20px;
+}
+
 .nav-link {
-  color: #ecf0f1;
-  text-decoration: none;
-  transition: color 0.3s ease;
-  padding: 10px 15px; /* Add padding for better spacing */
+    color: #e0e0e0;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s ease;
 }
 
 .nav-link:hover {
-  color: #237993; /* Hover color */
+    color: #1e90ff; /* Highlight color on hover */
 }
 
-nav {
-  display: flex;
-  justify-content: center; /* Center the navigation links */
-  align-items: center;
-  padding: 10px 20px;
-  background: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
-  backdrop-filter: blur(5px);
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-}
-
-nav img {
-  height: 40px; /* Adjust logo size */
-}
-
-/* Mobile Navigation Toggle */
+/* Hamburger Menu (Mobile) */
 .nav-toggle {
-  display: none; /* Hidden by default */
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: #ecf0f1;
+    display: none; /* Hidden by default */
+    font-size: 24px;
+    cursor: pointer;
+    color: #e0e0e0;
 }
 
-/* Mobile Navigation Menu */
-.nav-menu {
-  display: flex;
-  gap: 20px;
-}
-
-/* Hidden Nav for Mobile */
-@media (max-width: 768px) {
-  .nav-menu {
-    display: none; /* Hide nav links by default on mobile */
-    flex-direction: column;
-    position: absolute;
-    top: 60px; /* Adjust based on nav height */
-    right: 20px;
-    background: rgba(0, 0, 0, 0.9);
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-  }
-
-  .nav-menu.active {
-    display: flex; /* Show nav links when active */
-  }
-
-  .nav-toggle {
-    display: block; /* Show toggle button on mobile */
-  }
-}
-
-/* Mood Selection Section */
-.mood-selection {
-  margin-bottom: 40px;
-  text-align: center;
-  padding: 20px;
-  background: rgba(0, 0, 0, 0.7); /* Darker background */
-  border-radius: 15px;
-  backdrop-filter: blur(5px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-  margin-top: 80px; /* Add margin to avoid overlap with fixed nav */
-}
-
-.mood-selection h1 {
-  font-size: 3rem;
-  margin-bottom: 10px;
-  font-weight: 700; /* Bold weight for headings */
-}
-
-.mood-selection p {
-  font-size: 1.2rem;
-  margin-bottom: 20px;
-  font-weight: 400; /* Regular weight for paragraphs */
-}
-
-.mood-buttons {
-  display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.mood-buttons button {
-  padding: 15px 30px;
-  font-size: 1.1rem;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: transform 0.3s ease, background 0.3s ease;
-  background: rgba(255, 255, 255, 0.1);
-  color: #ecf0f1;
-  font-family: 'Prompt', sans-serif; /* Apply Prompt font to buttons */
-  font-weight: 500; /* Medium weight for buttons */
-}
-
-.mood-buttons button:hover {
-  transform: translateY(-5px);
-  background: rgba(255, 255, 255, 0.2);
-}
-
-/* Music Player Section */
-.music-player {
-  background: rgba(0, 0, 0, 0.7); /* Darker background */
-  padding: 20px;
-  border-radius: 15px;
-  width: 90%;
-  max-width: 600px;
-  text-align: center;
-  backdrop-filter: blur(5px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-  margin: 0 auto; /* Center the player */
-}
-
-.music-player h2 {
-  font-size: 1.8rem;
-  margin-bottom: 20px;
-  font-weight: 600; /* Semi-bold weight for player title */
-}
-
-.music-player audio {
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-.playlist {
-  margin-top: 20px;
-}
-
-.playlist h3 {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
-  font-weight: 500; /* Medium weight for playlist title */
-}
-
-.playlist ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.playlist li {
-  padding: 10px;
-  background: rgba(255, 255, 255, 0.1);
-  margin-bottom: 5px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  font-weight: 400; /* Regular weight for playlist items */
-}
-
-.playlist li:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-/* Footer */
+/* Footer Styling */
 footer {
-  margin-top: 40px;
-  font-size: 0.9rem;
-  color: rgba(236, 240, 241, 0.7);
-  text-align: center;
-  font-weight: 300; /* Light weight for footer text */
-  padding: 20px;
-  background: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
-  backdrop-filter: blur(5px);
+    background-color: #1e1e1e;
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid #333;
 }
 
-/* External Links Section */
-#external-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-  padding: 20px;
+footer ul {
+    list-style: none;
+    margin-bottom: 10px;
 }
 
-.card {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 20px;
-  border-radius: 10px;
-  width: 200px;
-  text-align: center;
-  transition: transform 0.3s ease, background 0.3s ease;
+footer h3 {
+    color: #1e90ff;
+    margin-bottom: 10px;
 }
 
-.card:hover {
-  transform: translateY(-5px);
-  background: rgba(255, 255, 255, 0.2);
+footer a {
+    color: #e0e0e0;
+    text-decoration: none;
+    display: block;
+    margin: 5px 0;
+    transition: color 0.3s ease;
 }
 
-.link-icon {
-  width: 50px;
-  height: 50px;
-  margin-bottom: 10px;
+footer a:hover {
+    color: #1e90ff;
 }
 
-.link-title {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-}
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none; /* Hide menu by default on mobile */
+        flex-direction: column;
+        gap: 10px;
+        position: absolute;
+        top: 60px; /* Adjust based on header height */
+        right: 20px;
+        background-color: #1e1e1e;
+        padding: 10px;
+        border: 1px solid #333;
+    }
 
-.link-description {
-  font-size: 0.9rem;
-  margin-bottom: 15px;
-}
+    .nav-menu.active {
+        display: flex; /* Show menu when active */
+    }
 
-.link-button {
-  display: inline-block;
-  padding: 10px 20px;
-  background: rgba(255, 255, 255, 0.1);
-  color: #ecf0f1;
-  text-decoration: none;
-  border-radius: 5px;
-  transition: background 0.3s ease;
-}
-
-.link-button:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-/* Scroll to Top Button */
-.scroll-to-top-button {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  padding: 10px 15px;
-  background: rgba(255, 255, 255, 0.1);
-  color: #ecf0f1;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  display: none; /* Hidden by default */
-}
-
-.scroll-to-top-button:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-/* Social Icons Container */
-.social-icons-container {
-  display: flex;
-  gap: 15px;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(5px);
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-radius: 25px;
-  z-index: 1000;
-}
-
-.social-icon {
-  display: inline-block;
-  transition: transform 0.3s ease;
-}
-
-.social-icon:hover {
-  transform: translateY(-5px);
-}
-
-.social-icon-img {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
+    .nav-toggle {
+        display: block; /* Show hamburger icon on mobile */
+    }
 }
