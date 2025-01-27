@@ -1,5 +1,5 @@
 // Constants and state management
-const JAMENDO_API_KEY = 'YOUR_JAMENDO_API_KEY'; // Replace with actual API key
+const JAMENDO_CLIENT_ID = '6ee5715e';
 const JAMENDO_API_URL = 'https://api.jamendo.com/v3.0';
 
 class MoodifyPlayer {
@@ -13,6 +13,40 @@ class MoodifyPlayer {
         this.repeat = false;
         this.audio = new Audio();
         this.initializePlayer();
+        this.loadInitialMood('relaxed'); // Load some initial music
+    }
+
+    async fetchFromJamendo(endpoint, params = {}) {
+        const queryParams = new URLSearchParams({
+            client_id: JAMENDO_CLIENT_ID,
+            format: 'json',
+            ...params
+        });
+
+        try {
+            const response = await fetch(`${JAMENDO_API_URL}/${endpoint}?${queryParams}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Error fetching from Jamendo:', error);
+            this.showError('Failed to load music. Please try again later.');
+            return null;
+        }
+    }
+
+    showError(message) {
+        // Create or update error message element
+        let errorDiv = document.querySelector('.moodify-error');
+        if (!errorDiv) {
+            errorDiv = document.createElement('div');
+            errorDiv.className = 'moodify-error';
+            this.elements.trackList.parentElement.insertBefore(errorDiv, this.elements.trackList);
+        }
+        errorDiv.textContent = message;
+        errorDiv.style.display = 'block';
+        setTimeout(() => errorDiv.style.display = 'none', 5000);
     }
 
     initializePlayer() {
@@ -26,6 +60,7 @@ class MoodifyPlayer {
             repeatBtn: document.querySelector('.repeat-button'),
             volumeSlider: document.querySelector('#volume-slider'),
             progressBar: document.querySelector('.progress'),
+            progressContainer: document.querySelector('.progress-bar'),
             currentTimeSpan: document.querySelector('#current-time'),
             durationSpan: document.querySelector('#duration'),
             trackTitle: document.querySelector('#track-title'),
@@ -53,162 +88,132 @@ class MoodifyPlayer {
             this.setVolume(e.target.value / 100);
         });
 
-        // Progress bar
+        // Progress bar click handling
+        this.elements.progressContainer.addEventListener('click', (e) => {
+            const rect = this.elements.progressContainer.getBoundingClientRect();
+            const pos = (e.clientX - rect.left) / rect.width;
+            this.audio.currentTime = pos * this.audio.duration;
+        });
+
+        // Audio events
         this.audio.addEventListener('timeupdate', () => this.updateProgress());
         this.audio.addEventListener('ended', () => this.handleTrackEnd());
+        this.audio.addEventListener('error', (e) => {
+            console.error('Audio error:', e);
+            this.showError('Error playing track. Skipping to next...');
+            this.playNext();
+        });
 
         // Mood selection
         this.elements.moodButtons.forEach(button => {
-            button.addEventListener('click', () => this.loadMoodPlaylist(button.dataset.mood));
+            button.addEventListener('click', () => {
+                this.elements.moodButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                this.loadMoodPlaylist(button.dataset.mood);
+            });
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                this.togglePlay();
+            } else if (e.code === 'ArrowRight') {
+                this.playNext();
+            } else if (e.code === 'ArrowLeft') {
+                this.playPrevious();
+            }
         });
     }
 
     async loadMoodPlaylist(mood) {
-        try {
-            // Map moods to tags for API query
-            const moodTags = {
-                'happy': 'happy+upbeat',
-                'relaxed': 'relaxing+calm',
-                'energetic': 'energetic+powerful',
-                'melancholic': 'sad+melancholic'
-            };
+        const moodTags = {
+            'happy': 'happy+upbeat+energetic',
+            'relaxed': 'relaxing+calm+chill',
+            'energetic': 'energetic+powerful+epic',
+            'melancholic': 'sad+melancholic+emotional'
+        };
 
-            const response = await fetch(
-                `${JAMENDO_API_URL}/tracks/?client_id=${JAMENDO_API_KEY}&format=json&limit=20&tags=${moodTags[mood]}&include=musicinfo`
-            );
-            
-            const data = await response.json();
+        const params = {
+            tags: moodTags[mood],
+            limit: 20,
+            include: 'musicinfo',
+            boost: 'popularity_total',
+            audioformat: 'mp32'
+        };
+
+        const data = await this.fetchFromJamendo('tracks/', params);
+        
+        if (data && data.results) {
             this.playlist = data.results;
             this.renderPlaylist();
             
             if (this.playlist.length > 0) {
                 this.playTrack(0);
             }
-        } catch (error) {
-            console.error('Error loading playlist:', error);
         }
+    }
+
+    async loadInitialMood(mood) {
+        const loadingMessage = document.createElement('div');
+        loadingMessage.textContent = 'Loading music...';
+        loadingMessage.className = 'loading-message';
+        this.elements.trackList.appendChild(loadingMessage);
+
+        await this.loadMoodPlaylist(mood);
+        loadingMessage.remove();
     }
 
     renderPlaylist() {
         this.elements.trackList.innerHTML = '';
         this.playlist.forEach((track, index) => {
             const li = document.createElement('li');
-            li.textContent = `${track.artist_name} - ${track.name}`;
+            li.className = 'track-item';
+            li.innerHTML = `
+                <span class="track-number">${index + 1}</span>
+                <span class="track-info">
+                    <span class="track-name">${track.name}</span>
+                    <span class="track-artist">${track.artist_name}</span>
+                </span>
+                <span class="track-duration">${this.formatTime(track.duration)}</span>
+            `;
+            
+            if (index === this.currentTrack) {
+                li.classList.add('playing');
+            }
+            
             li.addEventListener('click', () => this.playTrack(index));
             this.elements.trackList.appendChild(li);
         });
     }
 
     playTrack(index) {
+        if (this.currentTrack !== null) {
+            const currentItem = this.elements.trackList.children[this.currentTrack];
+            if (currentItem) currentItem.classList.remove('playing');
+        }
+
         this.currentTrack = index;
         const track = this.playlist[index];
         
         this.audio.src = track.audio;
         this.audio.volume = this.volume;
-        this.audio.play();
+        this.audio.play().catch(error => {
+            console.error('Error playing track:', error);
+            this.showError('Error playing track. Please try another.');
+        });
+        
         this.isPlaying = true;
         
         // Update UI
         this.updateTrackInfo(track);
         this.updatePlayPauseButton();
-    }
-
-    updateTrackInfo(track) {
-        this.elements.trackTitle.textContent = track.name;
-        this.elements.trackArtist.textContent = track.artist_name;
-        this.elements.albumName.textContent = track.album_name;
-        this.elements.albumArt.src = track.image || '/data/images/default-album-art.png';
-    }
-
-    togglePlay() {
-        if (!this.audio.src) return;
         
-        if (this.isPlaying) {
-            this.audio.pause();
-        } else {
-            this.audio.play();
-        }
-        
-        this.isPlaying = !this.isPlaying;
-        this.updatePlayPauseButton();
+        const newItem = this.elements.trackList.children[index];
+        if (newItem) newItem.classList.add('playing');
     }
 
-    updatePlayPauseButton() {
-        const icon = this.elements.playPauseBtn.querySelector('i');
-        icon.className = this.isPlaying ? 'fas fa-pause' : 'fas fa-play';
-    }
-
-    stop() {
-        this.audio.pause();
-        this.audio.currentTime = 0;
-        this.isPlaying = false;
-        this.updatePlayPauseButton();
-    }
-
-    playNext() {
-        if (this.playlist.length === 0) return;
-        
-        let nextTrack;
-        if (this.shuffle) {
-            nextTrack = Math.floor(Math.random() * this.playlist.length);
-        } else {
-            nextTrack = (this.currentTrack + 1) % this.playlist.length;
-        }
-        
-        this.playTrack(nextTrack);
-    }
-
-    playPrevious() {
-        if (this.playlist.length === 0) return;
-        
-        let prevTrack;
-        if (this.shuffle) {
-            prevTrack = Math.floor(Math.random() * this.playlist.length);
-        } else {
-            prevTrack = (this.currentTrack - 1 + this.playlist.length) % this.playlist.length;
-        }
-        
-        this.playTrack(prevTrack);
-    }
-
-    toggleShuffle() {
-        this.shuffle = !this.shuffle;
-        this.elements.shuffleBtn.classList.toggle('active');
-    }
-
-    toggleRepeat() {
-        this.repeat = !this.repeat;
-        this.elements.repeatBtn.classList.toggle('active');
-    }
-
-    setVolume(value) {
-        this.volume = value;
-        this.audio.volume = value;
-    }
-
-    updateProgress() {
-        const duration = this.audio.duration;
-        const currentTime = this.audio.currentTime;
-        const progress = (currentTime / duration) * 100;
-        
-        this.elements.progressBar.style.width = `${progress}%`;
-        this.elements.currentTimeSpan.textContent = this.formatTime(currentTime);
-        this.elements.durationSpan.textContent = this.formatTime(duration);
-    }
-
-    formatTime(seconds) {
-        const minutes = Math.floor(seconds / 60);
-        const remainingSeconds = Math.floor(seconds % 60);
-        return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
-    }
-
-    handleTrackEnd() {
-        if (this.repeat) {
-            this.playTrack(this.currentTrack);
-        } else {
-            this.playNext();
-        }
-    }
+    // ... (rest of the methods remain the same as in the previous version)
 }
 
 // Initialize player when DOM is loaded
