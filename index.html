@@ -9,34 +9,77 @@
     <script src="/data/js/main.js"></script>
     <title>Explore Corebell Engine, Moodify, Blogs and Nina AI Chat | Rendani</title>
 </head>
-<nav>
-  <a class="nav-link" href="/" aria-label="Home">
-    <img src="/data/images/Rendani_Logo.png" alt="Rendani's Logo">
-  </a>
-  <div class="nav-menu">
-    <a class="nav-link" href="/pages/apps/corebell-engine/">Corebell Engine</a>
-    <a class="nav-link" href="/pages/apps/moodify/">Moodify</a>
-    <a class="nav-link" href="/pages/apps/nina-chat/">Nina AI</a>
-    <a class="nav-link" href="/pages/blog/">Blog</a>
-  </div>
-  <div class="nav-toggle">&#9776;</div> <!-- Hamburger icon -->
-</nav>
-<hr>
 <body>
+    <nav>
+        <a class="nav-link" href="/" aria-label="Home">
+            <img src="/data/images/Rendani_Logo.png" alt="Rendani's Logo">
+        </a>
+        <div class="nav-menu">
+            <a class="nav-link" href="/pages/apps/corebell-engine/">Corebell Engine</a>
+            <a class="nav-link" href="/pages/apps/moodify/">Moodify</a>
+            <a class="nav-link" href="/pages/apps/nina-chat/">Nina AI</a>
+            <a class="nav-link" href="/pages/blog/">Blog</a>
+        </div>
+        <div class="nav-toggle">&#9776;</div> <!-- Hamburger icon -->
+    </nav>
+    <hr>
     <h2 style="text-align: center;">Welcome</h2>
+
+    <!-- Dynamic Content Section -->
+    <div id="dynamic-content" style="text-align: center; margin: 20px;">
+        <h3>Random Quote of the Day</h3>
+        <p id="random-quote">Loading quote...</p>
+        <img id="random-image" src="" alt="Random Image" style="max-width: 100%; height: auto; margin-top: 20px; border-radius: 10px;">
+    </div>
+
+    <hr>
+    <footer>
+        <ul>
+            <h3>Links</h3>
+            <a target="_blank" class="nav-link" href="https://linktr.ee/callmerendani">Linktree</a>
+            <a target="_blank" class="nav-link" href="https://github.com/sponsors/manugeni">Sponsor Me on GitHub</a>
+            <a target="_blank" class="nav-link" href="https://github.com/manugeni">GitHub</a>
+            <h3>Apps</h3>
+            <a class="nav-link" href="/pages/apps/moodify/">Moodify</a>
+            <a class="nav-link" href="/pages/apps/nina-chat/">Nina AI</a>
+            <a class="nav-link" href="/pages/apps/corebell-engine/">Corebell Engine</a>
+        </ul>
+    </footer>
+    <p style="text-align: center;"> 2025 &copy Rendani Manugeni.</p>
+
+    <script>
+        // Function to fetch a random quote
+        async function fetchRandomQuote() {
+            try {
+                const response = await fetch('https://api.quotable.io/random');
+                const data = await response.json();
+                document.getElementById('random-quote').textContent = `"${data.content}" - ${data.author}`;
+            } catch (error) {
+                console.error('Error fetching quote:', error);
+                document.getElementById('random-quote').textContent = "Failed to load quote. Please try again later.";
+            }
+        }
+
+        // Function to fetch a random image
+        async function fetchRandomImage() {
+            try {
+                const response = await fetch('https://source.unsplash.com/random/800x600');
+                const imageUrl = response.url;
+                document.getElementById('random-image').src = imageUrl;
+            } catch (error) {
+                console.error('Error fetching image:', error);
+                document.getElementById('random-image').alt = "Failed to load image.";
+            }
+        }
+
+        // Initialize dynamic content
+        function initializeDynamicContent() {
+            fetchRandomQuote();
+            fetchRandomImage();
+        }
+
+        // Run the initialization function when the DOM is fully loaded
+        document.addEventListener("DOMContentLoaded", initializeDynamicContent);
+    </script>
 </body>
-<hr>
-<footer>
-    <ul>
-    <h3>Links</h3>
-    <a target="_blank" class="nav-link" href="https://linktr.ee/callmerendani">Linktree</a>
-    <a target="_blank" class="nav-link" href="https://github.com/sponsors/manugeni">Sponsor Me on GitHub</a>
-    <a target="_blank" class="nav-link" href="https://github.com/manugeni">GitHub</a>
-    <h3>Apps</h3>
-    <a class="nav-link" href="/pages/apps/moodify/">Moodify</a>
-    <a class="nav-link" href="/pages/apps/nina-chat/">Nina AI</a>
-    <a class="nav-link" href="/pages/apps/corebell-engine/">Corebell Engine</a>
-    </ul>
-</footer>
-        <p style="text-align: center;"> 2025 &copy Rendani Manugeni.</p>
 </html>
