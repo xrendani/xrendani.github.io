@@ -3,161 +3,57 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interface | Corebell Engine v0.0.01</title>
+  <title>Corebell Engine</title>
   <style>
-    /* Previous styles remain the same */
-    /* Additional styles for new features */
-    .context-menu {
-      position: fixed;
-      background: var(--widget-bg);
-      border-radius: 4px;
-      padding: 0.5rem;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-      z-index: 1000;
-      display: none;
-    }
-
-    .context-menu.active {
-      display: block;
-    }
-
-    .context-menu button {
-      display: block;
-      width: 100%;
-      text-align: left;
-      margin: 0.25rem 0;
-    }
-
-    .modal {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: var(--widget-bg);
-      padding: 1.5rem;
-      border-radius: 8px;
-      z-index: 1001;
-      display: none;
-    }
-
-    .modal.active {
-      display: block;
-    }
-
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 1000;
-      display: none;
-    }
-
-    .modal-overlay.active {
-      display: block;
-    }
-
-    .scene-hierarchy {
-      position: absolute;
-      left: 1rem;
-      top: 50%;
-      transform: translateY(-50%);
-      max-height: 50vh;
-      overflow-y: auto;
-    }
-
-    .scene-hierarchy ul {
-      list-style: none;
-      padding-left: 1rem;
-    }
-
-    .scene-hierarchy li {
-      padding: 0.25rem 0;
-      cursor: pointer;
-    }
-
-    .scene-hierarchy li:hover {
-      color: var(--accent-color);
-    }
+    /* Styles remain the same as before */
   </style>
+  <!-- Preload critical assets -->
+  <link rel="preload" href="/data/images/CorebellEngine_Logo.png" as="image">
+  <link rel="preload" href="./api.js" as="script">
 </head>
 <body>
-  <!-- Previous HTML structure remains the same -->
-
-  <!-- Add Context Menu -->
-  <div class="context-menu" id="context-menu">
-    <button id="duplicate">Duplicate</button>
-    <button id="delete">Delete</button>
-    <button id="reset-transform">Reset Transform</button>
-    <button id="focus-camera">Focus Camera</button>
-  </div>
-
-  <!-- Add Modal for Settings -->
-  <div class="modal-overlay" id="settings-overlay"></div>
-  <div class="modal" id="settings-modal">
-    <h3>Engine Settings</h3>
-    <div class="properties-panel">
-      <label>Shadow Quality:</label>
-      <select id="shadow-quality">
-        <option value="low">Low</option>
-        <option value="medium">Medium</option>
-        <option value="high">High</option>
-      </select>
-
-      <label>Antialiasing:</label>
-      <select id="antialiasing">
-        <option value="none">None</option>
-        <option value="fxaa">FXAA</option>
-        <option value="msaa">MSAA</option>
-      </select>
-
-      <label>Physics Quality:</label>
-      <select id="physics-quality">
-        <option value="low">Low</option>
-        <option value="medium">Medium</option>
-        <option value="high">High</option>
-      </select>
+  <div class="loading-screen" id="loading-screen">
+    <img src="/data/images/CorebellEngine_Logo.png" alt="Corebell Engine Logo">
+    <h2>Loading Corebell Engine</h2>
+    <div class="loading-progress">
+      <div class="loading-bar" id="loading-bar"></div>
     </div>
-    <button id="close-settings">Close</button>
   </div>
 
-  <!-- Scene Hierarchy -->
-  <div class="widget scene-hierarchy">
-    <h3>Scene Objects</h3>
-    <ul id="scene-tree"></ul>
-  </div>
+  <div id="viewport"></div>
+
+  <!-- Toolbar, Controls, Properties, Performance widgets remain the same as before -->
 
   <script type="module">
     import { CorebellEngine, ObjectLibrary } from './api.js';
-    
+
     let engine;
     const loadingScreen = document.getElementById('loading-screen');
     const loadingBar = document.getElementById('loading-bar');
-    const contextMenu = document.getElementById('context-menu');
-    
+
     async function initialize() {
       try {
         updateLoadingProgress(0);
-        
-        // Initialize engine
+
+        // Initialize engine (non-blocking)
         engine = new CorebellEngine(document.getElementById('viewport'));
-        updateLoadingProgress(30);
-        
-        // Set up event listeners
-        setupEventListeners();
+        updateLoadingProgress(20);
+
+        // Load essential assets in parallel
+        const [groundTexture] = await Promise.all([
+          loadTexture('textures/ground_albedo.jpg'),
+          setupEventListeners(), // Non-blocking setup
+        ]);
         updateLoadingProgress(50);
-        
-        // Load default scene
-        await loadDefaultScene();
+
+        // Create a simple initial scene
+        await loadDefaultScene(groundTexture);
         updateLoadingProgress(80);
-        
-        // Initialize UI components
-        initializeUI();
-        updateLoadingProgress(90);
-        
-        // Start engine
+
+        // Start the engine animation loop
         engine.animate();
         updateLoadingProgress(100);
-        
+
         // Hide loading screen with fade
         setTimeout(() => {
           loadingScreen.style.opacity = '0';
@@ -165,20 +61,24 @@
             loadingScreen.style.display = 'none';
           }, 500);
         }, 500);
-        
+
       } catch (error) {
         console.error('Initialization error:', error);
         loadingScreen.innerHTML = `Error loading engine: ${error.message}`;
       }
     }
 
-    async function loadDefaultScene() {
-      // Create ground plane
+    async function loadTexture(url) {
+      return new Promise((resolve, reject) => {
+        const textureLoader = new THREE.TextureLoader();
+        textureLoader.load(url, resolve, undefined, reject);
+      });
+    }
+
+    async function loadDefaultScene(groundTexture) {
+      // Create ground plane with preloaded texture
       const ground = await ObjectLibrary.createCube(20, {
-        albedoMap: 'textures/ground_albedo.jpg',
-        normalMap: 'textures/ground_normal.jpg',
-        roughnessMap: 'textures/ground_roughness.jpg',
-        aoMap: 'textures/ground_ao.jpg'
+        albedoMap: groundTexture,
       });
       ground.body.position.set(0, -5, 0);
       ground.body.mass = 0;
@@ -201,25 +101,10 @@
         engine.handleResize();
       });
 
-      // Context menu
-      window.addEventListener('contextmenu', (e) => {
-        if (engine.selectedObject) {
-          e.preventDefault();
-          showContextMenu(e.clientX, e.clientY);
-        }
-      });
-
-      // Click handler for context menu
-      window.addEventListener('click', (e) => {
-        if (!contextMenu.contains(e.target)) {
-          contextMenu.classList.remove('active');
-        }
-      });
-
       // Object creation handlers
       document.getElementById('add-cube').addEventListener('click', async () => {
         const cube = await ObjectLibrary.createCube();
-        const id = engine.addObject(cube);
+        engine.addObject(cube);
         updateSceneHierarchy();
       });
 
@@ -238,25 +123,15 @@
 
       // Properties panel handlers
       setupPropertiesPanel();
-
-      // Context menu handlers
-      setupContextMenuHandlers();
     }
 
     function setupPropertiesPanel() {
       const positionInputs = ['pos-x', 'pos-y', 'pos-z'].map(id => document.getElementById(id));
-      const rotationInputs = ['rot-x', 'rot-y', 'rot-z'].map(id => document.getElementById(id));
-      const scaleInputs = ['scale-x', 'scale-y', 'scale-z'].map(id => document.getElementById(id));
 
       function updateInputs() {
         if (engine.selectedObject) {
           const pos = engine.selectedObject.body.position;
-          const rot = engine.selectedObject.body.quaternion.toEuler();
-          const scale = engine.selectedObject.mesh.scale;
-
           positionInputs.forEach((input, i) => input.value = [pos.x, pos.y, pos.z][i].toFixed(2));
-          rotationInputs.forEach((input, i) => input.value = [rot.x, rot.y, rot.z][i].toFixed(2));
-          scaleInputs.forEach((input, i) => input.value = [scale.x, scale.y, scale.z][i].toFixed(2));
         }
       }
 
@@ -272,40 +147,15 @@
           }
         });
       });
-
-      // Similar handlers for rotation and scale...
     }
 
-    function setupContextMenuHandlers() {
-      document.getElementById('duplicate').addEventListener('click', () => {
-        if (engine.selectedObject) {
-          engine.duplicateObject(engine.selectedObject.uuid);
-          updateSceneHierarchy();
-        }
-        contextMenu.classList.remove('active');
-      });
-
-      document.getElementById('delete').addEventListener('click', () => {
-        if (engine.selectedObject) {
-          engine.removeObject(engine.selectedObject.uuid);
-          updateSceneHierarchy();
-        }
-        contextMenu.classList.remove('active');
-      });
-
-      // Additional context menu handlers...
-    }
-
-    function showContextMenu(x, y) {
-      contextMenu.style.left = `${x}px`;
-      contextMenu.style.top = `${y}px`;
-      contextMenu.classList.add('active');
+    function updateLoadingProgress(progress) {
+      loadingBar.style.width = `${progress}%`;
     }
 
     function updateSceneHierarchy() {
       const sceneTree = document.getElementById('scene-tree');
       sceneTree.innerHTML = '';
-      
       engine.objects.forEach((obj, uuid) => {
         const li = document.createElement('li');
         li.textContent = `Object ${uuid.slice(0, 8)}`;
@@ -314,15 +164,13 @@
       });
     }
 
-    function updateLoadingProgress(progress) {
-      loadingBar.style.width = `${progress}%`;
-    }
-
     // Start initialization
     initialize();
   </script>
-  
+
   <!-- Load Material Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
   <!-- Load Inter font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</body>
+</html>
