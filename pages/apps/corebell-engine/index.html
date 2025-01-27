@@ -5,20 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Interface | Corebell Engine v0.0.01</title>
   <style>
-    :root {
-      --primary-bg: #1e1e1e;
-      --widget-bg: rgba(0, 0, 0, 0.8);
-      --text-color: #ffffff;
-      --button-bg: #444;
-      --button-hover: #666;
-      --accent-color: #007bff;
-    }
-
     body {
       margin: 0;
       overflow: hidden;
-      background-color: var(--primary-bg);
-      color: var(--text-color);
+      background-color: #1e1e1e;
+      color: #ffffff;
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
     }
 
@@ -26,389 +17,258 @@
       width: 100%;
       height: 100vh;
     }
-
-    .loading-screen {
-      position: fixed;
-      inset: 0;
-      background-color: var(--primary-bg);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      transition: opacity 0.3s ease-in-out;
-    }
-
-    .loading-screen img {
-      width: 200px;
-      margin-bottom: 1rem;
-    }
-
-    .loading-progress {
-      width: 200px;
-      height: 4px;
-      background: var(--widget-bg);
-      border-radius: 2px;
-      margin-top: 1rem;
-    }
-
-    .loading-bar {
-      width: 0%;
-      height: 100%;
-      background: var(--accent-color);
-      border-radius: 2px;
-      transition: width 0.3s ease;
-    }
-
-    .widget {
-      position: absolute;
-      background-color: var(--widget-bg);
-      padding: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      color: var(--text-color);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      transition: transform 0.2s ease;
-    }
-
-    .widget {
-      position: absolute;
-      background-color: var(--widget-bg);
-      padding: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      color: var(--text-color);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      transition: transform 0.2s ease;
-    }
-
-    .widget:hover {
-      transform: translateY(-2px);
-    }
-
-    .toolbar {
-      top: 1rem;
-      left: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .toolbar img {
-      width: 40px;
-      height: 40px;
-    }
-
-    .controls {
-      top: 1rem;
-      right: 1rem;
-    }
-
-    .properties {
-      bottom: 1rem;
-      left: 1rem;
-    }
-
-    .performance {
-      bottom: 1rem;
-      right: 1rem;
-    }
-
-    button {
-      background-color: var(--button-bg);
-      color: var(--text-color);
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-size: 0.9rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    button:hover {
-      background-color: var(--button-hover);
-      transform: translateY(-1px);
-    }
-
-    button:active {
-      transform: translateY(0);
-    }
-
-    .button-group {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
-
-    input[type="color"] {
-      width: 40px;
-      height: 40px;
-      padding: 0;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .properties-panel {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 0.5rem;
-      align-items: center;
-    }
-
-    .properties-panel input[type="number"] {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 4px;
-      padding: 0.25rem;
-      color: var(--text-color);
-      width: 80px;
-    }
-
-    .context-menu {
-      position: fixed;
-      background: var(--widget-bg);
-      border-radius: 4px;
-      padding: 0.5rem;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-      z-index: 1000;
-      display: none;
-    }
-
-    .context-menu.active {
-      display: block;
-    }
-
-    .context-menu button {
-      display: block;
-      width: 100%;
-      text-align: left;
-      margin: 0.25rem 0;
-    }
-
-    .modal {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: var(--widget-bg);
-      padding: 1.5rem;
-      border-radius: 8px;
-      z-index: 1001;
-      display: none;
-    }
-
-    .modal.active {
-      display: block;
-    }
-
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 1000;
-      display: none;
-    }
-
-    .modal-overlay.active {
-      display: block;
-    }
-
-    .scene-hierarchy {
-      position: absolute;
-      left: 1rem;
-      top: 50%;
-      transform: translateY(-50%);
-      max-height: 50vh;
-      overflow-y: auto;
-    }
-
-    .scene-hierarchy ul {
-      list-style: none;
-      padding-left: 1rem;
-    }
-
-    .scene-hierarchy li {
-      padding: 0.25rem 0;
-      cursor: pointer;
-    }
-
-    .scene-hierarchy li:hover {
-      color: var(--accent-color);
-    }
   </style>
-  
-  <!-- Preload critical assets -->
-  <link rel="preload" href="/data/images/CorebellEngine_Logo.png" as="image">
-  <link rel="preload" href="./api.js" as="script">
 </head>
 <body>
-
-  <div class="loading-screen" id="loading-screen">
-    <img src="/data/images/CorebellEngine_Logo.png" alt="Corebell Engine Logo">
-    <div class="loading-progress">
-      <div class="loading-bar" id="loading-bar"></div>
-    </div>
-  </div>
-
+  <!-- Viewport for 3D Scene -->
   <div id="viewport"></div>
 
-  <div class="widget toolbar">
-    <!-- Original toolbar content here -->
-  </div>
+  <!-- Load Three.js, Cannon-es, OrbitControls, TransformControls, and dat.GUI from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/controls/TransformControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dat.gui@0.7.9/build/dat.gui.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/postprocessing/EffectComposer.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/postprocessing/RenderPass.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/postprocessing/BloomPass.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/shaders/CopyShader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/postprocessing/ShaderPass.js"></script>
 
-  <script type="module">
-    import { CorebellEngine, ObjectLibrary } from './api.js';
+  <!-- Corebell Engine Script -->
+  <script>
+    // Scene, Camera, Renderer
+    let scene, camera, renderer, controls, transformControls, world, composer;
+    const objects = [];
+    let selectedObject = null;
 
-    let engine;
-    const loadingScreen = document.getElementById('loading-screen');
-    const loadingBar = document.getElementById('loading-bar');
+    // Initialize Corebell Engine
+    function initCorebell() {
+      // Set up Three.js scene
+      scene = new THREE.Scene();
 
-    async function initialize() {
-      try {
-        updateLoadingProgress(0);
+      // Set up camera
+      camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.set(0, 5, 15);
 
-        // Initialize engine (non-blocking)
-        engine = new CorebellEngine(document.getElementById('viewport'));
-        updateLoadingProgress(20);
+      // Set up renderer
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setClearColor(0x1e1e1e); // Dark background
+      renderer.shadowMap.enabled = true; // Enable shadows
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap; // Soft shadows
+      document.getElementById('viewport').appendChild(renderer.domElement);
 
-        // Load essential assets in parallel
-        const [groundTexture] = await Promise.all([
-          loadTexture('textures/ground_albedo.jpg'),
-          setupEventListeners(), // Non-blocking setup
-        ]);
-        updateLoadingProgress(50);
+      // Add OrbitControls
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true; // Smooth camera movement
+      controls.dampingFactor = 0.05;
 
-        // Create a simple initial scene
-        await loadDefaultScene(groundTexture);
-        updateLoadingProgress(80);
-
-        // Start the engine animation loop
-        engine.animate();
-        updateLoadingProgress(100);
-
-        // Hide loading screen with fade
-        setTimeout(() => {
-          loadingScreen.style.opacity = '0';
-          setTimeout(() => {
-            loadingScreen.style.display = 'none';
-          }, 500);
-        }, 500);
-
-      } catch (error) {
-        console.error('Initialization error:', error);
-        loadingScreen.innerHTML = `Error loading engine: ${error.message}`;
-      }
-    }
-
-    async function loadTexture(url) {
-      return new Promise((resolve, reject) => {
-        const textureLoader = new THREE.TextureLoader();
-        textureLoader.load(url, resolve, undefined, reject);
+      // Add TransformControls
+      transformControls = new THREE.TransformControls(camera, renderer.domElement);
+      transformControls.addEventListener('dragging-changed', (event) => {
+        controls.enabled = !event.value; // Disable OrbitControls while transforming
       });
-    }
+      scene.add(transformControls);
 
-    async function loadDefaultScene(groundTexture) {
-      // Create ground plane with preloaded texture
-      const ground = await ObjectLibrary.createCube(20, {
-        albedoMap: groundTexture,
-      });
-      ground.body.position.set(0, -5, 0);
-      ground.body.mass = 0;
-      engine.addObject(ground);
+      // Set up Cannon-es physics world
+      world = new CANNON.World();
+      world.gravity.set(0, -9.82, 0);
 
-      // Add ambient light
-      const ambient = new THREE.AmbientLight(0x404040, 0.5);
-      engine.scene.add(ambient);
+      // Add lighting
+      const ambientLight = new THREE.AmbientLight(0x404040, 0.5); // Soft white light
+      scene.add(ambientLight);
 
-      // Add directional light with shadows
-      const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-      dirLight.position.set(5, 5, 5);
-      dirLight.castShadow = true;
-      engine.scene.add(dirLight);
-    }
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // Bright white light
+      directionalLight.position.set(5, 5, 5);
+      directionalLight.castShadow = true; // Enable shadows
+      directionalLight.shadow.mapSize.width = 2048; // High-res shadows
+      directionalLight.shadow.mapSize.height = 2048;
+      scene.add(directionalLight);
 
-    function setupEventListeners() {
-      // Window resize handler
-      window.addEventListener('resize', () => {
-        engine.handleResize();
-      });
+      // Add a ground plane with a grid helper
+      const groundGeometry = new THREE.PlaneGeometry(20, 20);
+      const groundMaterial = new THREE.MeshStandardMaterial({ color: 0x555555, side: THREE.DoubleSide });
+      const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
+      groundMesh.rotation.x = -Math.PI / 2; // Rotate to lie flat
+      groundMesh.receiveShadow = true; // Ground receives shadows
+      scene.add(groundMesh);
 
-      // Object creation handlers
-      document.getElementById('add-cube').addEventListener('click', async () => {
-        const cube = await ObjectLibrary.createCube();
-        engine.addObject(cube);
-        updateSceneHierarchy();
-      });
+      const gridHelper = new THREE.GridHelper(20, 20);
+      scene.add(gridHelper);
 
-      // Transform control handlers
-      document.getElementById('transform').addEventListener('click', () => {
-        engine.setTransformMode('translate');
-      });
+      // Add ground physics body
+      const groundBody = new CANNON.Body({ mass: 0 });
+      groundBody.addShape(new CANNON.Plane());
+      groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2);
+      world.addBody(groundBody);
 
-      document.getElementById('rotate').addEventListener('click', () => {
-        engine.setTransformMode('rotate');
-      });
+      // Add a skybox
+      const skyboxTexture = new THREE.CubeTextureLoader()
+        .setPath('https://threejs.org/examples/textures/cube/pisa/')
+        .load(['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png']);
+      scene.background = skyboxTexture;
 
-      document.getElementById('scale').addEventListener('click', () => {
-        engine.setTransformMode('scale');
-      });
+      // Add post-processing (Bloom effect)
+      const renderPass = new THREE.RenderPass(scene, camera);
+      const bloomPass = new THREE.BloomPass(1.5, 25, 5, 512);
+      const copyPass = new THREE.ShaderPass(THREE.CopyShader);
+      composer = new THREE.EffectComposer(renderer);
+      composer.addPass(renderPass);
+      composer.addPass(bloomPass);
+      composer.addPass(copyPass);
 
-      // Properties panel handlers
-      setupPropertiesPanel();
-    }
+      // GUI Controls
+      const gui = new dat.GUI();
+      const params = {
+        addCube: () => addCube(),
+        addSphere: () => addSphere(),
+        addCylinder: () => addCylinder(),
+        deleteObject: () => deleteObject(),
+        resetScene: () => resetScene(),
+      };
+      gui.add(params, 'addCube').name('Add Cube');
+      gui.add(params, 'addSphere').name('Add Sphere');
+      gui.add(params, 'addCylinder').name('Add Cylinder');
+      gui.add(params, 'deleteObject').name('Delete Object');
+      gui.add(params, 'resetScene').name('Reset Scene');
 
-    function setupPropertiesPanel() {
-      const positionInputs = ['pos-x', 'pos-y', 'pos-z'].map(id => document.getElementById(id));
+      // Animation loop
+      function animate() {
+        requestAnimationFrame(animate);
 
-      function updateInputs() {
-        if (engine.selectedObject) {
-          const pos = engine.selectedObject.body.position;
-          positionInputs.forEach((input, i) => input.value = [pos.x, pos.y, pos.z][i].toFixed(2));
-        }
-      }
+        // Update physics
+        world.step(1 / 60);
 
-      // Update properties panel every frame
-      engine.onUpdate(() => updateInputs());
-
-      // Handle input changes
-      positionInputs.forEach((input, i) => {
-        input.addEventListener('input', (e) => {
-          if (engine.selectedObject) {
-            const pos = engine.selectedObject.body.position;
-            [pos.x, pos.y, pos.z][i] = parseFloat(e.target.value);
-          }
+        // Sync physics and rendering
+        objects.forEach(obj => {
+          obj.mesh.position.copy(obj.body.position);
+          obj.mesh.quaternion.copy(obj.body.quaternion);
         });
+
+        // Update controls
+        controls.update();
+
+        // Render the scene with post-processing
+        composer.render();
+      }
+
+      // Start animation loop
+      animate();
+    }
+
+    // Add a cube to the scene
+    function addCube() {
+      const size = 1;
+      const geometry = new THREE.BoxGeometry(size, size, size);
+      const material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.castShadow = true; // Cube casts shadows
+
+      const body = new CANNON.Body({ mass: 1 });
+      body.addShape(new CANNON.Box(new CANNON.Vec3(size / 2, size / 2, size / 2)));
+      body.position.set(Math.random() * 5, 10, Math.random() * 5);
+
+      scene.add(mesh);
+      world.addBody(body);
+      objects.push({ mesh, body });
+    }
+
+    // Add a sphere to the scene
+    function addSphere() {
+      const radius = 1;
+      const geometry = new THREE.SphereGeometry(radius);
+      const material = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.castShadow = true; // Sphere casts shadows
+
+      const body = new CANNON.Body({ mass: 1 });
+      body.addShape(new CANNON.Sphere(radius));
+      body.position.set(Math.random() * 5, 10, Math.random() * 5);
+
+      scene.add(mesh);
+      world.addBody(body);
+      objects.push({ mesh, body });
+    }
+
+    // Add a cylinder to the scene
+    function addCylinder() {
+      const radius = 1;
+      const height = 2;
+      const geometry = new THREE.CylinderGeometry(radius, radius, height, 32);
+      const material = new THREE.MeshStandardMaterial({ color: 0x0000ff });
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.castShadow = true; // Cylinder casts shadows
+
+      const body = new CANNON.Body({ mass: 1 });
+      body.addShape(new CANNON.Cylinder(radius, radius, height, 32));
+      body.position.set(Math.random() * 5, 10, Math.random() * 5);
+
+      scene.add(mesh);
+      world.addBody(body);
+      objects.push({ mesh, body });
+    }
+
+    // Delete the selected object
+    function deleteObject() {
+      if (selectedObject) {
+        scene.remove(selectedObject.mesh);
+        world.removeBody(selectedObject.body);
+        objects.splice(objects.indexOf(selectedObject), 1);
+        selectedObject = null;
+        transformControls.detach(); // Detach transform controls
+      }
+    }
+
+    // Reset the scene
+    function resetScene() {
+      objects.forEach(obj => {
+        scene.remove(obj.mesh);
+        world.removeBody(obj.body);
       });
+      objects.length = 0;
+      selectedObject = null;
+      transformControls.detach(); // Detach transform controls
     }
 
-    function updateLoadingProgress(progress) {
-      loadingBar.style.width = `${progress}%`;
-    }
+    // Raycaster for object selection
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
 
-    function updateSceneHierarchy() {
-      const sceneTree = document.getElementById('scene-tree');
-      sceneTree.innerHTML = '';
-      engine.objects.forEach((obj, uuid) => {
-        const li = document.createElement('li');
-        li.textContent = `Object ${uuid.slice(0, 8)}`;
-        li.addEventListener('click', () => engine.selectObject(uuid));
-        sceneTree.appendChild(li);
-      });
-    }
+    // Handle mouse clicks
+    window.addEventListener('click', (event) => {
+      // Convert mouse position to normalized device coordinates
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-    // Start initialization
-    initialize();
+      // Raycast from the camera
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(objects.map(obj => obj.mesh));
+
+      if (intersects.length > 0) {
+        // Select the first intersected object
+        if (selectedObject) selectedObject.mesh.material.color.set(0x00ff00); // Reset previous selection
+        selectedObject = objects.find(obj => obj.mesh === intersects[0].object);
+        selectedObject.mesh.material.color.set(0xff0000); // Highlight selected object
+        transformControls.attach(selectedObject.mesh); // Attach transform controls
+      } else {
+        // Deselect if no object is clicked
+        if (selectedObject) selectedObject.mesh.material.color.set(0x00ff00);
+        selectedObject = null;
+        transformControls.detach(); // Detach transform controls
+      }
+    });
+
+    // Initialize Corebell Engine on load
+    window.addEventListener('load', initCorebell);
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      composer.setSize(window.innerWidth, window.innerHeight);
+    });
   </script>
-
-  <!-- Load Material Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
-  <!-- Load Inter font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </body>
 </html>
