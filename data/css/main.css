@@ -12,6 +12,12 @@ body {
   position: relative;
 }
 
+/* Dark Mode Styles */
+body.dark-mode {
+  background-color: #000;
+  color: #ecf0f1;
+}
+
 /* Dynamic Blurred Background */
 body::before {
   content: '';
@@ -217,4 +223,108 @@ footer {
   padding: 20px;
   background: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
   backdrop-filter: blur(5px);
+}
+
+/* External Links Section */
+#external-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 20px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  width: 200px;
+  text-align: center;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.link-icon {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 10px;
+}
+
+.link-title {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.link-description {
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}
+
+.link-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ecf0f1;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+.link-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Scroll to Top Button */
+.scroll-to-top-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 15px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ecf0f1;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  display: none; /* Hidden by default */
+}
+
+.scroll-to-top-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Social Icons Container */
+.social-icons-container {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 25px;
+  z-index: 1000;
+}
+
+.social-icon {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.social-icon:hover {
+  transform: translateY(-5px);
+}
+
+.social-icon-img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
 }
