@@ -135,6 +135,11 @@ class Corebell {
 
   deleteSelectedObject() {
     if (!this.selectedObject) return;
+
+    // Dispose of geometry and material to avoid memory leaks
+    this.selectedObject.geometry.dispose();
+    this.selectedObject.material.dispose();
+
     this.scene.remove(this.selectedObject);
     this.objects = this.objects.filter((obj) => obj !== this.selectedObject);
     this.transformControls.detach();
@@ -167,7 +172,11 @@ class Corebell {
         const sceneData = JSON.parse(event.target.result);
 
         // Clear current scene
-        this.objects.forEach((obj) => this.scene.remove(obj));
+        this.objects.forEach((obj) => {
+          obj.geometry.dispose();
+          obj.material.dispose();
+          this.scene.remove(obj);
+        });
         this.objects = [];
 
         // Load objects
@@ -216,6 +225,7 @@ class Corebell {
         });
       } catch (error) {
         console.error("Error loading scene:", error);
+        alert("Failed to load scene. Please check the file format.");
       }
     };
     reader.readAsText(file);
@@ -264,6 +274,18 @@ class Corebell {
     requestAnimationFrame(this.animate);
     this.orbitControls.update();
     this.renderer.render(this.scene, this.camera);
+  }
+
+  cleanup() {
+    window.removeEventListener("resize", this.onWindowResize);
+    this.container.removeEventListener("click", this.onClick);
+    window.removeEventListener("keydown", this.onKeyDown);
+    this.objects.forEach((obj) => {
+      obj.geometry.dispose();
+      obj.material.dispose();
+      this.scene.remove(obj);
+    });
+    this.renderer.dispose();
   }
 }
 
