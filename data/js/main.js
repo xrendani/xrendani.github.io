@@ -6,7 +6,7 @@ navToggle.addEventListener('click', () => {
     navMenu.classList.toggle('active');
 });
 
-// Close menu when a link is clicked (optional)
+// Close menu when a link is clicked
 const navLinks = document.querySelectorAll('.nav-link');
 navLinks.forEach(link => {
     link.addEventListener('click', () => {
@@ -16,7 +16,7 @@ navLinks.forEach(link => {
     });
 });
 
-// Function to fetch a random quote
+// Fetch a random quote
 async function fetchRandomQuote() {
     try {
         const response = await fetch('https://api.quotable.io/random');
@@ -28,7 +28,7 @@ async function fetchRandomQuote() {
     }
 }
 
-// Function to fetch a random image
+// Fetch a random image
 async function fetchRandomImage() {
     try {
         const response = await fetch('https://source.unsplash.com/random/800x600');
