@@ -225,7 +225,7 @@ class Corebell {
   }
 }
 
-// Initialize Corebell
+// Initialize Corebell only after DOM has loaded
 document.addEventListener("DOMContentLoaded", () => {
   const engine = new Corebell("viewport");
 
