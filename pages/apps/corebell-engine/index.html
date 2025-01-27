@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interface | Corebell Engine v0.0.01</title>
+  <title>Corebell Engine Showcase</title>
   <style>
     body {
       margin: 0;
@@ -17,28 +17,51 @@
       width: 100%;
       height: 100vh;
     }
+
+    .toolbar {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      display: flex;
+      gap: 0.5rem;
+      z-index: 1000;
+    }
+
+    .toolbar button {
+      background-color: #444;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .toolbar button:hover {
+      background-color: #666;
+    }
   </style>
 </head>
 <body>
   <!-- Viewport for 3D Scene -->
   <div id="viewport"></div>
 
-  <!-- Load Three.js, Cannon-es, OrbitControls, TransformControls, and dat.GUI from CDN -->
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <button id="add-cube">Add Cube</button>
+    <button id="add-sphere">Add Sphere</button>
+    <button id="delete-object">Delete Object</button>
+    <button id="reset-scene">Reset Scene</button>
+  </div>
+
+  <!-- Load Three.js and OrbitControls from CDN -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/controls/OrbitControls.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/controls/TransformControls.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/dat.gui@0.7.9/build/dat.gui.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/postprocessing/EffectComposer.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/postprocessing/RenderPass.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/postprocessing/BloomPass.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/shaders/CopyShader.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/postprocessing/ShaderPass.js"></script>
 
   <!-- Corebell Engine Script -->
   <script>
     // Scene, Camera, Renderer
-    let scene, camera, renderer, controls, transformControls, world, composer;
+    let scene, camera, renderer, controls;
     const objects = [];
     let selectedObject = null;
 
@@ -55,8 +78,6 @@
       renderer = new THREE.WebGLRenderer({ antialias: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.setClearColor(0x1e1e1e); // Dark background
-      renderer.shadowMap.enabled = true; // Enable shadows
-      renderer.shadowMap.type = THREE.PCFSoftShadowMap; // Soft shadows
       document.getElementById('viewport').appendChild(renderer.domElement);
 
       // Add OrbitControls
@@ -64,93 +85,73 @@
       controls.enableDamping = true; // Smooth camera movement
       controls.dampingFactor = 0.05;
 
-      // Add TransformControls
-      transformControls = new THREE.TransformControls(camera, renderer.domElement);
-      transformControls.addEventListener('dragging-changed', (event) => {
-        controls.enabled = !event.value; // Disable OrbitControls while transforming
-      });
-      scene.add(transformControls);
-
-      // Set up Cannon-es physics world
-      world = new CANNON.World();
-      world.gravity.set(0, -9.82, 0);
-
       // Add lighting
       const ambientLight = new THREE.AmbientLight(0x404040, 0.5); // Soft white light
       scene.add(ambientLight);
 
       const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // Bright white light
       directionalLight.position.set(5, 5, 5);
-      directionalLight.castShadow = true; // Enable shadows
-      directionalLight.shadow.mapSize.width = 2048; // High-res shadows
-      directionalLight.shadow.mapSize.height = 2048;
       scene.add(directionalLight);
 
       // Add a ground plane with a grid helper
       const groundGeometry = new THREE.PlaneGeometry(20, 20);
-      const groundMaterial = new THREE.MeshStandardMaterial({ color: 0x555555, side: THREE.DoubleSide });
+      const groundMaterial = new THREE.MeshBasicMaterial({ color: 0x555555, side: THREE.DoubleSide });
       const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
       groundMesh.rotation.x = -Math.PI / 2; // Rotate to lie flat
-      groundMesh.receiveShadow = true; // Ground receives shadows
       scene.add(groundMesh);
 
       const gridHelper = new THREE.GridHelper(20, 20);
       scene.add(gridHelper);
 
-      // Add ground physics body
-      const groundBody = new CANNON.Body({ mass: 0 });
-      groundBody.addShape(new CANNON.Plane());
-      groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2);
-      world.addBody(groundBody);
+      // Add a rotating cube
+      const cubeGeometry = new THREE.BoxGeometry(2, 2, 2);
+      const cubeMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+      const cubeMesh = new THREE.Mesh(cubeGeometry, cubeMaterial);
+      cubeMesh.position.set(0, 1, 0); // Position above the ground
+      scene.add(cubeMesh);
+      objects.push(cubeMesh);
 
-      // Add a skybox
-      const skyboxTexture = new THREE.CubeTextureLoader()
-        .setPath('https://threejs.org/examples/textures/cube/pisa/')
-        .load(['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png']);
-      scene.background = skyboxTexture;
+      // Raycaster for object selection
+      const raycaster = new THREE.Raycaster();
+      const mouse = new THREE.Vector2();
 
-      // Add post-processing (Bloom effect)
-      const renderPass = new THREE.RenderPass(scene, camera);
-      const bloomPass = new THREE.BloomPass(1.5, 25, 5, 512);
-      const copyPass = new THREE.ShaderPass(THREE.CopyShader);
-      composer = new THREE.EffectComposer(renderer);
-      composer.addPass(renderPass);
-      composer.addPass(bloomPass);
-      composer.addPass(copyPass);
+      // Handle mouse clicks
+      window.addEventListener('click', (event) => {
+        // Convert mouse position to normalized device coordinates
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-      // GUI Controls
-      const gui = new dat.GUI();
-      const params = {
-        addCube: () => addCube(),
-        addSphere: () => addSphere(),
-        addCylinder: () => addCylinder(),
-        deleteObject: () => deleteObject(),
-        resetScene: () => resetScene(),
-      };
-      gui.add(params, 'addCube').name('Add Cube');
-      gui.add(params, 'addSphere').name('Add Sphere');
-      gui.add(params, 'addCylinder').name('Add Cylinder');
-      gui.add(params, 'deleteObject').name('Delete Object');
-      gui.add(params, 'resetScene').name('Reset Scene');
+        // Raycast from the camera
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(objects);
+
+        if (intersects.length > 0) {
+          // Select the first intersected object
+          if (selectedObject) selectedObject.material.color.set(0x00ff00); // Reset previous selection
+          selectedObject = intersects[0].object;
+          selectedObject.material.color.set(0xff0000); // Highlight selected object
+        } else {
+          // Deselect if no object is clicked
+          if (selectedObject) selectedObject.material.color.set(0x00ff00);
+          selectedObject = null;
+        }
+      });
 
       // Animation loop
       function animate() {
         requestAnimationFrame(animate);
 
-        // Update physics
-        world.step(1 / 60);
-
-        // Sync physics and rendering
-        objects.forEach(obj => {
-          obj.mesh.position.copy(obj.body.position);
-          obj.mesh.quaternion.copy(obj.body.quaternion);
-        });
+        // Rotate the selected object
+        if (selectedObject) {
+          selectedObject.rotation.x += 0.01;
+          selectedObject.rotation.y += 0.01;
+        }
 
         // Update controls
         controls.update();
 
-        // Render the scene with post-processing
-        composer.render();
+        // Render the scene
+        renderer.render(scene, camera);
       }
 
       // Start animation loop
@@ -161,103 +162,45 @@
     function addCube() {
       const size = 1;
       const geometry = new THREE.BoxGeometry(size, size, size);
-      const material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+      const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
       const mesh = new THREE.Mesh(geometry, material);
-      mesh.castShadow = true; // Cube casts shadows
-
-      const body = new CANNON.Body({ mass: 1 });
-      body.addShape(new CANNON.Box(new CANNON.Vec3(size / 2, size / 2, size / 2)));
-      body.position.set(Math.random() * 5, 10, Math.random() * 5);
-
+      mesh.position.set(Math.random() * 5, 5, Math.random() * 5);
       scene.add(mesh);
-      world.addBody(body);
-      objects.push({ mesh, body });
+      objects.push(mesh);
     }
 
     // Add a sphere to the scene
     function addSphere() {
       const radius = 1;
       const geometry = new THREE.SphereGeometry(radius);
-      const material = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+      const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
       const mesh = new THREE.Mesh(geometry, material);
-      mesh.castShadow = true; // Sphere casts shadows
-
-      const body = new CANNON.Body({ mass: 1 });
-      body.addShape(new CANNON.Sphere(radius));
-      body.position.set(Math.random() * 5, 10, Math.random() * 5);
-
+      mesh.position.set(Math.random() * 5, 5, Math.random() * 5);
       scene.add(mesh);
-      world.addBody(body);
-      objects.push({ mesh, body });
-    }
-
-    // Add a cylinder to the scene
-    function addCylinder() {
-      const radius = 1;
-      const height = 2;
-      const geometry = new THREE.CylinderGeometry(radius, radius, height, 32);
-      const material = new THREE.MeshStandardMaterial({ color: 0x0000ff });
-      const mesh = new THREE.Mesh(geometry, material);
-      mesh.castShadow = true; // Cylinder casts shadows
-
-      const body = new CANNON.Body({ mass: 1 });
-      body.addShape(new CANNON.Cylinder(radius, radius, height, 32));
-      body.position.set(Math.random() * 5, 10, Math.random() * 5);
-
-      scene.add(mesh);
-      world.addBody(body);
-      objects.push({ mesh, body });
+      objects.push(mesh);
     }
 
     // Delete the selected object
     function deleteObject() {
       if (selectedObject) {
-        scene.remove(selectedObject.mesh);
-        world.removeBody(selectedObject.body);
+        scene.remove(selectedObject);
         objects.splice(objects.indexOf(selectedObject), 1);
         selectedObject = null;
-        transformControls.detach(); // Detach transform controls
       }
     }
 
     // Reset the scene
     function resetScene() {
-      objects.forEach(obj => {
-        scene.remove(obj.mesh);
-        world.removeBody(obj.body);
-      });
+      objects.forEach(obj => scene.remove(obj));
       objects.length = 0;
       selectedObject = null;
-      transformControls.detach(); // Detach transform controls
     }
 
-    // Raycaster for object selection
-    const raycaster = new THREE.Raycaster();
-    const mouse = new THREE.Vector2();
-
-    // Handle mouse clicks
-    window.addEventListener('click', (event) => {
-      // Convert mouse position to normalized device coordinates
-      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-      // Raycast from the camera
-      raycaster.setFromCamera(mouse, camera);
-      const intersects = raycaster.intersectObjects(objects.map(obj => obj.mesh));
-
-      if (intersects.length > 0) {
-        // Select the first intersected object
-        if (selectedObject) selectedObject.mesh.material.color.set(0x00ff00); // Reset previous selection
-        selectedObject = objects.find(obj => obj.mesh === intersects[0].object);
-        selectedObject.mesh.material.color.set(0xff0000); // Highlight selected object
-        transformControls.attach(selectedObject.mesh); // Attach transform controls
-      } else {
-        // Deselect if no object is clicked
-        if (selectedObject) selectedObject.mesh.material.color.set(0x00ff00);
-        selectedObject = null;
-        transformControls.detach(); // Detach transform controls
-      }
-    });
+    // Event listeners for toolbar buttons
+    document.getElementById('add-cube').addEventListener('click', addCube);
+    document.getElementById('add-sphere').addEventListener('click', addSphere);
+    document.getElementById('delete-object').addEventListener('click', deleteObject);
+    document.getElementById('reset-scene').addEventListener('click', resetScene);
 
     // Initialize Corebell Engine on load
     window.addEventListener('load', initCorebell);
@@ -267,7 +210,6 @@
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
-      composer.setSize(window.innerWidth, window.innerHeight);
     });
   </script>
 </body>
