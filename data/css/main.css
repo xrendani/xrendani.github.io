@@ -8,7 +8,7 @@ body {
   color: #ecf0f1;
   background-color: #000; /* Dark black background */
   min-height: 100vh;
-  overflow: hidden;
+  overflow-x: hidden; /* Prevent horizontal overflow */
   position: relative;
 }
 
@@ -39,7 +39,58 @@ body::before {
 }
 
 nav {
-  text-decoration: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+  backdrop-filter: blur(5px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+nav img {
+  height: 40px; /* Adjust logo size */
+}
+
+/* Mobile Navigation Toggle */
+.nav-toggle {
+  display: none; /* Hidden by default */
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #ecf0f1;
+}
+
+/* Mobile Navigation Menu */
+.nav-menu {
+  display: flex;
+  gap: 20px;
+}
+
+/* Hidden Nav for Mobile */
+@media (max-width: 768px) {
+  .nav-menu {
+    display: none; /* Hide nav links by default on mobile */
+    flex-direction: column;
+    position: absolute;
+    top: 60px; /* Adjust based on nav height */
+    right: 20px;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  }
+
+  .nav-menu.active {
+    display: flex; /* Show nav links when active */
+  }
+
+  .nav-toggle {
+    display: block; /* Show toggle button on mobile */
+  }
 }
 
 @keyframes moveBackground {
@@ -63,6 +114,7 @@ nav {
   border-radius: 15px;
   backdrop-filter: blur(5px);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  margin-top: 80px; /* Add margin to avoid overlap with fixed nav */
 }
 
 .mood-selection h1 {
@@ -112,6 +164,7 @@ nav {
   text-align: center;
   backdrop-filter: blur(5px);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  margin: 0 auto; /* Center the player */
 }
 
 .music-player h2 {
@@ -161,4 +214,7 @@ footer {
   color: rgba(236, 240, 241, 0.7);
   text-align: center;
   font-weight: 300; /* Light weight for footer text */
-  }
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+  backdrop-filter: blur(5px);
+}
