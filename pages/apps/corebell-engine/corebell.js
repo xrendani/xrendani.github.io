@@ -120,6 +120,65 @@ class Corebell {
     this.selectedObject = null;
   }
 
+  saveScene() {
+    const sceneData = {
+      objects: this.objects.map((obj) => ({
+        type: obj.geometry.type,
+        position: obj.position.clone(),
+        rotation: obj.rotation.clone(),
+        scale: obj.scale.clone(),
+        color: `#${obj.material.color.getHexString()}`,
+      })),
+    };
+
+    const json = JSON.stringify(sceneData, null, 2);
+    const blob = new Blob([json], { type: "application/json" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "scene.json";
+    link.click();
+  }
+
+  loadScene(file) {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const sceneData = JSON.parse(event.target.result);
+
+        // Clear current scene
+        this.objects.forEach((obj) => this.scene.remove(obj));
+        this.objects = [];
+
+        // Load objects
+        sceneData.objects.forEach((data) => {
+          let geometry;
+          switch (data.type) {
+            case "BoxGeometry":
+              geometry = new THREE.BoxGeometry(1, 1, 1);
+              break;
+            case "SphereGeometry":
+              geometry = new THREE.SphereGeometry(0.5, 32, 32);
+              break;
+            default:
+              console.error(`Unknown geometry type: ${data.type}`);
+              return;
+          }
+
+          const material = new THREE.MeshStandardMaterial({ color: data.color });
+          const mesh = new THREE.Mesh(geometry, material);
+          mesh.position.copy(data.position);
+          mesh.rotation.copy(data.rotation);
+          mesh.scale.copy(data.scale);
+          this.scene.add(mesh);
+          this.objects.push(mesh);
+        });
+      } catch (error) {
+        console.error("Error loading scene:", error);
+      }
+    };
+    reader.readAsText(file);
+  }
+
   onWindowResize() {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
@@ -172,9 +231,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("addCube").addEventListener("click", () => engine.addObject("cube"));
   document.getElementById("addSphere").addEventListener("click", () => engine.addObject("sphere"));
-  document.getElementById("toggleGrid").addEventListener("click", () => engine.gridHelper.visible = !engine.gridHelper.visible);
+  document.getElementById("toggleGrid").addEventListener("click", () => (engine.gridHelper.visible = !engine.gridHelper.visible));
   document.getElementById("deleteObject").addEventListener("click", () => engine.deleteSelectedObject());
   document.getElementById("lightIntensity").addEventListener("input", (e) => {
     engine.directionalLight.intensity = parseFloat(e.target.value);
+  });
+
+  // Save/Load functionality
+  document.getElementById("saveScene").addEventListener("click", () => engine.saveScene());
+  document.getElementById("loadSceneInput").addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (file) engine.loadScene(file);
   });
 });
