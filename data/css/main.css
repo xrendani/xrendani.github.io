@@ -4,7 +4,7 @@
 /* Global Styles */
 body {
   margin: 0;
-  font-family: 'Prompt', sans-serif; /* Apply Prompt font */
+  font-family: 'Prompt', sans; /* Apply Prompt font */
   color: #ecf0f1;
   min-height: 100vh;
   overflow: hidden;
@@ -19,11 +19,19 @@ body::before {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: linear-gradient(45deg, #1e1e1e, #2c3e50, #1e1e1e, #2c3e50);
+  background: #0000;
   background-size: 400% 400%;
   animation: moveBackground 15s ease infinite;
   filter: blur(10px);
   z-index: -1;
+}
+
+.nav-link::hover {
+  color: #23793;
+}
+
+nav {
+  text-decoration: none;
 }
 
 @keyframes moveBackground {
