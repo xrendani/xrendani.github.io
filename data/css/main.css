@@ -6,31 +6,10 @@ body {
   margin: 0;
   font-family: 'Prompt', sans-serif; /* Apply Prompt font */
   color: #ecf0f1;
-  background-color: #000; /* Dark black background */
+  background-color: #000; /* Solid black background */
   min-height: 100vh;
   overflow-x: hidden; /* Prevent horizontal overflow */
   position: relative;
-}
-
-/* Dark Mode Styles */
-body.dark-mode {
-  background-color: #000;
-  color: #ecf0f1;
-}
-
-/* Dynamic Blurred Background */
-body::before {
-  content: '';
-  position: fixed;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(45deg, #000, #111, #000); /* Dark gradient background */
-  background-size: 400% 400%;
-  animation: moveBackground 15s ease infinite;
-  filter: blur(10px);
-  z-index: -1;
 }
 
 /* Navigation Links */
@@ -38,15 +17,16 @@ body::before {
   color: #ecf0f1;
   text-decoration: none;
   transition: color 0.3s ease;
+  padding: 10px 15px; /* Add padding for better spacing */
 }
 
 .nav-link:hover {
-  color: #237993; /* Corrected hover color */
+  color: #237993; /* Hover color */
 }
 
 nav {
   display: flex;
-  justify-content: space-between;
+  justify-content: center; /* Center the navigation links */
   align-items: center;
   padding: 10px 20px;
   background: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
@@ -96,18 +76,6 @@ nav img {
 
   .nav-toggle {
     display: block; /* Show toggle button on mobile */
-  }
-}
-
-@keyframes moveBackground {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
   }
 }
 
