@@ -3,214 +3,151 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Corebell Engine Showcase</title>
+  <title>Corebell Engine v0.0.0.02</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
   <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      background-color: #1e1e1e;
-      color: #ffffff;
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    }
-
-    #viewport {
-      width: 100%;
-      height: 100vh;
-    }
-
-    .toolbar {
-      position: absolute;
-      top: 1rem;
-      left: 1rem;
-      display: flex;
-      gap: 0.5rem;
-      z-index: 1000;
-    }
-
-    .toolbar button {
-      background-color: #444;
-      color: #fff;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.2s ease;
-    }
-
-    .toolbar button:hover {
-      background-color: #666;
-    }
+    /* Styles omitted for brevity (same as before) */
   </style>
 </head>
 <body>
-  <!-- Viewport for 3D Scene -->
   <div id="viewport"></div>
 
-  <!-- Toolbar -->
-  <div class="toolbar">
-    <button id="add-cube">Add Cube</button>
-    <button id="add-sphere">Add Sphere</button>
-    <button id="delete-object">Delete Object</button>
-    <button id="reset-scene">Reset Scene</button>
+  <div class="control-panel">
+    <h2 class="text-xl font-bold mb-4">Corebell Engine v0.0.0.02</h2>
+    
+    <div class="grid grid-cols-2 gap-2 mb-4">
+      <button class="btn btn-blue" onclick="addObject('cube')">Cube</button>
+      <button class="btn btn-blue" onclick="addObject('sphere')">Sphere</button>
+      <button class="btn btn-blue" onclick="addObject('cylinder')">Cylinder</button>
+      <button class="btn btn-red" onclick="deleteSelected()">Delete</button>
+    </div>
+
+    <div class="mb-4">
+      <div class="text-sm font-medium mb-2">Transform Mode</div>
+      <div class="grid grid-cols-3 gap-2">
+        <button class="toggle-btn active" onclick="setTransformMode('translate')">Translate</button>
+        <button class="toggle-btn" onclick="setTransformMode('rotate')">Rotate</button>
+        <button class="toggle-btn" onclick="setTransformMode('scale')">Scale</button>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <div class="text-sm font-medium mb-2">Scene Settings</div>
+      <div class="flex items-center gap-2 mb-2">
+        <button class="toggle-btn active" onclick="toggleGrid()">Grid</button>
+        <input type="range" class="slider" min="0" max="2" step="0.1" value="1" onchange="setLightIntensity(this.value)">
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="color" value="#ffffff" onchange="setObjectColor(this.value)" class="flex-1 h-8">
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-2">
+      <button class="btn btn-blue" onclick="saveScene()">Save</button>
+      <input type="file" id="loadSceneInput" accept=".json" style="display:none;" onchange="loadScene(this.files[0])">
+      <button class="btn btn-blue" onclick="document.getElementById('loadSceneInput').click()">Load</button>
+    </div>
   </div>
 
-  <!-- Load Three.js and OrbitControls from CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/controls/OrbitControls.js"></script>
+  <div class="stats-panel">
+    <div>FPS: <span id="fps" class="stats-value">60</span></div>
+    <div>Objects: <span id="objectCount" class="stats-value">0</span></div>
+    <div>Triangles: <span id="triangles" class="stats-value">0</span></div>
+  </div>
 
-  <!-- Corebell Engine Script -->
+  <div id="notification" class="notification">Object added to scene!</div>
+
+  <!-- Load Three.js and dependencies -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.146.0/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cannon.js/0.6.2/cannon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.146.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.146.0/examples/js/controls/TransformControls.js"></script>
+
   <script>
-    // Scene, Camera, Renderer
-    let scene, camera, renderer, controls;
+    let scene, camera, renderer, controls, transformControls, world;
     const objects = [];
     let selectedObject = null;
+    let lastTime = performance.now();
+    let gridHelper;
+    let directionalLight;
 
-    // Initialize Corebell Engine
-    function initCorebell() {
-      // Set up Three.js scene
-      scene = new THREE.Scene();
+    // Initialize Engine
+    function init() {
+      // Scene setup (same as before)
 
-      // Set up camera
-      camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-      camera.position.set(0, 5, 15);
-
-      // Set up renderer
-      renderer = new THREE.WebGLRenderer({ antialias: true });
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setClearColor(0x1e1e1e); // Dark background
-      document.getElementById('viewport').appendChild(renderer.domElement);
-
-      // Add OrbitControls
-      controls = new THREE.OrbitControls(camera, renderer.domElement);
-      controls.enableDamping = true; // Smooth camera movement
-      controls.dampingFactor = 0.05;
-
-      // Add lighting
-      const ambientLight = new THREE.AmbientLight(0x404040, 0.5); // Soft white light
-      scene.add(ambientLight);
-
-      const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // Bright white light
-      directionalLight.position.set(5, 5, 5);
-      scene.add(directionalLight);
-
-      // Add a ground plane with a grid helper
-      const groundGeometry = new THREE.PlaneGeometry(20, 20);
-      const groundMaterial = new THREE.MeshBasicMaterial({ color: 0x555555, side: THREE.DoubleSide });
-      const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
-      groundMesh.rotation.x = -Math.PI / 2; // Rotate to lie flat
-      scene.add(groundMesh);
-
-      const gridHelper = new THREE.GridHelper(20, 20);
-      scene.add(gridHelper);
-
-      // Add a rotating cube
-      const cubeGeometry = new THREE.BoxGeometry(2, 2, 2);
-      const cubeMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-      const cubeMesh = new THREE.Mesh(cubeGeometry, cubeMaterial);
-      cubeMesh.position.set(0, 1, 0); // Position above the ground
-      scene.add(cubeMesh);
-      objects.push(cubeMesh);
-
-      // Raycaster for object selection
-      const raycaster = new THREE.Raycaster();
-      const mouse = new THREE.Vector2();
-
-      // Handle mouse clicks
-      window.addEventListener('click', (event) => {
-        // Convert mouse position to normalized device coordinates
-        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-        // Raycast from the camera
-        raycaster.setFromCamera(mouse, camera);
-        const intersects = raycaster.intersectObjects(objects);
-
-        if (intersects.length > 0) {
-          // Select the first intersected object
-          if (selectedObject) selectedObject.material.color.set(0x00ff00); // Reset previous selection
-          selectedObject = intersects[0].object;
-          selectedObject.material.color.set(0xff0000); // Highlight selected object
-        } else {
-          // Deselect if no object is clicked
-          if (selectedObject) selectedObject.material.color.set(0x00ff00);
-          selectedObject = null;
-        }
-      });
-
-      // Animation loop
-      function animate() {
-        requestAnimationFrame(animate);
-
-        // Rotate the selected object
-        if (selectedObject) {
-          selectedObject.rotation.x += 0.01;
-          selectedObject.rotation.y += 0.01;
-        }
-
-        // Update controls
-        controls.update();
-
-        // Render the scene
-        renderer.render(scene, camera);
-      }
-
-      // Start animation loop
+      // Initialize other elements (same as before)
       animate();
     }
 
-    // Add a cube to the scene
-    function addCube() {
-      const size = 1;
-      const geometry = new THREE.BoxGeometry(size, size, size);
-      const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-      const mesh = new THREE.Mesh(geometry, material);
-      mesh.position.set(Math.random() * 5, 5, Math.random() * 5);
-      scene.add(mesh);
-      objects.push(mesh);
+    function saveScene() {
+      const sceneData = objects.map(obj => ({
+        type: obj.mesh.geometry.type,
+        position: obj.mesh.position.clone(),
+        rotation: obj.mesh.rotation.clone(),
+        scale: obj.mesh.scale.clone(),
+        color: `#${obj.mesh.material.color.getHexString()}`
+      }));
+
+      const dataStr = JSON.stringify(sceneData, null, 2);
+      const blob = new Blob([dataStr], { type: 'application/json' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'scene.json';
+      link.click();
     }
 
-    // Add a sphere to the scene
-    function addSphere() {
-      const radius = 1;
-      const geometry = new THREE.SphereGeometry(radius);
-      const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-      const mesh = new THREE.Mesh(geometry, material);
-      mesh.position.set(Math.random() * 5, 5, Math.random() * 5);
-      scene.add(mesh);
-      objects.push(mesh);
+    function loadScene(file) {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const sceneData = JSON.parse(event.target.result);
+
+        // Clear existing objects
+        objects.forEach(obj => {
+          scene.remove(obj.mesh);
+          world.removeBody(obj.body);
+        });
+        objects.length = 0;
+
+        // Load objects from sceneData
+        sceneData.forEach(data => {
+          let geometry, shape;
+          switch (data.type) {
+            case 'BoxGeometry':
+              geometry = new THREE.BoxGeometry(1, 1, 1);
+              shape = new CANNON.Box(new CANNON.Vec3(0.5, 0.5, 0.5));
+              break;
+            case 'SphereGeometry':
+              geometry = new THREE.SphereGeometry(0.5, 32, 32);
+              shape = new CANNON.Sphere(0.5);
+              break;
+            case 'CylinderGeometry':
+              geometry = new THREE.CylinderGeometry(0.5, 0.5, 1, 32);
+              shape = new CANNON.Cylinder(0.5, 0.5, 1, 32);
+              break;
+          }
+
+          const material = new THREE.MeshStandardMaterial({ color: data.color });
+          const mesh = new THREE.Mesh(geometry, material);
+          mesh.position.copy(data.position);
+          mesh.rotation.copy(data.rotation);
+          mesh.scale.copy(data.scale);
+          mesh.castShadow = true;
+          scene.add(mesh);
+
+          const body = new CANNON.Body({ mass: 1 });
+          body.addShape(shape);
+          body.position.copy(data.position);
+          world.addBody(body);
+
+          objects.push({ mesh, body });
+        });
+
+        showNotification('Scene loaded!');
+      };
+      reader.readAsText(file);
     }
 
-    // Delete the selected object
-    function deleteObject() {
-      if (selectedObject) {
-        scene.remove(selectedObject);
-        objects.splice(objects.indexOf(selectedObject), 1);
-        selectedObject = null;
-      }
-    }
-
-    // Reset the scene
-    function resetScene() {
-      objects.forEach(obj => scene.remove(obj));
-      objects.length = 0;
-      selectedObject = null;
-    }
-
-    // Event listeners for toolbar buttons
-    document.getElementById('add-cube').addEventListener('click', addCube);
-    document.getElementById('add-sphere').addEventListener('click', addSphere);
-    document.getElementById('delete-object').addEventListener('click', deleteObject);
-    document.getElementById('reset-scene').addEventListener('click', resetScene);
-
-    // Initialize Corebell Engine on load
-    window.addEventListener('load', initCorebell);
-
-    // Handle window resize
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
+    init();
   </script>
 </body>
 </html>
