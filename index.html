@@ -2,138 +2,193 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Explore Corebell Engine, read our blog posts, and discover innovative solutions by Rendani Manugeni">
-    <meta name="theme-color" content="#ffffff">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="referrer" content="strict-origin">
     <link rel="icon" href="/data/images/favicon.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
-    <title>Explore Corebell Engine, Blogs and More | Rendani</title>
+    <link rel="stylesheet" href="/data/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="/data/js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <title>Home | Rendani</title>
 </head>
-<body class="bg-gray-50 min-h-screen flex flex-col">
-    <!-- Navigation -->
-    <nav class="bg-white shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <a href="/" class="flex-shrink-0" aria-label="Home">
-                        <img class="h-8 w-auto" src="/data/images/Rendani_Logo.png" alt="Rendani's Logo">
-                    </a>
-                </div>
-                
-                <!-- Desktop Navigation -->
-                <div class="hidden md:flex md:items-center md:space-x-8">
-                    <a href="/pages/apps/corebell-engine/" class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors">Corebell Engine</a>
-                    <a href="/pages/blog/" class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors">Blog</a>
-                </div>
-
-                <!-- Mobile Navigation Button -->
-                <div class="flex items-center md:hidden">
-                    <button type="button" class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500" aria-expanded="false">
-                        <span class="sr-only">Open main menu</span>
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
+<body>
+    <nav>
+        <a class="nav-link animate__animated animate__fadeIn" href="/" aria-label="Home">
+            <img src="/data/images/Rendani_Logo.png" alt="Rendani's Logo">
+        </a>
+        <div class="nav-menu animate__animated animate__fadeIn">
+            <a class="nav-link" href="/pages/apps/corebell-engine/">Corebell Engine</a>
+            <a class="nav-link" href="/pages/blog/">Blog</a>
         </div>
-
-        <!-- Mobile Navigation Menu -->
-        <div class="hidden mobile-menu md:hidden">
-            <div class="px-2 pt-2 pb-3 space-y-1">
-                <a href="/pages/apps/corebell-engine/" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Corebell Engine</a>
-                <a href="/pages/blog/" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Blog</a>
-            </div>
-        </div>
+        <div class="nav-toggle">&#9776;</div>
     </nav>
+    <hr>
 
-    <!-- Main Content -->
-    <main class="flex-grow">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <h1 class="text-4xl font-bold text-center text-gray-900 mb-8">Welcome</h1>
+    <h2 style="text-align: center;" class="animate__animated animate__bounceIn">Welcome to My Creative Space</h2>
 
-            <!-- Quote Card -->
-            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
-                <h2 class="text-2xl font-semibold text-gray-900 mb-4">Quote of the Day</h2>
-                <div id="random-quote" class="text-lg text-gray-700 italic">Loading quote...</div>
-            </div>
+    <!-- Static Content Section -->
+    <div id="dynamic-content" style="text-align: center; margin: 20px;">
+        <div class="quote-container animate__animated animate__fadeIn" style="margin-bottom: 30px;">
+            <h3>Inspirational Quote</h3>
+            <p id="static-quote" style="font-style: italic; margin: 20px;">
+                "The only way to do great work is to love what you do."
+            </p>
+            <p style="color: #666;">- Steve Jobs</p>
+        </div>
 
-            <!-- Image Card -->
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                <img id="random-image" class="w-full h-96 object-cover" src="/api/placeholder/800/600" alt="Random inspirational image">
+        <!-- Random Image Gallery -->
+        <div class="image-gallery" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px;">
+            <img src="/api/placeholder/400/300" alt="Placeholder 1" style="width: 100%; border-radius: 10px;" class="animate__animated animate__fadeIn">
+            <img src="/api/placeholder/400/300" alt="Placeholder 2" style="width: 100%; border-radius: 10px;" class="animate__animated animate__fadeIn">
+            <img src="/api/placeholder/400/300" alt="Placeholder 3" style="width: 100%; border-radius: 10px;" class="animate__animated animate__fadeIn">
+        </div>
+
+        <!-- Random Facts Section -->
+        <div class="facts-container animate__animated animate__fadeIn" style="margin: 30px 0;">
+            <h3>Fun Facts</h3>
+            <div id="facts-display" style="margin: 20px;">
             </div>
         </div>
-    </main>
+    </div>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Links</h3>
-                    <div class="space-y-2">
-                        <a href="https://linktr.ee/callmerendani" target="_blank" rel="noopener noreferrer" class="block text-gray-300 hover:text-white transition-colors">Linktree</a>
-                        <a href="https://github.com/sponsors/manugeni" target="_blank" rel="noopener noreferrer" class="block text-gray-300 hover:text-white transition-colors">Sponsor Me</a>
-                        <a href="https://github.com/manugeni" target="_blank" rel="noopener noreferrer" class="block text-gray-300 hover:text-white transition-colors">GitHub</a>
-                    </div>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Apps</h3>
-                    <a href="/pages/apps/corebell-engine/" class="block text-gray-300 hover:text-white transition-colors">Corebell Engine</a>
-                </div>
-            </div>
-            <div class="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
-                © 2025 Rendani Manugeni.
-            </div>
-        </div>
+    <hr>
+    <footer>
+        <ul>
+            <h3>Links</h3>
+            <a target="_blank" class="nav-link animate__animated animate__fadeIn" href="https://linktr.ee/callmerendani">Linktree</a>
+            <a target="_blank" class="nav-link animate__animated animate__fadeIn" href="https://github.com/sponsors/manugeni">Sponsor Me</a>
+            <a target="_blank" class="nav-link animate__animated animate__fadeIn" href="https://github.com/manugeni">GitHub</a>
+            <h3>Apps</h3>
+            <a class="nav-link animate__animated animate__fadeIn" href="/pages/apps/corebell-engine/">Corebell Engine</a>
+        </ul>
     </footer>
+    <p style="text-align: center;"> 2025 &copy Rendani Manugeni.</p>
 
     <script>
-        // Mobile menu toggle
-        document.querySelector('.mobile-menu-button').addEventListener('click', function() {
-            document.querySelector('.mobile-menu').classList.toggle('hidden');
-        });
+        // Array of static quotes
+        const quotes = [
+            { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+            { text: "Innovation distinguishes between a leader and a follower.", author: "Steve Jobs" },
+            { text: "Stay hungry, stay foolish.", author: "Steve Jobs" },
+            { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
+            { text: "Code is like humor. When you have to explain it, it's bad.", author: "Cory House" }
+        ];
 
-        // Quote fetching with error handling and loading state
-        async function fetchRandomQuote() {
-            const quoteElement = document.getElementById('random-quote');
-            try {
-                const response = await fetch('https://api.quotable.io/random');
-                if (!response.ok) throw new Error('Network response was not ok');
-                const data = await response.json();
-                quoteElement.innerHTML = `
-                    <p class="mb-2">"${data.content}"</p>
-                    <p class="text-right text-gray-600">— ${data.author}</p>
-                `;
-            } catch (error) {
-                console.error('Error fetching quote:', error);
-                quoteElement.textContent = "Could not load the quote. Please try again later.";
-            }
+        // Array of fun facts
+        const facts = [
+            "The first computer programmer was a woman named Ada Lovelace.",
+            "The first computer mouse was made of wood.",
+            "The first website is still online today.",
+            "The term 'bug' in computing came from an actual moth.",
+            "JavaScript was created in just 10 days."
+        ];
+
+        // Function to display random quote
+        function displayRandomQuote() {
+            const randomQuote = _.sample(quotes);
+            const quoteElement = document.getElementById('static-quote');
+            quoteElement.innerHTML = `"${randomQuote.text}"<br><span style="color: #666;">- ${randomQuote.author}</span>`;
         }
 
-        // Image fetching with error handling and loading state
-        async function fetchRandomImage() {
-            const imgElement = document.getElementById('random-image');
-            try {
-                const response = await fetch('https://source.unsplash.com/random/800x600');
-                if (!response.ok) throw new Error('Network response was not ok');
-                imgElement.src = response.url;
-                imgElement.alt = "Random inspirational image of the day";
-            } catch (error) {
-                console.error('Error fetching image:', error);
-                imgElement.alt = "Could not load image";
-            }
+        // Function to display random facts
+        function displayRandomFacts() {
+            const factsDisplay = document.getElementById('facts-display');
+            const randomFacts = _.sampleSize(facts, 3); // Get 3 random facts
+            
+            factsDisplay.innerHTML = randomFacts.map(fact => 
+                `<div class="fact" style="margin: 10px; padding: 15px; background: #f5f5f5; border-radius: 8px;">
+                    ${fact}
+                </div>`
+            ).join('');
         }
 
         // Initialize content when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
-            fetchRandomQuote();
-            fetchRandomImage();
+            displayRandomQuote();
+            displayRandomFacts();
 
-            // Refresh content periodically
-            setInterval(fetchRandomQuote, 3600000); // Refresh quote every hour
-            setInterval(fetchRandomImage, 3600000); // Refresh image every hour
+            // Change content periodically
+            setInterval(displayRandomQuote, 10000); // Change quote every 10 seconds
+            setInterval(displayRandomFacts, 15000); // Change facts every 15 seconds
+        });
+
+        // Mobile menu toggle
+        document.querySelector('.nav-toggle').addEventListener('click', function() {
+            const navMenu = document.querySelector('.nav-menu');
+            navMenu.style.display = navMenu.style.display === 'block' ? 'none' : 'block';
         });
     </script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #333;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #007bff;
+        }
+
+        .nav-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .facts-container .fact {
+            transition: transform 0.3s ease;
+        }
+
+        .facts-container .fact:hover {
+            transform: scale(1.02);
+        }
+
+        .image-gallery img {
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .image-gallery img:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .nav-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                display: none;
+                width: 100%;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                background: white;
+                padding: 1rem;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .nav-menu a {
+                display: block;
+                margin: 10px 0;
+            }
+        }
+    </style>
 </body>
     </html>
