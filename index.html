@@ -1,19 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="referrer" content="strict-origin">
+
     <link rel="icon" href="/data/images/favicon.png">
-    <link rel="stylesheet" href="/data/css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="/data/js/main.js"></script>
-    <title>Home | Rendani</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer></script>
+
+    <title>Explore Corebel Engine, Blogs, and Nina AI Chat | Rendani</title>
 </head>
+
 <body>
+
     <nav>
         <a class="nav-link" href="/" aria-label="Home">
-            <img src="/data/images/Rendani_Logo.png" alt="Rendani's Logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/UE_Logo_Black_Circle.svg/120px-UE_Logo_Black_Circle.svg.png" 
+                 alt="Rendani's Logo"
+                 onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg';">
         </a>
         <div class="nav-menu">
             <a class="nav-link" href="/pages/apps/corebell-engine/">Corebell Engine</a>
@@ -21,91 +27,60 @@
         </div>
         <div class="nav-toggle">&#9776;</div>
     </nav>
+
     <hr>
 
     <h2 style="text-align: center;">Welcome</h2>
 
-    <div id="dynamic-content" style="text-align: center; margin: 20px;">
-        <h3>Connect With Me</h3>
-        <div style="margin: 20px auto; max-width: 400px; text-align: left;">
-            <p style="margin: 10px 0;">
-                <span style="display: inline-block; width: 80px;">Blog:</span>
-                <a href="/pages/blog/" class="nav-link"><i class="fas fa-blog"></i> My Blog</a>
-            </p>
-            <p style="margin: 10px 0;">
-                <span style="display: inline-block; width: 80px;">X:</span>
-                <a href="https://twitter.com/callmerendani" target="_blank" class="nav-link"><i class="fab fa-twitter"></i> @callmerendani</a>
-            </p>
-            <p style="margin: 10px 0;">
-                <span style="display: inline-block; width: 80px;">GitHub:</span>
-                <a href="https://github.com/manugeni" target="_blank" class="nav-link"><i class="fab fa-github"></i> @manugeni</a>
-            </p>
-            <p style="margin: 10px 0;">
-                <span style="display: inline-block; width: 80px;">LinkedIn:</span>
-                <a href="https://linkedin.com/in/rendani-manugeni" target="_blank" class="nav-link"><i class="fab fa-linkedin"></i> /in/rendani-manugeni</a>
-            </p>
-        </div>
-    </div>
-
-    <hr>
-
     <div id="favorites" style="text-align: center; margin: 20px;">
         <h3>My Favorites</h3>
-        <div style="margin: 20px auto; max-width: 600px;">
-            <h4>Games</h4>
-            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-                <div>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/EA_Sports_FC_Mobile_Logo.svg/1200px-EA_Sports_FC_Mobile_Logo.svg.png" alt="FC Mobile Logo" style="width: 100px; height: 100px;">
-                    <p>FC Mobile</p>
-                </div>
-                <div>
-                    <img src="https://upload.wikimedia.org/wikipedia/en/5/5a/Need_for_Speed_Most_Wanted_2012_box_art.jpg" alt="Need for Speed 2012 Logo" style="width: 100px; height: 100px;">
-                    <p>Need for Speed 2012</p>
-                </div>
-            </div>
 
-            <h4>Tools</h4>
-            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-                <div>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/20/Unreal_Engine_Logo.svg" alt="Unreal Engine Logo" style="width: 100px; height: 100px;">
-                    <p>Unreal Engine</p>
-                </div>
-                <div>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Sketchfab_logo.svg/1280px-Sketchfab_logo.svg.png" alt="Sketchfab Logo" style="width: 100px; height: 100px;">
-                    <p>Sketchfab</p>
-                </div>
-                <div>
-                    <img src="https://seeklogo.com/images/D/deepseek-logo-5E58FE67A2-seeklogo.com.png" alt="Deepseek Logo" style="width: 100px; height: 100px;">
-                    <p>Deepseek</p>
-                </div>
-                <div>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Pinterest-logo.png" alt="Pinterest Logo" style="width: 100px; height: 100px;">
-                    <p>Pinterest</p>
-                </div>
+        <h4>Games</h4>
+        <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+            <div>
+                <img src="https://upload.wikimedia.org/wikipedia/en/5/5a/EA_Sports_FC_logo.svg" 
+                     alt="FC Mobile Logo"
+                     style="width: 100px; height: 100px;"
+                     onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg';">
+                <p>FC Mobile</p>
+            </div>
+            <div>
+                <img src="https://upload.wikimedia.org/wikipedia/en/5/5a/Need_for_Speed_Most_Wanted_2012_box_art.jpg" 
+                     alt="Need for Speed 2012 Logo" style="width: 100px; height: 100px;"
+                     onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg';">
+                <p>Need for Speed 2012</p>
+            </div>
+        </div>
+
+        <h4>Tools</h4>
+        <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+            <div>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/64/Unreal_Engine_Logo.svg" 
+                     alt="Unreal Engine Logo"
+                     style="width: 100px; height: 100px;"
+                     onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg';">
+                <p>Unreal Engine</p>
+            </div>
+            <div>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/47/Sketchfab_logo.svg" 
+                     alt="Sketchfab Logo"
+                     style="width: 100px; height: 100px;"
+                     onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg';">
+                <p>Sketchfab</p>
             </div>
         </div>
     </div>
 
     <hr>
-
-    <footer>
-        <ul>
-            <h3>Links</h3>
-            <a target="_blank" class="nav-link" href="https://linktr.ee/callmerendani"><i class="fas fa-link"></i> Linktree</a>
-            <a target="_blank" class="nav-link" href="https://github.com/sponsors/manugeni"><i class="fas fa-heart"></i> Sponsor Me</a>
-            <a target="_blank" class="nav-link" href="https://github.com/manugeni"><i class="fab fa-github"></i> GitHub</a>
-            <h3>Apps</h3>
-            <a class="nav-link" href="/pages/apps/corebell-engine/"><i class="fas fa-cogs"></i> Corebell Engine</a>
-        </ul>
-    </footer>
-    <p style="text-align: center;"> 2025 &copy Rendani Manugeni.</p>
 
     <script>
         // Mobile menu toggle
         document.querySelector('.nav-toggle').addEventListener('click', function() {
             const menu = document.querySelector('.nav-menu');
-            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
         });
     </script>
+
 </body>
-</html>
+    </html>
+    
