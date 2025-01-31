@@ -20,6 +20,8 @@
       padding: 10px;
       border-radius: 5px;
       z-index: 10;
+      resize: both;
+      overflow: auto;
     }
     button {
       margin: 5px;
@@ -41,7 +43,7 @@
 <body>
   <div id="viewport" style="width: 100vw; height: 100vh;"></div>
   <div id="controls">
-    <h3>Corebell Engine <sub style="font-size: x-small; color: grey;">(v0.002)</sub></h3>
+    <h3>Corebell Engine <sub style="font-size: x-small; color: grey;">(v0.0.002)</sub></h3>
     <button id="addCube">Add Cube</button>
     <button id="addSphere">Add Sphere</button>
     <button id="addCylinder">Add Cylinder</button>
@@ -66,6 +68,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.146.0/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/controls/OrbitControls.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/controls/TransformControls.js"></script>
+  <!-- Post-Processing -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/postprocessing/EffectComposer.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/postprocessing/RenderPass.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/postprocessing/BloomPass.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/postprocessing/SSAOPass.js"></script>
   <!-- Corebell Engine -->
   <script src="corebell.js" defer></script>
 </body>
