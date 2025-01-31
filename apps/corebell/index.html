@@ -3,54 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interface | Corebell (version 0.0.002)</title>
-    <link rel="icon" href="/data/images/favicon.png" type="image/png">
+    <title>Interface | Corebell (1.0)</title>
+    <link rel="icon" href="/data/images/favicon.png">
     <script src="https://cdn.babylonjs.com/babylon.js"></script>
     <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
     <style>
-        body { margin: 0; overflow: hidden; font-family: Arial, sans-serif; }
-        #canvasContainer { width: 100vw; height: 100vh; }
-        .ui-panel {
-            position: absolute;
-            top: 10px;
+        /* Global Dark Theme */
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            background: #1e1e1e;
+            color: #ddd;
+        }
+        /* Header styling */
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            background: #222;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 2;
+        }
+        .header img {
+            height: 40px;
+            margin-right: 15px;
+        }
+        .header h2 {
+            margin: 0;
+            font-size: 20px;
+            color: #fff;
+        }
+        /* Canvas container */
+        #canvasContainer {
+            width: 100vw;
+            height: 100vh;
+        }
+        /* Sidebar UI panel */
+        .sidebar {
+            position: fixed;
+            top: 70px;
             left: 10px;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
             border-radius: 5px;
-            color: white;
+            width: 160px;
+            z-index: 2;
         }
-        button, input[type='range'] {
+        .sidebar button,
+        .sidebar input[type='range'] {
             display: block;
-            margin: 5px 0;
-            padding: 5px;
-            width: 120px;
+            margin: 8px 0;
+            padding: 8px;
+            width: 100%;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 14px;
+            background: #333;
+            color: #fff;
         }
-        .logo {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 100px;
+        .sidebar button:hover {
+            background: #555;
+        }
+        .sidebar label {
+            font-size: 12px;
+            margin-top: 10px;
+            color: #ccc;
+        }
+        /* File input styling */
+        #loadSceneInput {
+            margin-top: 8px;
+            color: #fff;
         }
     </style>
 </head>
 <body>
-    <img src="/data/images/CorebellEngine_Logo.png" alt="Corebell Engine Logo" class="logo">
+    <!-- Header with Logo and Title -->
+    <div class="header">
+        <img src="/data/images/CorebellEngine_Logo.png" alt="Corebell Logo">
+        <h2>Interface | Corebell (1.0)</h2>
+    </div>
+    
+    <!-- Babylon.js Canvas Container -->
     <div id="canvasContainer">
         <canvas id="renderCanvas"></canvas>
     </div>
-    <div class="ui-panel">
-        <button onclick="engine.addObject('cube')">Add Cube</button>
-        <button onclick="engine.addObject('sphere')">Add Sphere</button>
-        <button onclick="engine.addObject('cylinder')">Add Cylinder</button>
-        <button onclick="engine.addObject('cone')">Add Cone</button>
-        <button onclick="engine.toggleGrid()">Toggle Grid</button>
+    
+    <!-- Sidebar UI Panel -->
+    <div class="sidebar">
+        <button onclick="engine.addObject('cube')" title="Add Cube">Add Cube</button>
+        <button onclick="engine.addObject('sphere')" title="Add Sphere">Add Sphere</button>
+        <button onclick="engine.addObject('cylinder')" title="Add Cylinder">Add Cylinder</button>
+        <button onclick="engine.addObject('cone')" title="Add Cone">Add Cone</button>
+        <button onclick="engine.addObject('torus')" title="Add Torus">Add Torus</button>
+        <button onclick="engine.toggleGrid()" title="Toggle Grid">Toggle Grid</button>
+        <label for="lightIntensity">Light Intensity</label>
         <input type="range" id="lightIntensity" min="0" max="2" step="0.1" value="1" 
                oninput="engine.setLightIntensity(this.value)">
-        <label for="lightIntensity">Light Intensity</label>
-        <button onclick="engine.deleteSelectedObject()">Delete Object</button>
-        <button onclick="engine.saveScene()">Save Scene</button>
-        <input type="file" id="loadSceneInput" onchange="engine.loadScene(this.files[0])">
+        <button onclick="engine.deleteSelectedObject()" title="Delete Object">Delete Object</button>
+        <button onclick="engine.saveScene()" title="Save Scene">Save Scene</button>
+        <input type="file" id="loadSceneInput" accept=".json" onchange="engine.loadScene(this.files[0])">
     </div>
+    
     <script src="corebell.js"></script>
 </body>
 </html>
