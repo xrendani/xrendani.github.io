@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Intrface | Corebell Engine</title>
+  <link rel="icon" href="/data/images/favicon.png">
+  <title>Interface | Corebell Engine (v0.0.002-dev)</title>
   <style>
     body {
       margin: 0;
@@ -43,12 +44,13 @@
 <body>
   <div id="viewport" style="width: 100vw; height: 100vh;"></div>
   <div id="controls">
-    <h3>Corebell Engine <sub style="font-size: x-small; color: grey;">(v0.0.002)</sub></h3>
+    <h3>Corebell Editor <sub style="color: grey; font-size: x-small;">(v0.0.002-dev)</sub></h3>
     <button id="addCube">Add Cube</button>
     <button id="addSphere">Add Sphere</button>
     <button id="addCylinder">Add Cylinder</button>
     <button id="addCone">Add Cone</button>
     <button id="addTorus">Add Torus</button>
+    <button id="addPlane">Add Plane</button>
     <button id="addIcosahedron">Add Icosahedron</button>
     <button id="addDodecahedron">Add Dodecahedron</button>
     <button id="addTetrahedron">Add Tetrahedron</button>
@@ -73,10 +75,10 @@
   <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/postprocessing/BloomPass.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/postprocessing/SSAOPass.js"></script>
   <!-- Corebell Engine -->
-  <script src="sceneManager.js" defer></script>
-  <script src="controlsManager.js" defer></script>
-  <script src="postProcessing.js" defer></script>
-  <script src="utils.js" defer></script>
-  <script src="corebell.js" defer></script>
+  <script src="sceneManager.js" type="module"></script>
+  <script src="controlsManager.js" type="module"></script>
+  <script src="postProcessing.js" type="module"></script>
+  <script src="utils.js" type="module"></script>
+  <script src="corebell.js" type="module"></script>
 </body>
 </html>
