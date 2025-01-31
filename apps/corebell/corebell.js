@@ -29,7 +29,14 @@ class Corebell {
     this.createGround();
     this.createGrid();
 
-    // Array to store added objects
+    // Gizmo Manager for transform controls
+    this.gizmoManager = new BABYLON.GizmoManager(this.scene);
+    this.gizmoManager.positionGizmoEnabled = true;
+    this.gizmoManager.rotationGizmoEnabled = false;
+    this.gizmoManager.scaleGizmoEnabled = false;
+    this.currentGizmoMode = "translate";
+
+    // Arrays for objects and selection
     this.objects = [];
     this.selectedObject = null;
 
@@ -38,13 +45,25 @@ class Corebell {
       if (evt.type === BABYLON.PointerEventTypes.POINTERPICK) {
         const pickResult = evt.pickInfo;
         if (pickResult.hit && pickResult.pickedMesh && this.objects.includes(pickResult.pickedMesh)) {
-          this.selectedObject = pickResult.pickedMesh;
-          console.log("Selected object:", this.selectedObject.name);
+          this.selectObject(pickResult.pickedMesh);
         }
       }
     });
 
-    // Run the render loop
+    // Keyboard shortcuts for gizmo modes
+    window.addEventListener("keydown", (evt) => {
+      if (evt.key === "t" || evt.key === "T") {
+        this.setGizmoMode("translate");
+      } else if (evt.key === "r" || evt.key === "R") {
+        this.setGizmoMode("rotate");
+      } else if (evt.key === "s" || evt.key === "S") {
+        this.setGizmoMode("scale");
+      } else if (evt.key === "Delete") {
+        this.deleteSelectedObject();
+      }
+    });
+
+    // Render loop
     this.engine.runRenderLoop(() => {
       this.scene.render();
     });
@@ -54,7 +73,6 @@ class Corebell {
   }
 
   createGround() {
-    // Create a large ground plane
     this.ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 50, height: 50 }, this.scene);
     const groundMat = new BABYLON.StandardMaterial("groundMat", this.scene);
     groundMat.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.3);
@@ -62,7 +80,6 @@ class Corebell {
   }
 
   createGrid() {
-    // Create a simple grid using lines
     const size = 20;
     const divisions = 20;
     const lines = [];
@@ -71,12 +88,10 @@ class Corebell {
 
     for (let i = 0; i <= divisions; i++) {
       let p = -half + i * step;
-      // Vertical line
       lines.push([
         new BABYLON.Vector3(p, 0.02, -half),
         new BABYLON.Vector3(p, 0.02, half)
       ]);
-      // Horizontal line
       lines.push([
         new BABYLON.Vector3(-half, 0.02, p),
         new BABYLON.Vector3(half, 0.02, p)
@@ -84,106 +99,54 @@ class Corebell {
     }
 
     this.gridLines = [];
-    lines.forEach((linePoints, index) => {
-      let gridLine = BABYLON.MeshBuilder.CreateLines("gridLine" + index, { points: linePoints }, this.scene);
-      gridLine.color = new BABYLON.Color3(0.5, 0.5, 0.5);
-      this.gridLines.push(gridLine);
+    lines.forEach((pts, idx) => {
+      const line = BABYLON.MeshBuilder.CreateLines("gridLine" + idx, { points: pts }, this.scene);
+      line.color = new BABYLON.Color3(0.5, 0.5, 0.5);
+      this.gridLines.push(line);
     });
     this.gridVisible = true;
   }
 
   toggleGrid() {
-    // Toggle visibility of the grid lines
     this.gridVisible = !this.gridVisible;
-    this.gridLines.forEach((line) => {
-      line.setEnabled(this.gridVisible);
-    });
+    this.gridLines.forEach(line => line.setEnabled(this.gridVisible));
   }
 
-  setLightIntensity(value) {
-    this.light.intensity = parseFloat(value);
+  setGizmoMode(mode) {
+    this.currentGizmoMode = mode;
+    this.gizmoManager.positionGizmoEnabled = mode === "translate";
+    this.gizmoManager.rotationGizmoEnabled = mode === "rotate";
+    this.gizmoManager.scaleGizmoEnabled = mode === "scale";
   }
 
   addObject(type) {
     let mesh;
-    switch (type) {
-      case "cube":
-        mesh = BABYLON.MeshBuilder.CreateBox("cube", { size: 1 }, this.scene);
-        break;
-      case "sphere":
-        mesh = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 1 }, this.scene);
-        break;
-      case "cylinder":
-        mesh = BABYLON.MeshBuilder.CreateCylinder("cylinder", { height: 1.5, diameter: 1 }, this.scene);
-        break;
-      case "cone":
-        mesh = BABYLON.MeshBuilder.CreateCylinder("cone", { height: 1.5, diameterTop: 0, diameterBottom: 1 }, this.scene);
-        break;
-      case "torus":
-        mesh = BABYLON.MeshBuilder.CreateTorus("torus", { diameter: 1, thickness: 0.3 }, this.scene);
-        break;
-      default:
-        console.error(`Unknown object type: ${type}`);
-        return;
+    if (type === "cube") {
+      mesh = BABYLON.MeshBuilder.CreateBox("cube", { size: 1 }, this.scene);
+    } else if (type === "sphere") {
+      mesh = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 1 }, this.scene);
     }
-    // Raise object slightly above the ground
-    mesh.position.y = 0.5;
+    if (mesh) {
+      mesh.position.y = 0.5;
+      this.objects.push(mesh);
+      this.selectObject(mesh);
+    }
+  }
 
-    // Apply a simple material
-    const mat = new BABYLON.StandardMaterial("mat", this.scene);
-    mat.diffuseColor = new BABYLON.Color3(0, 0.5, 1);
-    mesh.material = mat;
-
-    this.objects.push(mesh);
+  selectObject(mesh) {
+    this.selectedObject = mesh;
+    this.gizmoManager.attachToMesh(mesh);
   }
 
   deleteSelectedObject() {
     if (!this.selectedObject) return;
     this.selectedObject.dispose();
-    this.objects = this.objects.filter((obj) => obj !== this.selectedObject);
+    this.objects = this.objects.filter(obj => obj !== this.selectedObject);
     this.selectedObject = null;
-  }
-
-  saveScene() {
-    // Save scene objects (only name, type, and position for simplicity)
-    const sceneData = this.objects.map((mesh) => {
-      return {
-        type: mesh.name, // assuming the mesh name corresponds to the type
-        position: mesh.position.asArray(),
-      };
-    });
-    const json = JSON.stringify(sceneData, null, 2);
-    const blob = new Blob([json], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "scene.json";
-    a.click();
-  }
-
-  loadScene(file) {
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      try {
-        const sceneData = JSON.parse(event.target.result);
-        // Clear current objects
-        this.objects.forEach((mesh) => mesh.dispose());
-        this.objects = [];
-        // Load objects from scene data
-        sceneData.forEach((item) => {
-          this.addObject(item.type);
-          const mesh = this.objects[this.objects.length - 1];
-          mesh.position = BABYLON.Vector3.FromArray(item.position);
-        });
-      } catch (error) {
-        console.error("Error loading scene:", error);
-      }
-    };
-    reader.readAsText(file);
+    this.gizmoManager.attachToMesh(null);
   }
 }
 
-// Initialize the engine when DOM is ready
 window.addEventListener("DOMContentLoaded", () => {
   window.engine = new Corebell("renderCanvas");
 });
