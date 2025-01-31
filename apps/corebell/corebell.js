@@ -339,6 +339,69 @@ document.addEventListener("DOMContentLoaded", () => {
     engine.directionalLight.intensity = parseFloat(e.target.value);
   });
 
+generateTerrain(width, height, depth, segments) {
+  const geometry = new THREE.PlaneGeometry(width, depth, segments - 1, segments - 1);
+  const material = new THREE.MeshStandardMaterial({ color: 0x00ff00, wireframe: true });
+
+  // Generate heightmap using Perlin noise
+  const vertices = geometry.attributes.position.array;
+  for (let i = 0; i < vertices.length; i += 3) {
+    const x = vertices[i];
+    const z = vertices[i + 2];
+    const y = this.perlinNoise(x / 50, z / 50) * 20; // Adjust scale and amplitude
+    vertices[i + 1] = y;
+  }
+
+  const terrain = new THREE.Mesh(geometry, material);
+  terrain.rotation.x = -Math.PI / 2;
+  terrain.position.set(-width / 2, 0, -depth / 2);
+  this.scene.add(terrain);
+}
+
+perlinNoise(x, y) {
+  // Simple Perlin noise implementation (or use a library like 'noisejs')
+  return Math.sin(x) * Math.cos(y);
+}
+
+createParticleSystem(count) {
+  const particles = new THREE.BufferGeometry();
+  const positions = new Float32Array(count * 3);
+
+  for (let i = 0; i < count; i++) {
+    positions[i * 3] = (Math.random() - 0.5) * 10;
+    positions[i * 3 + 1] = (Math.random() - 0.5) * 10;
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 10;
+  }
+
+  particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+  const material = new THREE.PointsMaterial({ color: 0xffffff, size: 0.1 });
+  const particleSystem = new THREE.Points(particles, material);
+  this.scene.add(particleSystem);
+}
+
+initPostProcessing() {
+  this.composer = new THREE.EffectComposer(this.renderer);
+
+  const renderPass = new THREE.RenderPass(this.scene, this.camera);
+  this.composer.addPass(renderPass);
+
+  const bloomPass = new THREE.BloomPass(1.5, 25, 4, 256);
+  this.composer.addPass(bloomPass);
+
+  const ssaoPass = new THREE.SSAOPass(this.scene, this.camera, window.innerWidth, window.innerHeight);
+  ssaoPass.kernelRadius = 1.0;
+  ssaoPass.minDistance = 0.001;
+  ssaoPass.maxDistance = 0.1;
+  this.composer.addPass(ssaoPass);
+}
+
+animate() {
+  requestAnimationFrame(this.animate);
+  this.orbitControls.update();
+  this.composer.render(); // Use composer instead of renderer
+}
+
   // Save/Load functionality
   document.getElementById("saveScene").addEventListener("click", () => engine.saveScene());
   document.getElementById("loadSceneInput").addEventListener("change", (e) => {
