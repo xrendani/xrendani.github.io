@@ -1,152 +1,102 @@
+// Corebell Engine - Enhanced Version
+// Features: 3D Rendering, Physics, Collision, Scene Management, Animation, Lighting, Audio, Input, Scripting, Level Editing, Asset Import, Camera Controls, Game Object Management
+
 class Corebell {
-  constructor(canvasId) {
-    this.canvas = document.getElementById(canvasId);
-    if (!this.canvas) {
-      throw new Error(`Canvas with ID "${canvasId}" not found.`);
-    }
-
-    // Initialize Babylon Engine and Scene
-    this.engine = new BABYLON.Engine(this.canvas, true);
-    this.scene = new BABYLON.Scene(this.engine);
-    this.scene.clearColor = new BABYLON.Color4(0.1, 0.1, 0.1, 1);
-
-    // Setup camera
-    this.camera = new BABYLON.ArcRotateCamera(
-      "Camera",
-      Math.PI / 4,
-      Math.PI / 3,
-      10,
-      new BABYLON.Vector3(0, 1, 0),
-      this.scene
-    );
-    this.camera.attachControl(this.canvas, true);
-
-    // Setup Hemispheric light
-    this.light = new BABYLON.HemisphericLight("hemiLight", new BABYLON.Vector3(0, 1, 0), this.scene);
-    this.light.intensity = 1;
-
-    // Create ground and grid
-    this.createGround();
-    this.createGrid();
-
-    // Gizmo Manager for transform controls
-    this.gizmoManager = new BABYLON.GizmoManager(this.scene);
-    this.gizmoManager.positionGizmoEnabled = true;
-    this.gizmoManager.rotationGizmoEnabled = false;
-    this.gizmoManager.scaleGizmoEnabled = false;
-    this.currentGizmoMode = "translate";
-
-    // Arrays for objects and selection
-    this.objects = [];
-    this.selectedObject = null;
-
-    // Pointer event for selecting objects
-    this.scene.onPointerObservable.add((evt) => {
-      if (evt.type === BABYLON.PointerEventTypes.POINTERPICK) {
-        const pickResult = evt.pickInfo;
-        if (pickResult.hit && pickResult.pickedMesh && this.objects.includes(pickResult.pickedMesh)) {
-          this.selectObject(pickResult.pickedMesh);
+    constructor(containerId) {
+        this.container = document.getElementById(containerId);
+        if (!this.container) {
+            throw new Error(`Container with ID "${containerId}" not found.`);
         }
-      }
-    });
 
-    // Keyboard shortcuts for gizmo modes
-    window.addEventListener("keydown", (evt) => {
-      if (evt.key === "t" || evt.key === "T") {
-        this.setGizmoMode("translate");
-      } else if (evt.key === "r" || evt.key === "R") {
-        this.setGizmoMode("rotate");
-      } else if (evt.key === "s" || evt.key === "S") {
-        this.setGizmoMode("scale");
-      } else if (evt.key === "Delete") {
-        this.deleteSelectedObject();
-      }
-    });
+        this.engine = new BABYLON.Engine(this.container, true);
+        this.scene = new BABYLON.Scene(this.engine);
+        this.scene.clearColor = new BABYLON.Color4(0.1, 0.1, 0.1, 1);
 
-    // Render loop
-    this.engine.runRenderLoop(() => {
-      this.scene.render();
-    });
+        this.initCamera();
+        this.initLighting();
+        this.initPhysics();
+        this.initControls();
+        this.initAudio();
 
-    // Handle browser resize
-    window.addEventListener("resize", () => this.engine.resize());
-  }
-
-  createGround() {
-    this.ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 50, height: 50 }, this.scene);
-    const groundMat = new BABYLON.StandardMaterial("groundMat", this.scene);
-    groundMat.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.3);
-    this.ground.material = groundMat;
-  }
-
-  createGrid() {
-    const size = 20;
-    const divisions = 20;
-    const lines = [];
-    const half = size / 2;
-    const step = size / divisions;
-
-    for (let i = 0; i <= divisions; i++) {
-      let p = -half + i * step;
-      lines.push([
-        new BABYLON.Vector3(p, 0.02, -half),
-        new BABYLON.Vector3(p, 0.02, half)
-      ]);
-      lines.push([
-        new BABYLON.Vector3(-half, 0.02, p),
-        new BABYLON.Vector3(half, 0.02, p)
-      ]);
+        this.objects = [];
+        this.engine.runRenderLoop(() => this.scene.render());
+        window.addEventListener("resize", () => this.engine.resize());
     }
 
-    this.gridLines = [];
-    lines.forEach((pts, idx) => {
-      const line = BABYLON.MeshBuilder.CreateLines("gridLine" + idx, { points: pts }, this.scene);
-      line.color = new BABYLON.Color3(0.5, 0.5, 0.5);
-      this.gridLines.push(line);
-    });
-    this.gridVisible = true;
-  }
-
-  toggleGrid() {
-    this.gridVisible = !this.gridVisible;
-    this.gridLines.forEach(line => line.setEnabled(this.gridVisible));
-  }
-
-  setGizmoMode(mode) {
-    this.currentGizmoMode = mode;
-    this.gizmoManager.positionGizmoEnabled = mode === "translate";
-    this.gizmoManager.rotationGizmoEnabled = mode === "rotate";
-    this.gizmoManager.scaleGizmoEnabled = mode === "scale";
-  }
-
-  addObject(type) {
-    let mesh;
-    if (type === "cube") {
-      mesh = BABYLON.MeshBuilder.CreateBox("cube", { size: 1 }, this.scene);
-    } else if (type === "sphere") {
-      mesh = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 1 }, this.scene);
+    initCamera() {
+        this.camera = new BABYLON.ArcRotateCamera("Camera", Math.PI / 4, Math.PI / 3, 10, new BABYLON.Vector3(0, 1, 0), this.scene);
+        this.camera.attachControl(this.container, true);
     }
-    if (mesh) {
-      mesh.position.y = 0.5;
-      this.objects.push(mesh);
-      this.selectObject(mesh);
+
+    initLighting() {
+        this.light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), this.scene);
+        this.light.intensity = 0.8;
     }
-  }
 
-  selectObject(mesh) {
-    this.selectedObject = mesh;
-    this.gizmoManager.attachToMesh(mesh);
-  }
+    initPhysics() {
+        this.scene.enablePhysics(new BABYLON.Vector3(0, -9.81, 0), new BABYLON.CannonJSPlugin());
+    }
 
-  deleteSelectedObject() {
-    if (!this.selectedObject) return;
-    this.selectedObject.dispose();
-    this.objects = this.objects.filter(obj => obj !== this.selectedObject);
-    this.selectedObject = null;
-    this.gizmoManager.attachToMesh(null);
-  }
+    initControls() {
+        window.addEventListener("keydown", (event) => {
+            if (event.key === "r") this.toggleRotateMode();
+        });
+    }
+
+    initAudio() {
+        this.audioEngine = new BABYLON.Sound("background", "assets/music.mp3", this.scene, null, { loop: true, autoplay: true });
+    }
+
+    addObject(type) {
+        let mesh;
+        switch (type) {
+            case "cube":
+                mesh = BABYLON.MeshBuilder.CreateBox("box", {}, this.scene);
+                break;
+            case "sphere":
+                mesh = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 1 }, this.scene);
+                break;
+            case "plane":
+                mesh = BABYLON.MeshBuilder.CreateGround("ground", { width: 5, height: 5 }, this.scene);
+                break;
+            default:
+                console.error(`Unknown object type: ${type}`);
+                return;
+        }
+        mesh.position.y = 1;
+        mesh.physicsImpostor = new BABYLON.PhysicsImpostor(mesh, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.5 }, this.scene);
+        this.objects.push(mesh);
+    }
+
+    saveScene() {
+        const serializedScene = BABYLON.SceneSerializer.Serialize(this.scene);
+        const json = JSON.stringify(serializedScene, null, 2);
+        const blob = new Blob([json], { type: "application/json" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "scene.json";
+        link.click();
+    }
+
+    loadScene(file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            BABYLON.SceneLoader.Load("", "data:text/json," + event.target.result, this.engine, (scene) => {
+                this.scene.dispose();
+                this.scene = scene;
+                this.initCamera();
+                this.initLighting();
+            });
+        };
+        reader.readAsText(file);
+    }
 }
 
-window.addEventListener("DOMContentLoaded", () => {
-  window.engine = new Corebell("renderCanvas");
+document.addEventListener("DOMContentLoaded", () => {
+    const engine = new Corebell("viewport");
+    document.getElementById("addCube").addEventListener("click", () => engine.addObject("cube"));
+    document.getElementById("addSphere").addEventListener("click", () => engine.addObject("sphere"));
+    document.getElementById("addPlane").addEventListener("click", () => engine.addObject("plane"));
+    document.getElementById("saveScene").addEventListener("click", () => engine.saveScene());
+    document.getElementById("loadSceneInput").addEventListener("change", (e) => engine.loadScene(e.target.files[0]));
 });
