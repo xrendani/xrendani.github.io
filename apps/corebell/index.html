@@ -8,7 +8,6 @@
     <script src="https://cdn.babylonjs.com/babylon.js"></script>
     <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
     <style>
-        /* Global Dark Theme */
         body {
             margin: 0;
             overflow: hidden;
@@ -16,7 +15,6 @@
             background: #1e1e1e;
             color: #ddd;
         }
-        /* Header styling */
         .header {
             display: flex;
             align-items: center;
@@ -38,12 +36,18 @@
             font-size: 20px;
             color: #fff;
         }
-        /* Canvas container */
         #canvasContainer {
+            position: absolute;
+            top: 60px;
+            left: 0;
             width: 100vw;
-            height: 100vh;
+            height: calc(100vh - 60px);
         }
-        /* Sidebar UI panel */
+        canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
         .sidebar {
             position: fixed;
             top: 70px;
@@ -75,41 +79,29 @@
             margin-top: 10px;
             color: #ccc;
         }
-        /* File input styling */
-        #loadSceneInput {
-            margin-top: 8px;
-            color: #fff;
-        }
     </style>
 </head>
 <body>
-    <!-- Header with Logo and Title -->
     <div class="header">
         <img src="/data/images/CorebellEngine_Logo.png" alt="Corebell Logo">
         <h2>Interface | Corebell (1.0)</h2>
     </div>
-    
-    <!-- Babylon.js Canvas Container -->
     <div id="canvasContainer">
         <canvas id="renderCanvas"></canvas>
     </div>
-    
-    <!-- Sidebar UI Panel -->
     <div class="sidebar">
-        <button onclick="engine.addObject('cube')" title="Add Cube">Add Cube</button>
-        <button onclick="engine.addObject('sphere')" title="Add Sphere">Add Sphere</button>
-        <button onclick="engine.addObject('cylinder')" title="Add Cylinder">Add Cylinder</button>
-        <button onclick="engine.addObject('cone')" title="Add Cone">Add Cone</button>
-        <button onclick="engine.addObject('torus')" title="Add Torus">Add Torus</button>
-        <button onclick="engine.toggleGrid()" title="Toggle Grid">Toggle Grid</button>
+        <button onclick="engine.addObject('cube')">Add Cube</button>
+        <button onclick="engine.addObject('sphere')">Add Sphere</button>
+        <button onclick="engine.addObject('cylinder')">Add Cylinder</button>
+        <button onclick="engine.addObject('cone')">Add Cone</button>
+        <button onclick="engine.addObject('torus')">Add Torus</button>
+        <button onclick="engine.toggleGrid()">Toggle Grid</button>
         <label for="lightIntensity">Light Intensity</label>
-        <input type="range" id="lightIntensity" min="0" max="2" step="0.1" value="1" 
-               oninput="engine.setLightIntensity(this.value)">
-        <button onclick="engine.deleteSelectedObject()" title="Delete Object">Delete Object</button>
-        <button onclick="engine.saveScene()" title="Save Scene">Save Scene</button>
+        <input type="range" id="lightIntensity" min="0" max="2" step="0.1" value="1" oninput="engine.setLightIntensity(this.value)">
+        <button onclick="engine.deleteSelectedObject()">Delete Object</button>
+        <button onclick="engine.saveScene()">Save Scene</button>
         <input type="file" id="loadSceneInput" accept=".json" onchange="engine.loadScene(this.files[0])">
     </div>
-    
     <script src="corebell.js"></script>
 </body>
 </html>
