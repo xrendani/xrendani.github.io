@@ -14,6 +14,7 @@ class Corebell {
     this.addGroundPlane();
 
     this.objects = [];
+    this.selectedObjects = []; // Array to store multiple selected objects
     this.selectedObject = null;
 
     this.animate = this.animate.bind(this);
@@ -66,6 +67,11 @@ class Corebell {
     this.directionalLight.position.set(10, 10, 10);
     this.directionalLight.castShadow = true;
     this.scene.add(this.directionalLight);
+
+    this.pointLight = new THREE.PointLight(0xffffff, 1, 100);
+    this.pointLight.position.set(0, 10, 0);
+    this.pointLight.castShadow = true;
+    this.scene.add(this.pointLight);
   }
 
   initGrid() {
@@ -75,7 +81,7 @@ class Corebell {
 
   addGroundPlane() {
     const planeGeometry = new THREE.PlaneGeometry(50, 50);
-    const planeMaterial = new THREE.ShadowMaterial({ opacity: 0.5 });
+    const planeMaterial = new THREE.MeshStandardMaterial({ color: 0x808080, metalness: 0.5, roughness: 0.5 });
     this.groundPlane = new THREE.Mesh(planeGeometry, planeMaterial);
     this.groundPlane.rotation.x = -Math.PI / 2;
     this.groundPlane.receiveShadow = true;
@@ -129,8 +135,21 @@ class Corebell {
   }
 
   selectObject(object) {
+    if (this.selectedObject) {
+      this.selectedObject.material = this.selectedObject.originalMaterial; // Reset previous selection
+    }
+
     this.selectedObject = object;
-    this.transformControls.attach(object);
+    this.selectedObjects = [object]; // Update selected objects array
+
+    if (object) {
+      object.originalMaterial = object.material; // Store original material
+      const highlightMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+      object.material = highlightMaterial;
+      this.transformControls.attach(object);
+    } else {
+      this.transformControls.detach();
+    }
   }
 
   deleteSelectedObject() {
@@ -247,7 +266,19 @@ class Corebell {
 
     const intersects = raycaster.intersectObjects(this.objects);
     if (intersects.length > 0) {
-      this.selectObject(intersects[0].object);
+      const object = intersects[0].object;
+
+      if (event.shiftKey) {
+        // Add to selection
+        if (!this.selectedObjects.includes(object)) {
+          this.selectedObjects.push(object);
+        }
+      } else {
+        // Single selection
+        this.selectedObjects = [object];
+      }
+
+      this.selectObjects(this.selectedObjects);
     }
   }
 
