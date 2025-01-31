@@ -1,80 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="/data/images/favicon.png">
-  <title>Interface | Corebell Engine (v0.0.002-dev)</title>
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      background-color: #1e1e1e;
-      font-family: Arial, sans-serif;
-    }
-    #controls {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      background: rgba(0, 0, 0, 0.8);
-      color: white;
-      padding: 10px;
-      border-radius: 5px;
-      z-index: 10;
-      resize: both;
-      overflow: auto;
-    }
-    button {
-      margin: 5px;
-      padding: 5px 10px;
-      background: #007bff;
-      border: none;
-      color: white;
-      cursor: pointer;
-      border-radius: 3px;
-    }
-    button:hover {
-      background: #0056b3;
-    }
-    input[type="range"] {
-      width: 100%;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interface | Corebell (version 0.0.002)</title>
+    <link rel="icon" href="/data/images/favicon.png" type="image/png">
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+    <style>
+        body { margin: 0; overflow: hidden; font-family: Arial, sans-serif; }
+        #canvasContainer { width: 100vw; height: 100vh; }
+        .ui-panel {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            color: white;
+        }
+        button, input[type='range'] {
+            display: block;
+            margin: 5px 0;
+            padding: 5px;
+            width: 120px;
+        }
+        .logo {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 100px;
+        }
+    </style>
 </head>
 <body>
-  <div id="viewport" style="width: 100vw; height: 100vh;"></div>
-  <div id="controls">
-    <h3>Corebell Editor <sub style="color: grey; font-size: x-small;">(v0.0.002-dev)</sub></h3>
-    <button id="addCube">Add Cube</button>
-    <button id="addSphere">Add Sphere</button>
-    <button id="addCylinder">Add Cylinder</button>
-    <button id="addCone">Add Cone</button>
-    <button id="addTorus">Add Torus</button>
-    <button id="addPlane">Add Plane</button>
-    <button id="addIcosahedron">Add Icosahedron</button>
-    <button id="addDodecahedron">Add Dodecahedron</button>
-    <button id="addTetrahedron">Add Tetrahedron</button>
-    <button id="toggleGrid">Toggle Grid</button>
-    <button id="deleteObject">Delete Selected</button>
-    <br>
-    <label>Light Intensity</label>
-    <input id="lightIntensity" type="range" min="0" max="2" step="0.1" value="1">
-    <br>
-    <button id="saveScene">Save Scene</button>
-    <input id="loadSceneInput" type="file" style="display:none;">
-    <button onclick="document.getElementById('loadSceneInput').click()">Load Scene</button>
-  </div>
-
-  <!-- Three.js and Controls -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.146.0/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/controls/OrbitControls.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/controls/TransformControls.js"></script>
-  <!-- Post-Processing -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/postprocessing/EffectComposer.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/postprocessing/RenderPass.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/postprocessing/BloomPass.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/examples/js/postprocessing/SSAOPass.js"></script>
-
-  <script src="corebell.js"></script>
+    <img src="/data/images/CorebellEngine_Logo.png" alt="Corebell Engine Logo" class="logo">
+    <div id="canvasContainer">
+        <canvas id="renderCanvas"></canvas>
+    </div>
+    <div class="ui-panel">
+        <button onclick="engine.addObject('cube')">Add Cube</button>
+        <button onclick="engine.addObject('sphere')">Add Sphere</button>
+        <button onclick="engine.addObject('cylinder')">Add Cylinder</button>
+        <button onclick="engine.addObject('cone')">Add Cone</button>
+        <button onclick="engine.toggleGrid()">Toggle Grid</button>
+        <input type="range" id="lightIntensity" min="0" max="2" step="0.1" value="1" 
+               oninput="engine.setLightIntensity(this.value)">
+        <label for="lightIntensity">Light Intensity</label>
+        <button onclick="engine.deleteSelectedObject()">Delete Object</button>
+        <button onclick="engine.saveScene()">Save Scene</button>
+        <input type="file" id="loadSceneInput" onchange="engine.loadScene(this.files[0])">
+    </div>
+    <script src="corebell"></script>
 </body>
 </html>
