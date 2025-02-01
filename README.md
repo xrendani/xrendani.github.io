@@ -19,4 +19,4 @@ The website is designed to offer a variety of tools and features to enhance user
 ## Apps (Using JavaScript, HTML5, and CSS3)
 
 - [Blog](https://manugeni.is-a.dev/pages/blog/): An AI-based chat application.
-- [Corebell Engine](https://manugeni.is-a.dev/apps/corebell/): A versatile engine for various experiments.
+- [Corebell Engine](https://manugeni.is-a.dev/corebell/): A versatile engine for various experiments.
