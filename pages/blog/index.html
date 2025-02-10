@@ -2,92 +2,168 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="referrer" content="strict-origin">
-    <link rel="icon" href="/data/images/favicon.png">
-    <link rel="stylesheet" href="/data/css/main.css">
-    <script src="/data/js/main.js"></script>
-    <title>My Blog | Rendani</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Coming Soon | Rendani</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --background-color: #f8fafc;
+            --text-color: #1e293b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            background-color: white;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar img {
+            height: 40px;
+            width: auto;
+        }
+
+        .coming-soon {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .coming-soon h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .coming-soon p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            animation: fadeInUp 1s ease 0.2s;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        .notify-form {
+            display: flex;
+            gap: 1rem;
+            max-width: 500px;
+            width: 100%;
+            animation: fadeInUp 1s ease 0.4s;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        .notify-form input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .notify-form button {
+            padding: 0.75rem 1.5rem;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .notify-form button:hover {
+            background-color: var(--primary-color);
+        }
+
+        .social-links {
+            margin-top: 3rem;
+            display: flex;
+            gap: 2rem;
+            animation: fadeInUp 1s ease 0.6s;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-3px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .notify-form {
+                flex-direction: column;
+            }
+            
+            .coming-soon h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
-<nav>
-  <a class="nav-link" href="/" aria-label="Home">
-    <img src="/data/images/Rendani_Logo.png" alt="Rendani's Logo">
-  </a>
-  <div class="nav-menu">
-    <a class="nav-link" href="/apps/corebell/">Corebell Engine</a>
-    <a class="nav-link" href="/pages/blog/">Blog</a>
-  </div>
-  <div class="nav-toggle">&#9776;</div> <!-- Hamburger icon -->
-</nav>
-<hr>
 <body>
-    <h2 style="text-align:center;">Blog (1)</h2>
-    <hr>
-    <p style="font-size: x-small; text-align: center;">Changes last made: 2025/01/31 16:19 UCT.</p>
-<div style="border: 2px solid #000; padding: 20px; border-radius: 10px; background-color: #000; max-width: 800px; margin: 0 auto; font-family: Arial, sans-serif; color: #fff;">
-  <h1 style="text-align: center; color: #fff;">Building Corebell Engine: A Journey into 3D Creativity</h1>
-  
-  <p>Hey everyone!<br>I’ve been diving deep into the world of 3D graphics and web-based engines lately, and I’m thrilled to share some updates on my latest project: <strong>Corebell Engine</strong>. It’s been an exciting journey, and I’ve been working on some cool new features that I think you’ll love. Let me walk you through what I’ve been up to!</p>
+    <nav class="navbar">
+        <a href="/" aria-label="Home">
+            <img src="/data/images/Rendani_Logo.png" alt="Rendani's Logo" loading="lazy">
+        </a>
+    </nav>
 
-  <h2 style="color: #fff;">What is Corebell Engine?</h2>
-  <p>Corebell Engine is a lightweight, web-based 3D engine built using <strong>Three.js</strong>. It’s designed to be a simple yet powerful tool for creating and manipulating 3D scenes directly in the browser. Whether you’re a developer, designer, or just someone who loves tinkering with 3D, Corebell Engine is meant to make 3D creation accessible and fun.</p>
+    <main class="coming-soon">
+        <h1>Coming Soon</h1>
+        <p>We're working hard to bring you something amazing. Stay tuned for updates about my Blog.</p>
+        
+        <form class="notify-form" action="#" method="POST">
+            <input type="email" placeholder="Enter your email for updates" required>
+            <button type="submit">Notify Me</button>
+        </form>
 
-  <h2 style="color: #fff;">What’s New?</h2>
-  <p>Here’s a sneak peek at some of the latest features I’ve been working on:</p>
-
-  <h3 style="color: #fff;">1. Movable Widgets</h3>
-  <p>One of the most requested features was the ability to move UI panels around. I’m happy to say that Corebell Engine now supports <strong>movable widgets</strong>! You can drag the controls panel anywhere on the screen, and its position is saved so it stays where you left it, even after refreshing the page. This makes the interface much more flexible and user-friendly.</p>
-
-  <h3 style="color: #fff;">2. Object Highlighting</h3>
-  <p>Selecting objects in a 3D scene can sometimes be tricky, so I added <strong>object highlighting</strong>. When you click on an object, it gets a glowing outline, making it super clear which object you’re working with. It’s a small change, but it makes a big difference in usability.</p>
-
-  <h3 style="color: #fff;">3. Snap-to-Grid</h3>
-  <p>Precision is key when working with 3D scenes, so I implemented a <strong>snap-to-grid</strong> feature. Now, you can align objects perfectly with the grid, making it easier to create clean, organized scenes. You can also adjust the grid size and toggle snapping on or off.</p>
-
-  <h3 style="color: #fff;">4. Undo/Redo</h3>
-  <p>We’ve all been there—accidentally deleting or moving something and wishing we could undo it. Well, now you can! Corebell Engine now supports <strong>undo/redo</strong> for actions like adding, deleting, and transforming objects. It’s a lifesaver for those “oops” moments.</p>
-
-  <h3 style="color: #fff;">5. Object Properties Panel</h3>
-  <p>I’ve also added an <strong>object properties panel</strong> that lets you edit the selected object’s position, rotation, scale, and material color. It’s a great way to fine-tune your scene without having to rely solely on the transform controls.</p>
-
-  <h2 style="color: #fff;">What’s Next?</h2>
-  <p>I’m just getting started! Here are some of the features I’m planning to work on next:</p>
-  <ul>
-    <li><strong>Multi-Select</strong>: Select and manipulate multiple objects at once.</li>
-    <li><strong>Improved Lighting</strong>: Add more lighting options and controls.</li>
-    <li><strong>Scene Export</strong>: Export your scenes to popular formats like <code>.glb</code> or <code>.glTF</code>.</li>
-    <li><strong>Animation System</strong>: Create simple animations for objects in your scene.</li>
-  </ul>
-
-  <h2 style="color: #fff;">Why Am I Building This?</h2>
-  <p>I’ve always been fascinated by 3D graphics and the creative possibilities they offer. With Corebell Engine, I wanted to create a tool that’s easy to use but still powerful enough to bring ideas to life. It’s been a great learning experience, and I’m excited to see where it goes from here.</p>
-
-  <h2 style="color: #fff;">Try It Out!</h2>
-  <p>If you’re curious, you can check out the latest version of Corebell Engine <a href="/apps/corebell/" style="color: #fff; text-decoration: underline;">here</a>. I’d love to hear your feedback and suggestions for new features. Feel free to drop a comment or reach out to me directly.</p>
-
-  <h2 style="color: #fff;">Final Thoughts</h2>
-  <p>Building Corebell Engine has been a rewarding journey, and I’m excited to keep improving it. Whether you’re a seasoned developer or just starting out with 3D, I hope Corebell Engine inspires you to create something amazing. Stay tuned for more updates, and happy creating!</p>
-
-  <div style="text-align: center; margin-top: 20px;">
-    <a href="https://twitter.com/callmerendani" style="margin: 0 10px; text-decoration: none;">
-      <img src="https://img.icons8.com/color/48/000000/twitter--v1.png" alt="Twitter" style="width: 32px; height: 32px; vertical-align: middle;"> <span style="color: #fff;">@callmerendani</span>
-    </a>
-    <a href="https://github.com/manugeni" style="margin: 0 10px; text-decoration: none;">
-      <img src="https://img.icons8.com/ios-filled/50/000000/github.png" alt="GitHub" style="width: 32px; height: 32px; vertical-align: middle;"> <span style="color: #fff;">manugeni</span>
-    </a>
-  </div>
-</div>
+        <div class="social-links">
+            <a href="https://twitter.com/callmerendani" target="_blank" aria-label="Twitter">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://github.com/manugeni" target="_blank" aria-label="GitHub">
+                <i class="fab fa-github"></i>
+            </a>
+        </div>
+    </main>
 </body>
-<hr>
-    <footer>
-        <ul>
-            <h3>Links</h3>
-            <a target="_blank" class="nav-link" href="mailto=rendaniman@outlook.com"><i class="fas fa-mail"></i> Email</a>
-            <a target="_blank" class="nav-link" href="https://github.com/sponsors/manugeni"><i class="fas fa-heart"></i> Sponsor</a>
-            <a target="_blank" class="nav-link" href="https://github.com/manugeni"><i class="fab fa-github"></i> GitHub</a>
-            <h3>Apps</h3>
-            <a class="nav-link" href="/apps/corebell/"><i class="fas fa-cogs"></i> Corebell Engine</a>
-        </ul>
-    </footer>
-    <p style="text-align: center;"> 2025 &copy Rendani Manugeni.</p>
 </html>
