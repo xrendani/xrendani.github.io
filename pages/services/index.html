@@ -1,10 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Services & Store | Rendani</title>
-    <link rel="icon" href="/data/images/favicon.png">
+    <title>Coming Soon | Rendani</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -12,8 +12,6 @@
             --secondary-color: #1e40af;
             --background-color: #f8fafc;
             --text-color: #1e293b;
-            --accent-color: #3b82f6;
-            --success-color: #10b981;
         }
 
         * {
@@ -27,18 +25,15 @@
             line-height: 1.6;
             color: var(--text-color);
             background-color: var(--background-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .navbar {
             background-color: white;
             padding: 1rem;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
         .navbar img {
@@ -46,138 +41,102 @@
             width: auto;
         }
 
-        .nav-menu {
+        .coming-soon {
+            flex: 1;
             display: flex;
-            gap: 2rem;
-        }
-
-        .nav-link {
-            color: var(--text-color);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .nav-link:hover {
-            color: var(--primary-color);
-        }
-
-        .page-header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 4rem 2rem;
-            text-align: center;
-        }
-
-        .page-header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .service-card {
-            background: white;
-            border-radius: 1rem;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .service-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .service-image {
-            width: 100%;
-            height: 200px;
-            background-color: var(--primary-color);
-            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
+        }
+
+        .coming-soon h1 {
             font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
         }
 
-        .service-content {
-            padding: 1.5rem;
+        .coming-soon p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            animation: fadeInUp 1s ease 0.2s;
+            opacity: 0;
+            animation-fill-mode: forwards;
         }
 
-        .service-content h3 {
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
+        .notify-form {
+            display: flex;
+            gap: 1rem;
+            max-width: 500px;
+            width: 100%;
+            animation: fadeInUp 1s ease 0.4s;
+            opacity: 0;
+            animation-fill-mode: forwards;
         }
 
-        .price {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--success-color);
-            margin: 1rem 0;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 0.75rem 1.5rem;
-            background-color: var(--primary-color);
-            color: white;
-            text-decoration: none;
+        .notify-form input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: none;
             border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .notify-form button {
+            padding: 0.75rem 1.5rem;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
             transition: background-color 0.3s ease;
         }
 
-        .btn:hover {
-            background-color: var(--secondary-color);
+        .notify-form button:hover {
+            background-color: var(--primary-color);
         }
 
-        .category-title {
-            font-size: 2rem;
-            color: var(--secondary-color);
-            margin: 3rem 0 2rem;
-            text-align: center;
-        }
-
-        .features-list {
-            list-style: none;
-            margin: 1rem 0;
-        }
-
-        .features-list li {
-            margin-bottom: 0.5rem;
+        .social-links {
+            margin-top: 3rem;
             display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            gap: 2rem;
+            animation: fadeInUp 1s ease 0.6s;
+            opacity: 0;
+            animation-fill-mode: forwards;
         }
 
-        .features-list i {
-            color: var(--success-color);
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
         }
 
-        footer {
-            background-color: white;
-            padding: 2rem;
-            margin-top: 4rem;
-            text-align: center;
-            box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+        .social-links a:hover {
+            transform: translateY(-3px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @media (max-width: 768px) {
-            .page-header h1 {
-                font-size: 2rem;
+            .notify-form {
+                flex-direction: column;
             }
             
-            .container {
-                padding: 1rem;
+            .coming-soon h1 {
+                font-size: 2rem;
             }
         }
     </style>
@@ -187,99 +146,20 @@
         <a href="/" aria-label="Home">
             <img src="/data/images/Rendani_Logo.png" alt="Rendani's Logo" loading="lazy">
         </a>
-        <div class="nav-menu">
-            <a href="/apps/corebell-emgine/" class="nav-link">Corebell Engine</a>
-            <a href="/pages/services/">Services</a>
-            <a href="/pages/blog/" class="nav-link">Blog</a>
-        </div>
     </nav>
 
-    <header class="page-header">
-        <h1>Services & Store</h1>
-        <p>Professional solutions for your digital needs</p>
-    </header>
+    <main class="coming-soon">
+        <h1>Coming Soon</h1>
+        <p>We're working hard to bring you something amazing. Stay tuned for updates about my Blog.</p>
 
-    <main class="container">
-<div class="service-card">
-                <div class="service-image">
-                    <i class="fas fa-code"></i>
-                </div>
-                <div class="service-content">
-                    <h3>Web Tools</h3>
-                    <p>Professional development tools and utilities</p>
-                    <ul class="features-list">
-                        <li><i class="fas fa-check"></i> Code generators</li>
-                        <li><i class="fas fa-check"></i> Development utilities</li>
-                        <li><i class="fas fa-check"></i> Regular updates</li>
-                    </ul>
-                    <div class="price">R250.00</div>
-                    <a href="#" class="btn">View Tools</a>
-                </div>
-            </div>
-
-            <div class="service-card">
-                <div class="service-image">
-                    <i class="fas fa-gamepad"></i>
-                </div>
-                <div class="service-content">
-                    <h3>Games</h3>
-                    <p>Engaging gaming experiences</p>
-                    <ul class="features-list">
-                        <li><i class="fas fa-check"></i> Multiple genres</li>
-                        <li><i class="fas fa-check"></i> Regular content updates</li>
-                        <li><i class="fas fa-check"></i> Community features</li>
-                    </ul>
-                    <div class="price">R50.00</div>
-                    <a href="#" class="btn">Browse Games</a>
-                </div>
-            </div>
-
-            <div class="service-card">
-                <div class="service-image">
-                    <i class="fas fa-rocket"></i>
-                </div>
-                <div class="service-content">
-                    <h3>Software Solutions</h3>
-                    <p>Professional software applications</p>
-                    <ul class="features-list">
-                        <li><i class="fas fa-check"></i> Custom solutions</li>
-                        <li><i class="fas fa-check"></i> Technical support</li>
-                        <li><i class="fas fa-check"></i> Regular updates</li>
-                    </ul>
-                    <div class="price">R150.00</div>
-                    <a href="#" class="btn">Explore Software</a>
-                </div>
-            </div>
-    </main>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Links</h3>
-                <div class="footer-links">
-                    <a href="mailto:rendaniman@outlook.com" class="nav-link">
-                        <i class="fas fa-envelope"></i> Email
-                    </a>
-                    <a href="https://github.com/sponsors/manugeni" class="nav-link">
-                        <i class="fas fa-heart"></i> Sponsor
-                    </a>
-                    <a href="https://github.com/manugeni" class="nav-link">
-                        <i class="fab fa-github"></i> GitHub
-                    </a>
-                </div>
-            </div>
-            <div class="footer-section">
-                <h3>Apps</h3>
-                <div class="footer-links">
-                    <a href="/apps/corebell/" class="nav-link">
-                        <i class="fas fa-cogs"></i> Corebell Engine
-                    </a>
-                </div>
-            </div>
+        <div class="social-links">
+            <a href="https://twitter.com/callmerendani" target="_blank" aria-label="Twitter">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://github.com/manugeni" target="_blank" aria-label="GitHub">
+                <i class="fab fa-github"></i>
+            </a>
         </div>
-        <p class="text-center" style="margin-top: 2rem; text-align: center;">
-            2025 © Rendani Manugeni.
-        </p>
-    </footer>
+    </main>
 </body>
 </html>
