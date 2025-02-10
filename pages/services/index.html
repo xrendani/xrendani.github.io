@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Services & Store | Rendani</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --background-color: #f8fafc;
+            --text-color: #1e293b;
+            --accent-color: #3b82f6;
+            --success-color: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+        }
+
+        .navbar {
+            background-color: white;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar img {
+            height: 40px;
+            width: auto;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-image {
+            width: 100%;
+            height: 200px;
+            background-color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .service-content {
+            padding: 1.5rem;
+        }
+
+        .service-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--success-color);
+            margin: 1rem 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .category-title {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin: 3rem 0 2rem;
+            text-align: center;
+        }
+
+        .features-list {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .features-list li {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .features-list i {
+            color: var(--success-color);
+        }
+
+        footer {
+            background-color: white;
+            padding: 2rem;
+            margin-top: 4rem;
+            text-align: center;
+            box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" aria-label="Home">
+            <img src="/data/images/Rendani_Logo.png" alt="Rendani's Logo" loading="lazy">
+        </a>
+        <div class="nav-menu">
+            <a href="/apps/corebell/" class="nav-link">Corebell Engine</a>
+            <a href="/pages/services/">Services</a>
+            <a href="/pages/blog/" class="nav-link">Blog</a>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <h1>Services & Store</h1>
+        <p>Professional solutions for your digital needs</p>
+    </header>
+
+    <main class="container">
+            [Previous HTML head and style sections remain exactly the same...]
+
+<div class="service-card">
+                <div class="service-image">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Web Tools</h3>
+                    <p>Professional development tools and utilities</p>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Code generators</li>
+                        <li><i class="fas fa-check"></i> Development utilities</li>
+                        <li><i class="fas fa-check"></i> Regular updates</li>
+                    </ul>
+                    <div class="price">R250.00</div>
+                    <a href="#" class="btn">View Tools</a>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-image">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Games</h3>
+                    <p>Engaging gaming experiences</p>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Multiple genres</li>
+                        <li><i class="fas fa-check"></i> Regular content updates</li>
+                        <li><i class="fas fa-check"></i> Community features</li>
+                    </ul>
+                    <div class="price">R50.00</div>
+                    <a href="#" class="btn">Browse Games</a>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-image">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Software Solutions</h3>
+                    <p>Professional software applications</p>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Custom solutions</li>
+                        <li><i class="fas fa-check"></i> Technical support</li>
+                        <li><i class="fas fa-check"></i> Regular updates</li>
+                    </ul>
+                    <div class="price">R150.00</div>
+                    <a href="#" class="btn">Explore Software</a>
+                </div>
+            </div>
+
+[Rest of the HTML remains exactly the same...]
+    </main>
+
+    <footer>
+        <p>2025 &copy; Rendani Manugeni.</p>
+    </footer>
+</body>
+</html>
