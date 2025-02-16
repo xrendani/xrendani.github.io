@@ -1,100 +1,241 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Developer Hub | Rendani</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="strict-origin">
+    
+    <!-- SEO Meta Tags -->
+    <title>Rendani Manugeni | Full-Stack Developer</title>
+    <meta name="description" content="Portfolio of Rendani Manugeni - Professional developer specializing in full-stack development, AI solutions, and open source contributions">
+    <meta name="keywords" content="developer, AI engineer, full-stack, open source, portfolio">
+    <meta property="og:title" content="Rendani Manugeni | Professional Developer Portfolio">
+    <meta property="og:description" content="Showcase of professional projects and development expertise">
+    <meta property="og:image" content="/data/images/og-banner.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@callmerendani">
+
+    <!-- Favicon & Theme Color -->
+    <link rel="icon" href="/data/images/favicon.png">
+    <meta name="theme-color" content="#0f172a">
+    
     <!-- CDNs -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@animxyz/core@0.6.0/dist/animxyz.min.css">
     
     <style>
-        .gradient-bg {
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
-        }
-        
-        .card-hover {
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .card-hover:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --background-color: #0f172a;
+            --text-color: #f8fafc;
+            --card-bg: #1e293b;
+            --theme-toggle-speed: 0.4s;
         }
 
-        #particles-js {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
+        [data-theme="light"] {
+            --background-color: #f8fafc;
+            --text-color: #0f172a;
+            --card-bg: #ffffff;
+        }
+
+        /* Previous CSS styles from earlier version */
+
+        .theme-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--primary-color);
+            border-radius: 50%;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(180deg) scale(1.1);
+        }
+
+        .loading-skeleton {
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.1) 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .project-card img {
+            transition: transform 0.3s ease;
+            background: var(--background-color);
+        }
+
+        .project-card:hover img {
+            transform: scale(1.05);
         }
     </style>
 </head>
-<body class="bg-gray-900 text-white">
-    <div id="particles-js"></div>
-    
-    <!-- Main Content -->
-    <div class="container mx-auto px-4 py-16 relative z-10">
-        <!-- Hero Section -->
-        <section class="text-center mb-20">
-            <img src="your-avatar.jpg" alt="Manu Geni" class="w-32 h-32 rounded-full mx-auto mb-6 border-4 border-white">
-            <h1 class="text-4xl md:text-6xl font-bold mb-4">Manu Geni</h1>
-            <p class="text-xl md:text-2xl text-gray-300 mb-6">Full Stack Developer & Open Source Contributor</p>
-            
-            <!-- Social Links -->
-            <div class="flex justify-center space-x-6 mb-12">
-                <a href="[GitHub-URL]" class="text-2xl hover:text-purple-300 transition">
-                    <i class="fab fa-github"></i>
-                </a>
-                <a href="[LinkedIn-URL]" class="text-2xl hover:text-blue-300 transition">
-                    <i class="fab fa-linkedin"></i>
-                </a>
-                <a href="[Twitter-URL]" class="text-2xl hover:text-blue-400 transition">
-                    <i class="fab fa-twitter"></i>
-                </a>
-                <a href="[Portfolio-URL]" class="text-2xl hover:text-green-300 transition">
-                    <i class="fas fa-globe"></i>
-                </a>
-            </div>
-        </section>
-
-        <!-- Projects Grid -->
-        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Project Card 1 -->
-            <div class="gradient-bg rounded-xl p-8 card-hover">
-                <h3 class="text-2xl font-bold mb-4">Project 1</h3>
-                <p class="text-gray-200 mb-4">Amazing project description that showcases your skills.</p>
-                <a href="#" class="inline-flex items-center text-white hover:text-gray-200">
-                    View on GitHub <i class="fas fa-arrow-right ml-2"></i>
-                </a>
-            </div>
-
-            <!-- Repeat similar cards for other projects -->
-        </section>
+<body>
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
     </div>
 
+    <nav class="navbar">
+        <a class="nav-link" href="/" aria-label="Home">
+            <img src="/data/images/rendani-logo-dark.svg" alt="Rendani's Professional Logo" 
+                 class="logo-image" loading="lazy"
+                 onerror="this.src='/data/images/logo-fallback.png'">
+        </a>
+        <!-- Navigation Menu -->
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <!-- ... previous hero content ... -->
+    </section>
+
+    <!-- Featured Work Section -->
+    <section class="section" id="projects">
+        <h2 class="section-title">Featured Projects</h2>
+        <div class="favorites-grid">
+            <!-- Project 1 -->
+            <div class="project-card">
+                <div class="loading-skeleton" style="height: 200px; border-radius: 1rem 1rem 0 0;">
+                    <img src="/data/projects/vault-engine-preview.webp" 
+                         alt="Vault Engine Dashboard Preview"
+                         loading="lazy"
+                         class="loaded-image"
+                         onerror="this.parentElement.classList.add('error-state')">
+                </div>
+                <div class="project-content">
+                    <h3>Vault Engine</h3>
+                    <p>Secure document management system with AI-powered search capabilities</p>
+                    <div class="tech-stack">
+                        <span>React</span>
+                        <span>Node.js</span>
+                        <span>TensorFlow</span>
+                    </div>
+                    <a href="/apps/vault-engine/" class="cta-button">
+                        Live Demo <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="project-card">
+                <div class="loading-skeleton" style="height: 200px; border-radius: 1rem 1rem 0 0;">
+                    <img src="/data/projects/deepseek-chat.webp" 
+                         alt="Deepseek Chat Interface"
+                         loading="lazy"
+                         class="loaded-image"
+                         onerror="this.parentElement.classList.add('error-state')">
+                </div>
+                <div class="project-content">
+                    <h3>AI Chat Platform</h3>
+                    <p>Natural language processing interface with custom model integrations</p>
+                    <div class="tech-stack">
+                        <span>Python</span>
+                        <span>PyTorch</span>
+                        <span>WebSocket</span>
+                    </div>
+                    <a href="https://deepseek.com" class="cta-button">
+                        Case Study <i class="fas fa-book-open"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="project-card">
+                <div class="loading-skeleton" style="height: 200px; border-radius: 1rem 1rem 0 0;">
+                    <img src="/data/projects/open-source.webp" 
+                         alt="Open Source Contributions"
+                         loading="lazy"
+                         class="loaded-image"
+                         onerror="this.parentElement.classList.add('error-state')">
+                </div>
+                <div class="project-content">
+                    <h3>Open Source Ecosystem</h3>
+                    <p>Collection of community-driven projects and contributions</p>
+                    <div class="tech-stack">
+                        <span>TypeScript</span>
+                        <span>Rust</span>
+                        <span>Docker</span>
+                    </div>
+                    <a href="https://github.com/manugeni" class="cta-button">
+                        View Repos <i class="fab fa-github"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Error Modal -->
+    <div class="error-modal" id="errorModal">
+        <div class="modal-content">
+            <h3>Content Loading Error</h3>
+            <p>We're having trouble loading some content. Please check your connection.</p>
+            <button class="cta-button" onclick="location.reload()">
+                <i class="fas fa-sync"></i> Refresh
+            </button>
+        </div>
+    </div>
+
+    <!-- Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXX"></script>
     <script>
-        // Particles.js config
-        particlesJS('particles-js', {
-            particles: {
-                number: { value: 80 },
-                color: { value: '#ffffff' },
-                opacity: { value: 0.5 },
-                size: { value: 3 },
-                move: { enable: true, speed: 1 }
-            }
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXX');
+    </script>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        
+        document.documentElement.setAttribute('data-theme', currentTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            themeToggle.innerHTML = newTheme === 'dark' 
+                ? '<i class="fas fa-moon"></i>' 
+                : '<i class="fas fa-sun"></i>';
+            
+            document.documentElement.style.transition = `all ${getComputedStyle(document.documentElement).getPropertyValue('--theme-toggle-speed')}`;
         });
 
-        // Add smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
+        // Image Loading Handler
+        document.querySelectorAll('.loaded-image').forEach(img => {
+            img.onload = function() {
+                this.parentElement.classList.remove('loading-skeleton');
+            };
         });
+
+        // Error Handling
+        window.addEventListener('error', (e) => {
+            const errorModal = document.getElementById('errorModal');
+            errorModal.style.display = 'flex';
+            console.error('Runtime Error:', e.error);
+        }, true);
+
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .catch(error => console.log('ServiceWorker registration failed:', error));
+        }
     </script>
 </body>
 </html>
