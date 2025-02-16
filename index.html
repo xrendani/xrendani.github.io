@@ -1,312 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="referrer" content="strict-origin">
-    <link rel="icon" href="/data/images/favicon.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Developer Hub | Rendani</title>
+    <!-- CDNs -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
     <style>
-        :root {
-            --primary-color: #2563eb;
-            --secondary-color: #1e40af;
-            --background-color: #f8fafc;
-            --text-color: #1e293b;
-            --accent-color: #3b82f6;
+        .gradient-bg {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+        }
+        
+        .card-hover {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            background-color: var(--background-color);
-        }
-
-        .navbar {
-            background-color: white;
-            padding: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .navbar img {
-            height: 40px;
-            width: auto;
-        }
-
-        .nav-menu {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .nav-link {
-            color: var(--text-color);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .nav-link:hover {
-            color: var(--primary-color);
-        }
-
-        .nav-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        .hero {
-            padding: 4rem 2rem;
-            text-align: center;
-            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-            color: white;
-            margin-bottom: 3rem;
-        }
-
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .section {
-            margin: 4rem 0;
-        }
-
-        .section-title {
-            font-size: 2rem;
-            margin-bottom: 2rem;
-            text-align: center;
-            color: var(--secondary-color);
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .social-links a {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            background-color: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .social-links a:hover {
-            transform: translateY(-2px);
-        }
-
-        .favorites-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .favorite-item {
-            background-color: white;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .favorite-item:hover {
-            transform: translateY(-5px);
-        }
-
-        .favorite-item img {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 1rem;
-            object-fit: contain;
-        }
-
-        footer {
-            background-color: white;
-            padding: 3rem 2rem;
-            margin-top: 4rem;
-            box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-        }
-
-        .footer-section h3 {
-            color: var(--secondary-color);
-            margin-bottom: 1rem;
-        }
-
-        .footer-links {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        @media (max-width: 768px) {
-            .nav-menu {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background-color: white;
-                padding: 1rem;
-                flex-direction: column;
-                text-align: center;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            }
-
-            .nav-menu.active {
-                display: flex;
-            }
-
-            .nav-toggle {
-                display: block;
-            }
-
-            .social-links {
-                flex-direction: column;
-                align-items: center;
-            }
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
         }
     </style>
-    <title>Rendani | Developer & Creator</title>
 </head>
-<body>
-    <nav class="navbar">
-        <a class="nav-link" href="/" aria-label="Home">
-            <img src="/data/images/Rendani_Logo.png" alt="Rendani's Logo" loading="lazy">
-        </a>
-        <div class="nav-menu">
-            <a class="nav-link" href="/apps/vault-engine/">Vault Engine</a>
-            <a class="nav-link" href="/pages/services/">Services</a>
-            <a class="nav-link" href="/pages/blog/">Blog</a>
-        </div>
-        <button class="nav-toggle" aria-label="Toggle navigation">
-            <i class="fas fa-bars"></i>
-        </button>
-    </nav>
-
-    <section class="hero">
-        <div class="container">
-            <h1>Welcome to My Digital Space</h1>
-            <p>Developer, Creator, and Tech Enthusiast</p>
-        </div>
-    </section>
-
-    <main class="container">
-        <section class="section">
-            <h2 class="section-title">Connect With Me</h2>
-            <div class="social-links">
-                <a href="/pages/blog/" class="nav-link">
-                    <i class="fas fa-blog"></i>
-                    <span>My Blog</span>
-                </a>
-                <a href="https://twitter.com/callmerendani" target="_blank" class="nav-link">
-                    <i class="fab fa-twitter"></i>
-                    <span>callmerendani</span>
-                </a>
-                <a href="https://github.com/manugeni" target="_blank" class="nav-link">
-                    <i class="fab fa-github"></i>
-                    <span>manugeni</span>
-                </a>
-            </div>
-        </section>
-
-        <section class="section">
-            <h2 class="section-title">My Favorites</h2>
+<body class="bg-gray-900 text-white">
+    <div id="particles-js"></div>
+    
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-16 relative z-10">
+        <!-- Hero Section -->
+        <section class="text-center mb-20">
+            <img src="your-avatar.jpg" alt="Manu Geni" class="w-32 h-32 rounded-full mx-auto mb-6 border-4 border-white">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">Manu Geni</h1>
+            <p class="text-xl md:text-2xl text-gray-300 mb-6">Full Stack Developer & Open Source Contributor</p>
             
-            <h3 class="section-title">Games</h3>
-            <div class="favorites-grid">
-                <div class="favorite-item">
-                    <img src="https://gamerina.com.ng/wp-content/uploads/2023/09/EA-Sports-FC-Mobile-logo-black.webp" alt="FC Mobile Logo" loading="lazy">
-                    <p><a href="https://www.ea.com/games/ea-sports-fc/fc-mobile" class="nav-link">FC Mobile</a></p>
-                </div>
-                <div class="favorite-item">
-                    <img src="/data/images/NFS2012_Logo.png" alt="Need for Speed 2012 Logo" loading="lazy">
-                    <p><a href="https://en.wikipedia.org/wiki/Need_for_Speed:_Most_Wanted_(2012_video_game)" class="nav-link">Need for Speed: Most Wanted</a></p>
-                </div>
-            </div>
-
-            <h3 class="section-title">Tools</h3>
-            <div class="favorites-grid">
-                <div class="favorite-item">
-                    <img src="https://cdn.simpleicons.org/unrealengine/0E1128" alt="Unreal Engine Logo" loading="lazy">
-                    <p><a href="https://unrealengine.com/" class="nav-link">Unreal Engine</a></p>
-                </div>
-                <div class="favorite-item">
-                    <img src="https://cdn.simpleicons.org/sketchfab/1CAAD9" alt="Sketchfab Logo" loading="lazy">
-                    <p><a href="https://sketchfab.com/" class="nav-link">Sketchfab</a></p>
-                </div>
-                <div class="favorite-item">
-                    <img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/deepseek-logo-icon.png" alt="Deepseek Logo" loading="lazy">
-                    <p><a href="https://deepseek.com/" class="nav-link">Deepseek</a></p>
-                </div>
-                <div class="favorite-item">
-                    <img src="https://cdn.simpleicons.org/pinterest/BD081C" alt="Pinterest Logo" loading="lazy">
-                    <p><a href="https://pinterest.com/" class="nav-link">Pinterest</a></p>
-                </div>
+            <!-- Social Links -->
+            <div class="flex justify-center space-x-6 mb-12">
+                <a href="[GitHub-URL]" class="text-2xl hover:text-purple-300 transition">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="[LinkedIn-URL]" class="text-2xl hover:text-blue-300 transition">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="[Twitter-URL]" class="text-2xl hover:text-blue-400 transition">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="[Portfolio-URL]" class="text-2xl hover:text-green-300 transition">
+                    <i class="fas fa-globe"></i>
+                </a>
             </div>
         </section>
-    </main>
 
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Links</h3>
-                <div class="footer-links">
-                    <a href="mailto:rendaniman@outlook.com" class="nav-link">
-                        <i class="fas fa-envelope"></i> Email
-                    </a>
-                    <a href="https://github.com/sponsors/manugeni" class="nav-link">
-                        <i class="fas fa-heart"></i> Sponsor
-                    </a>
-                    <a href="https://github.com/manugeni" class="nav-link">
-                        <i class="fab fa-github"></i> GitHub
-                    </a>
-                </div>
+        <!-- Projects Grid -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Project Card 1 -->
+            <div class="gradient-bg rounded-xl p-8 card-hover">
+                <h3 class="text-2xl font-bold mb-4">Project 1</h3>
+                <p class="text-gray-200 mb-4">Amazing project description that showcases your skills.</p>
+                <a href="#" class="inline-flex items-center text-white hover:text-gray-200">
+                    View on GitHub <i class="fas fa-arrow-right ml-2"></i>
+                </a>
             </div>
-        </div>
-        <p class="text-center" style="margin-top: 2rem; text-align: center;">
-            2025 &copy; Rendani Manugeni.
-        </p>
-    </footer>
+
+            <!-- Repeat similar cards for other projects -->
+        </section>
+    </div>
 
     <script>
-        document.querySelector('.nav-toggle').addEventListener('click', function() {
-            document.querySelector('.nav-menu').classList.toggle('active');
+        // Particles.js config
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80 },
+                color: { value: '#ffffff' },
+                opacity: { value: 0.5 },
+                size: { value: 3 },
+                move: { enable: true, speed: 1 }
+            }
+        });
+
+        // Add smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
         });
     </script>
 </body>
