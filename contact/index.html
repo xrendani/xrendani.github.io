@@ -3,62 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact | Rendani a tech enthusiast</title>
+    <title>Connect with Rendani | Reach Out</title>
     <link rel="icon" type="image/png" href="/data/images/favicon.png">
-    <link href="https://unpkg.com/@fontsource/inter@4.5.0/index.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="/data/css/main.css">
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <nav class="glass-container">
-        <div class="nav-links">
-            <img src="/data/images/Rendani_Logo.png" alt="Rendani Logo">
-            <div>
-                <a href="/">Home</a>
-                <a href="/projects/">Projects</a>
-                <a href="/contact/">Contact</a>
-            </div>
-        </div>
-    </nav>
-
-    <main class="contact-page">
-        <section class="hero">
-            <div class="glass-container">
-                <h1>Contact Me</h1>
-                <p>Have a question or want to work together? Reach out!</p>
-            </div>
-        </section>
-
-        <section class="contact-form">
-            <form action="https://formspree.io/f/movjgeaw" method="POST">
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea id="message" name="message" rows="5" required></textarea>
-                </div>
-                <button type="submit">Send Message</button>
+    <header>
+        <nav>
+            <a href="/"><img src="/data/images/Rendani_Logo.png" alt="Logo" class="logo"></a>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/projects/">Projects</a></li>
+                <li><a href="/contact/">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="contact">
+            <h2>Reach Out</h2>
+            <p>Drop me a message or connect via socials!</p>
+            <form id="contact-form" action="https://formspree.io/f/movjgeaw" method="POST">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+                <label for="message">Message</label>
+                <textarea id="message" name="message" required></textarea>
+                <button type="submit" class="btn">Send</button>
             </form>
+            <div id="loader" class="loader hidden"></div>
+            <ul>
+                <li>X: <a href="https://x.com/callmerendani">@callmerendani</a></li>
+                <li>GitHub: <a href="https://github.com/manugeni">manugeni</a></li>
+                <li>Hugging Face: <a href="https://huggingface.co/manugeni">manugeni</a></li>
+                <li>Facebook: <a href="https://facebook.com/callmerendani">callmerendani</a></li>
+            </ul>
         </section>
     </main>
-
-    <div class="social-links">
-        <a href="https://github.com/manugeni" class="social-icon" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-github"></i>
-        </a>
-        <a href="https://twitter.com/callmerendani" class="social-icon" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-twitter"></i>
-        </a>
-        <a href="https://facebook.com/callmerendani" class="social-icon" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-facebook"></i>
-        </a>
-    </div>
+    <footer>
+        <p>© 2025 Rendani</p>
+    </footer>
+    <script src="/data/js/main.js"></script>
 </body>
 </html>
