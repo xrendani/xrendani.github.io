@@ -1,241 +1,190 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="referrer" content="strict-origin">
-    
-    <!-- SEO Meta Tags -->
-    <title>Rendani Manugeni | Full-Stack Developer</title>
-    <meta name="description" content="Portfolio of Rendani Manugeni - Professional developer specializing in full-stack development, AI solutions, and open source contributions">
-    <meta name="keywords" content="developer, AI engineer, full-stack, open source, portfolio">
-    <meta property="og:title" content="Rendani Manugeni | Professional Developer Portfolio">
-    <meta property="og:description" content="Showcase of professional projects and development expertise">
-    <meta property="og:image" content="/data/images/og-banner.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:creator" content="@callmerendani">
-
-    <!-- Favicon & Theme Color -->
-    <link rel="icon" href="/data/images/favicon.png">
-    <meta name="theme-color" content="#0f172a">
-    
-    <!-- CDNs -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | Rendani a tech enthusiast.</title>
+    <link href="https://unpkg.com/@fontsource/inter@4.5.0/index.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@animxyz/core@0.6.0/dist/animxyz.min.css">
-    
     <style>
         :root {
-            --primary-color: #6366f1;
-            --secondary-color: #8b5cf6;
-            --background-color: #0f172a;
-            --text-color: #f8fafc;
-            --card-bg: #1e293b;
-            --theme-toggle-speed: 0.4s;
+            --primary: #2A2A2A;
+            --secondary: #1A1A1A;
+            --accent: #00FF88;
+            --text: #FFFFFF;
+            --code-bg: #0D0D0D;
         }
 
-        [data-theme="light"] {
-            --background-color: #f8fafc;
-            --text-color: #0f172a;
-            --card-bg: #ffffff;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
         }
 
-        /* Previous CSS styles from earlier version */
+        body {
+            background: var(--primary);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-        .theme-toggle {
+        .glass-container {
+            background: rgba(25, 25, 25, 0.4);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            margin: 2rem;
+        }
+
+        nav {
+            padding: 1.5rem 5%;
+            background: var(--secondary);
             position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: var(--primary-color);
-            border-radius: 50%;
-            width: 3rem;
-            height: 3rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
+            width: 100%;
+            top: 0;
             z-index: 1000;
         }
 
-        .theme-toggle:hover {
-            transform: rotate(180deg) scale(1.1);
+        .nav-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .loading-skeleton {
-            background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.1) 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            margin-top: -4rem;
         }
 
-        @keyframes loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
+        .hero h1 {
+            font-size: 4rem;
+            background: linear-gradient(45deg, var(--accent), #00CCFF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
         }
 
-        .project-card img {
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem 0;
+        }
+
+        .tech-card {
+            background: var(--secondary);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
             transition: transform 0.3s ease;
-            background: var(--background-color);
         }
 
-        .project-card:hover img {
-            transform: scale(1.05);
+        .tech-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 4rem 5%;
+        }
+
+        .project-card {
+            background: var(--secondary);
+            border-radius: 15px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, var(--accent), transparent);
+            animation: animate 4s linear infinite;
+        }
+
+        @keyframes animate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            padding: 2rem 0;
+        }
+
+        .social-icon {
+            font-size: 1.5rem;
+            color: var(--text);
+            transition: color 0.3s ease;
+        }
+
+        .social-icon:hover {
+            color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .tech-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Theme Toggle -->
-    <div class="theme-toggle" id="themeToggle">
-        <i class="fas fa-moon"></i>
-    </div>
-
-    <nav class="navbar">
-        <a class="nav-link" href="/" aria-label="Home">
-            <img src="/data/images/rendani-logo-dark.svg" alt="Rendani's Professional Logo" 
-                 class="logo-image" loading="lazy"
-                 onerror="this.src='/data/images/logo-fallback.png'">
-        </a>
-        <!-- Navigation Menu -->
+    <nav class="glass-container">
+        <div class="nav-links">
+            <h2>MG</h2>
+            <div>
+                <a href="#projects">Projects</a>
+                <a href="#skills">Skills</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="hero">
-        <!-- ... previous hero content ... -->
-    </section>
-
-    <!-- Featured Work Section -->
-    <section class="section" id="projects">
-        <h2 class="section-title">Featured Projects</h2>
-        <div class="favorites-grid">
-            <!-- Project 1 -->
-            <div class="project-card">
-                <div class="loading-skeleton" style="height: 200px; border-radius: 1rem 1rem 0 0;">
-                    <img src="/data/projects/vault-engine-preview.webp" 
-                         alt="Vault Engine Dashboard Preview"
-                         loading="lazy"
-                         class="loaded-image"
-                         onerror="this.parentElement.classList.add('error-state')">
-                </div>
-                <div class="project-content">
-                    <h3>Vault Engine</h3>
-                    <p>Secure document management system with AI-powered search capabilities</p>
-                    <div class="tech-stack">
-                        <span>React</span>
-                        <span>Node.js</span>
-                        <span>TensorFlow</span>
-                    </div>
-                    <a href="/apps/vault-engine/" class="cta-button">
-                        Live Demo <i class="fas fa-external-link-alt"></i>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Project 2 -->
-            <div class="project-card">
-                <div class="loading-skeleton" style="height: 200px; border-radius: 1rem 1rem 0 0;">
-                    <img src="/data/projects/deepseek-chat.webp" 
-                         alt="Deepseek Chat Interface"
-                         loading="lazy"
-                         class="loaded-image"
-                         onerror="this.parentElement.classList.add('error-state')">
-                </div>
-                <div class="project-content">
-                    <h3>AI Chat Platform</h3>
-                    <p>Natural language processing interface with custom model integrations</p>
-                    <div class="tech-stack">
-                        <span>Python</span>
-                        <span>PyTorch</span>
-                        <span>WebSocket</span>
-                    </div>
-                    <a href="https://deepseek.com" class="cta-button">
-                        Case Study <i class="fas fa-book-open"></i>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Project 3 -->
-            <div class="project-card">
-                <div class="loading-skeleton" style="height: 200px; border-radius: 1rem 1rem 0 0;">
-                    <img src="/data/projects/open-source.webp" 
-                         alt="Open Source Contributions"
-                         loading="lazy"
-                         class="loaded-image"
-                         onerror="this.parentElement.classList.add('error-state')">
-                </div>
-                <div class="project-content">
-                    <h3>Open Source Ecosystem</h3>
-                    <p>Collection of community-driven projects and contributions</p>
-                    <div class="tech-stack">
-                        <span>TypeScript</span>
-                        <span>Rust</span>
-                        <span>Docker</span>
-                    </div>
-                    <a href="https://github.com/manugeni" class="cta-button">
-                        View Repos <i class="fab fa-github"></i>
-                    </a>
-                </div>
+        <div class="glass-container">
+            <h1>Manu Geni</h1>
+            <p>Full-Stack Developer & Tech Enthusiast</p>
+            <div class="tech-grid">
+                <div class="tech-card">React</div>
+                <div class="tech-card">Node.js</div>
+                <div class="tech-card">Python</div>
+                <div class="tech-card">AWS</div>
             </div>
         </div>
     </section>
 
-    <!-- Error Modal -->
-    <div class="error-modal" id="errorModal">
-        <div class="modal-content">
-            <h3>Content Loading Error</h3>
-            <p>We're having trouble loading some content. Please check your connection.</p>
-            <button class="cta-button" onclick="location.reload()">
-                <i class="fas fa-sync"></i> Refresh
-            </button>
+    <section id="projects" class="projects">
+        <div class="project-card">
+            <h3>Project 1</h3>
+            <p>AI-powered application with real-time analytics</p>
+            <div class="tech-stack">React, TensorFlow, FastAPI</div>
         </div>
+        <!-- Add more project cards -->
+    </section>
+
+    <div class="social-links">
+        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
     </div>
-
-    <!-- Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXX"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-XXXXXX');
-    </script>
-
-    <script>
-        // Theme Toggle
-        const themeToggle = document.getElementById('themeToggle');
-        const currentTheme = localStorage.getItem('theme') || 'dark';
-        
-        document.documentElement.setAttribute('data-theme', currentTheme);
-
-        themeToggle.addEventListener('click', () => {
-            const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            
-            themeToggle.innerHTML = newTheme === 'dark' 
-                ? '<i class="fas fa-moon"></i>' 
-                : '<i class="fas fa-sun"></i>';
-            
-            document.documentElement.style.transition = `all ${getComputedStyle(document.documentElement).getPropertyValue('--theme-toggle-speed')}`;
-        });
-
-        // Image Loading Handler
-        document.querySelectorAll('.loaded-image').forEach(img => {
-            img.onload = function() {
-                this.parentElement.classList.remove('loading-skeleton');
-            };
-        });
-
-        // Error Handling
-        window.addEventListener('error', (e) => {
-            const errorModal = document.getElementById('errorModal');
-            errorModal.style.display = 'flex';
-            console.error('Runtime Error:', e.error);
-        }, true);
-
-        // Service Worker Registration
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js')
-                .catch(error => console.log('ServiceWorker registration failed:', error));
-        }
-    </script>
 </body>
 </html>
