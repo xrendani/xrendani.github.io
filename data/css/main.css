@@ -1,114 +1,67 @@
-/* Add smooth scrolling to the page */
-html {
-    scroll-behavior: smooth;
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Variables */
+:root {
+    --primary: #2A2A2A;
+    --secondary: #1A1A1A;
+    --accent: #00FF88;
+    --text: #FFFFFF;
+}
+
+/* Base Styles */
+body {
+    background: var(--primary);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+}
+
+/* Navigation */
+nav.glass-container {
+    padding: 1rem 5%;
+    background: var(--secondary);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 /* Hero Section */
 .hero {
-    height: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    padding: 8rem 5% 4rem;
     text-align: center;
-    padding: 8rem 5% 4rem; /* Increased top padding for better spacing */
-    margin-top: 0;
 }
 
+/* Add !important to override JS if needed */
 .hero h1 {
-    font-size: 3.5rem; /* Slightly larger title */
-    background: linear-gradient(45deg, var(--accent), #00CCFF);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-size: 3rem !important;
+    background: linear-gradient(45deg, var(--accent), #00CCFF) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
     margin-bottom: 1.5rem;
-    animation: fadeIn 1s ease-in-out; /* Fade-in animation */
-}
-
-.hero p {
-    font-size: 1.25rem; /* Slightly larger text */
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 3rem; /* Increased spacing */
-    animation: fadeIn 1.5s ease-in-out; /* Delayed fade-in */
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Video Container */
-.video-container {
-    margin: 3rem 0; /* Increased vertical spacing */
-    border-radius: 20px;
-    overflow: hidden;
-    max-width: 1000px;
-    margin: 0 auto;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    animation: fadeIn 2s ease-in-out; /* Fade-in animation */
 }
 
 /* Tech Grid */
 .tech-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* Wider cards */
-    gap: 2rem; /* Increased gap */
-    margin: 4rem 0; /* More vertical spacing */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin: 2rem 0;
 }
 
-.tech-card {
-    background: var(--secondary);
-    padding: 1.5rem;
-    border-radius: 10px;
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    animation: fadeIn 2.5s ease-in-out; /* Fade-in animation */
-}
-
-.tech-card:hover {
-    transform: translateY(-10px); /* More pronounced hover effect */
-    box-shadow: 0 15px 30px rgba(0, 255, 136, 0.2);
-}
-
-/* Social Links */
-.social-links {
-    display: flex;
-    gap: 2rem; /* Increased gap between icons */
-    justify-content: center;
-    padding: 3rem 0; /* More vertical spacing */
-    margin-top: 3rem; /* Added spacing above social links */
-    animation: fadeIn 3s ease-in-out; /* Fade-in animation */
-}
-
-.social-icon {
-    font-size: 1.75rem; /* Slightly larger icons */
-    color: var(--text);
-    transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.social-icon:hover {
-    color: var(--accent);
-    transform: translateY(-5px); /* Hover effect */
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .hero h1 {
-        font-size: 2.5rem; /* Smaller title on mobile */
-    }
-
-    .hero p {
-        font-size: 1.1rem; /* Smaller text on mobile */
-    }
-
-    .video-container iframe {
-        height: 300px; /* Smaller video on mobile */
-    }
-
-    .tech-grid {
-        grid-template-columns: repeat(2, 1fr); /* Two columns on mobile */
-        gap: 1.5rem;
-    }
-
-    .social-links {
-        gap: 1.5rem; /* Smaller gap on mobile */
-    }
+/* Force Show Elements (Debugging) */
+.hero, .tech-grid, .social-links {
+    display: block !important;
+    opacity: 1 !important;
 }
