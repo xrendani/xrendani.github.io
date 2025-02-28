@@ -22,14 +22,16 @@
     <main>
         <section id="contact">
             <h2>Reach Out</h2>
-            <p>Drop me a message or connect via socials!</p>
-            <form id="contact-form" action="https://formspree.io/f/movjgeaw" method="POST">
+            <p>Drop me a message or connect via socials! Upload a file if you'd like.</p>
+            <form id="contact-form" action="https://formspree.io/f/movjgeaw" method="POST" enctype="multipart/form-data">
                 <label for="name">Name</label>
                 <input type="text" id="name" name="name" required>
-                <label for="email">Email</label>
+                <label for="email">Your Email</label>
                 <input type="email" id="email" name="email" required>
                 <label for="message">Message</label>
                 <textarea id="message" name="message" required></textarea>
+                <label for="upload">Your File</label>
+                <input type="file" id="upload" name="upload">
                 <button type="submit" class="btn">Send</button>
             </form>
             <div id="loader" class="loader hidden"></div>
