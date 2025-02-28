@@ -1,6 +1,6 @@
 <div align="center">
   
-# 🌟 Manuel Geni's Professional Website
+# 🌟My "PRO" website.
 
 [![Website Status](https://img.shields.io/website?url=https%3A%2F%2Fmanugeni.github.io&style=for-the-badge&label=Website&color=2ea44f)](https://manugeni.github.io)
 [![Last Updated](https://img.shields.io/badge/Last%20Updated-2025--02--16-blue?style=for-the-badge)](https://github.com/manugeni/manugeni.github.io)
