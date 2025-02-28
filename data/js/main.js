@@ -19,12 +19,14 @@ themeToggle.style.zIndex = '1000';
 themeToggle.style.padding = '10px';
 themeToggle.style.background = 'rgba(255, 255, 255, 0.1)';
 themeToggle.style.borderRadius = '50%';
+themeToggle.style.transition = 'background 0.3s ease';
 document.body.appendChild(themeToggle);
 
 themeToggle.addEventListener('click', () => {
     document.body.classList.toggle('light-mode');
     const isLight = document.body.classList.contains('light-mode');
     themeToggle.innerHTML = isLight ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+    themeToggle.style.background = isLight ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.1)';
     localStorage.setItem('theme', isLight ? 'light' : 'dark');
 });
 
@@ -32,30 +34,34 @@ themeToggle.addEventListener('click', () => {
 if (localStorage.getItem('theme') === 'light') {
     document.body.classList.add('light-mode');
     themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    themeToggle.style.background = 'rgba(0, 0, 0, 0.1)';
 }
 
-// Typing effect for hero section
-const heroText = document.querySelector('.hero h1');
-const originalText = heroText.textContent;
-heroText.textContent = '';
+// Animate elements on scroll
+const animateOnScroll = () => {
+    const elements = document.querySelectorAll('.fade-in');
+    elements.forEach(element => {
+        const elementTop = element.getBoundingClientRect().top;
+        const elementBottom = element.getBoundingClientRect().bottom;
+        const isVisible = (elementTop < window.innerHeight) && (elementBottom >= 0);
+        if (isVisible) {
+            element.classList.add('visible');
+        }
+    });
+};
 
-let i = 0;
-const typingSpeed = 100;
+// Add fade-in class to elements
+document.querySelectorAll('.hero h1, .hero p, .video-container, .tech-grid, .social-links').forEach(element => {
+    element.classList.add('fade-in');
+});
 
-function typeWriter() {
-    if (i < originalText.length) {
-        heroText.textContent += originalText.charAt(i);
-        i++;
-        setTimeout(typeWriter, typingSpeed);
-    }
-}
+// Trigger animations on scroll
+window.addEventListener('scroll', animateOnScroll);
+animateOnScroll(); // Initial check
 
-typeWriter();
-
-// Project card hover animations
-const projectCards = document.querySelectorAll('.project-card');
-
-projectCards.forEach(card => {
+// Add hover effect to tech cards
+const techCards = document.querySelectorAll('.tech-card');
+techCards.forEach(card => {
     card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
@@ -65,57 +71,13 @@ projectCards.forEach(card => {
     });
 });
 
-// Scroll animations
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-        }
+// Add hover effect to social icons
+const socialIcons = document.querySelectorAll('.social-icon');
+socialIcons.forEach(icon => {
+    icon.addEventListener('mouseenter', () => {
+        icon.style.transform = 'translateY(-5px)';
     });
-}, {
-    threshold: 0.1
+    icon.addEventListener('mouseleave', () => {
+        icon.style.transform = 'translateY(0)';
+    });
 });
-
-document.querySelectorAll('.tech-grid, .projects, .hero').forEach(section => {
-    observer.observe(section);
-});
-
-// Add some additional CSS through JavaScript
-const style = document.createElement('style');
-style.textContent = `
-    .light-mode {
-        --primary: #F5F5F5;
-        --secondary: #FFFFFF;
-        --text: #2A2A2A;
-        --code-bg: #F0F0F0;
-    }
-
-    .project-card {
-        position: relative;
-        overflow: hidden;
-    }
-
-    .project-card::after {
-        content: '';
-        position: absolute;
-        top: var(--mouse-y, 0);
-        left: var(--mouse-x, 0);
-        width: 200px;
-        height: 200px;
-        background: radial-gradient(circle closest-side, rgba(0,255,136,0.2), transparent);
-        transform: translate(-50%, -50%);
-        pointer-events: none;
-    }
-
-    .tech-grid, .projects, .hero {
-        opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-    }
-
-    .visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
-`;
-document.head.appendChild(style);
