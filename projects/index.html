@@ -3,53 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects | Rendani a tech enthusiast</title>
+    <title>Projects | Projects in Progress</title>
     <link rel="icon" type="image/png" href="/data/images/favicon.png">
-    <link href="https://unpkg.com/@fontsource/inter@4.5.0/index.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="/data/css/main.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <nav class="glass-container">
-        <div class="nav-links">
-            <img src="/data/images/Rendani_Logo.png" alt="Rendani Logo">
-            <div>
-                <a href="/">Home</a>
-                <a href="/projects/">Projects</a>
-                <a href="/contact/">Contact</a>
+    <header>
+        <nav>
+            <a href="/"><img src="/data/images/Rendani_Logo.png" alt="Logo" class="logo"></a>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/projects/">Projects</a></li>
+                <li><a href="/contact/">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="projects">
+            <h2>My Projects</h2>
+            <div class="project">
+                <h3>Inter-Chat <span class="coming-soon">(Coming Soon)</span></h3>
+                <p>Chat with AI models in real-time.</p>
+                <p><strong>Tech:</strong> AI, Chat, Real-time</p>
+                <a href="https://github.com/manugeni" target="_blank">GitHub</a>
+                <a href="https://huggingface.co/manugeni" target="_blank">Hugging Face</a>
             </div>
-        </div>
-    </nav>
-
-    <main class="projects-page">
-        <section class="hero">
-            <div class="glass-container">
-                <h1>My Projects</h1>
-                <p>Explore my latest creations and works in progress.</p>
+            <div class="project">
+                <h3>Vault Engine <span class="coming-soon">(Coming Soon)</span></h3>
+                <p>3D web engine for creating immersive experiences.</p>
+                <p><strong>Tech:</strong> 3D, WebGL, Engine</p>
+                <a href="https://github.com/manugeni" target="_blank">GitHub</a>
             </div>
-        </section>
-
-        <section id="projects" class="projects">
-            <div class="search-container">
-                <input type="text" id="project-search" placeholder="Search projects by name, description, or tags...">
-                <i class="fas fa-search"></i>
+            <div class="project">
+                <h3>VirtuXperience <span class="coming-soon">(Coming Soon)</span></h3>
+                <p>VR web 3D experience through realms.</p>
+                <p><strong>Tech:</strong> VR, 3D, WebXR</p>
+                <a href="https://github.com/manugeni" target="_blank">GitHub</a>
             </div>
-            <div id="projects-container" class="projects-grid"></div>
+            <div class="project">
+                <h3>Slay! <span class="coming-soon">(Coming Soon)</span></h3>
+                <p>Online game where you slay monsters.</p>
+                <p><strong>Tech:</strong> Game, Multiplayer, WebGL</p>
+                <a href="https://github.com/manugeni" target="_blank">GitHub</a>
+            </div>
         </section>
     </main>
-
-    <div class="social-links">
-        <a href="https://github.com/manugeni" class="social-icon" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-github"></i>
-        </a>
-        <a href="https://twitter.com/callmerendani" class="social-icon" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-twitter"></i>
-        </a>
-        <a href="https://facebook.com/callmerendani" class="social-icon" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-facebook"></i>
-        </a>
-    </div>
-
-    <script src="/data/js/projects.js" defer></script>
+    <footer>
+        <p>© 2025 Rendani</p>
+    </footer>
 </body>
 </html>
