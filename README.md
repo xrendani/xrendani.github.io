@@ -85,9 +85,9 @@ Contributions are what make the open-source community such an amazing place to l
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📬 Contact
+## 📬Contact
 
-Manuel Geni - [@manugeni](https://github.com/manugeni)
+Rendani - [@manugeni](https://github.com/manugeni)
 
 Project Link: [https://github.com/manugeni/manugeni.github.io](https://github.com/manugeni/manugeni.github.io)
 
