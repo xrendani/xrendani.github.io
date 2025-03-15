@@ -216,3 +216,141 @@ footer {
         grid-template-columns: 1fr;
     }
 }
+
+/* Logo Styles */
+.logo img {
+    height: 48px;
+    width: auto;
+    filter: drop-shadow(0 0 8px rgba(0, 255, 157, 0.5));
+}
+
+/* Contact Page Styles */
+.contact-section {
+    padding: 120px 2rem 6rem;
+    min-height: calc(100vh - 100px);
+}
+
+.contact-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .contact-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}
+
+.contact-social {
+    padding: 2rem;
+}
+
+.social-grid {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.social-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: var(--surface-color);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.social-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 20px rgba(0, 255, 157, 0.2);
+}
+
+.social-card i {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+.social-card .username {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.contact-form {
+    padding: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.8rem;
+    background: var(--surface-color);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    color: var(--text-color);
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 10px rgba(0, 255, 157, 0.2);
+}
+
+.submit-btn {
+    background: var(--primary-color);
+    color: var(--background-color);
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+    background: #00cc7d;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 255, 157, 0.3);
+}
+
+nav .active {
+    color: var(--primary-color);
+}
+
+/* Update hero section for better logo visibility */
+.hero .container {
+    position: relative;
+    z-index: 2;
+}
+
+/* Add these to the existing CSS file */
+.background-animation {
+    opacity: 0.8;
+}
+
+/* High-quality image rendering */
+img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
