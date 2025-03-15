@@ -212,3 +212,66 @@ header {
         grid-template-columns: 1fr;
     }
 }
+
+/* 404 Error Page Styles */
+.error-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    padding-top: 6rem;
+}
+
+.error-content {
+    text-align: center;
+}
+
+.ascii-art {
+    font-family: monospace;
+    white-space: pre;
+    margin-bottom: 2rem;
+    color: var(--accent-color);
+    font-size: 1rem;
+    line-height: 1.2;
+}
+
+.error-content h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+}
+
+.terminal-line {
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+}
+
+.commands {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.command-link {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.command-link:hover {
+    color: var(--accent-color);
+    transform: translateX(10px);
+}
+
+@media (max-width: 768px) {
+    .ascii-art {
+        font-size: 0.8rem;
+    }
+    
+    .error-content h1 {
+        font-size: 1.5rem;
+    }
+}
