@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - manugeni</title>
+    <link rel="stylesheet" href="/data/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/data/images/favicon.png">
+</head>
+<body>
+    <div class="terminal-overlay"></div>
+    
+    <header>
+        <div class="system-info">
+            <div class="info-line">Current Date and Time (UTC - YYYY-MM-DD HH:MM:SS formatted): <span id="current-time"></span></div>
+            <div class="info-line">Current User's Login: manugeni</div>
+        </div>
+    </header>
+
+    <main>
+        <section class="error-section">
+            <div class="page-content">
+                <nav class="breadcrumb">
+                    <a href="/">~</a> / error
+                </nav>
+                
+                <div class="error-content">
+                    <h1>> ERROR: 404_NOT_FOUND</h1>
+                    <p class="error-message">
+                        <span class="prompt">$</span> The requested file could not be found.
+                    </p>
+                    <p class="error-desc">
+                        <span class="prompt">$</span> Try these commands:
+                    </p>
+                    <div class="command-list">
+                        <a href="/" class="command-link"><span class="prompt">$</span> cd /home</a>
+                        <a href="/contact" class="command-link"><span class="prompt">$</span> ./contact.sh</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const formatted = now.getUTCFullYear() + '-' + 
+                            String(now.getUTCMonth() + 1).padStart(2, '0') + '-' +
+                            String(now.getUTCDate()).padStart(2, '0') + ' ' +
+                            String(now.getUTCHours()).padStart(2, '0') + ':' +
+                            String(now.getUTCMinutes()).padStart(2, '0') + ':' +
+                            String(now.getUTCSeconds()).padStart(2, '0');
+            document.getElementById('current-time').textContent = formatted;
+        }
+
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>
