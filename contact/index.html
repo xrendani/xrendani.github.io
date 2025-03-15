@@ -24,68 +24,46 @@
                 <li><a href="/#about">About</a></li>
                 <li><a href="/contact/" class="active">Contact</a></li>
             </ul>
-            <div class="datetime">
-                <span id="current-time">2025-03-15 23:08:47 UTC</span>
-            </div>
         </nav>
     </header>
 
     <main>
         <section class="contact-section">
-            <div class="container">
-                <h1>Contact Me</h1>
-                <div class="contact-content">
-                    <div class="contact-info">
-                        <div class="social-links-container">
-                            <h2>Connect</h2>
-                            <div class="social-grid">
-                                <a href="https://github.com/manugeni" target="_blank" class="social-card github">
-                                    <div class="icon-wrapper">
-                                        <i class="fab fa-github"></i>
-                                    </div>
-                                    <div class="social-info">
-                                        <span class="platform">GitHub</span>
-                                        <span class="username">@manugeni</span>
-                                    </div>
-                                </a>
-                                <a href="https://x.com/CallMeRendani" target="_blank" class="social-card twitter">
-                                    <div class="icon-wrapper">
-                                        <i class="fab fa-x-twitter"></i>
-                                    </div>
-                                    <div class="social-info">
-                                        <span class="platform">X (Twitter)</span>
-                                        <span class="username">@CallMeRendani</span>
-                                    </div>
-                                </a>
-                                <a href="https://youtube.com/@CallMeRendani" target="_blank" class="social-card youtube">
-                                    <div class="icon-wrapper">
-                                        <i class="fab fa-youtube"></i>
-                                    </div>
-                                    <div class="social-info">
-                                        <span class="platform">YouTube</span>
-                                        <span class="username">@CallMeRendani</span>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
+            <div class="page-content">
+                <h1>Contact</h1>
+                <div class="contact-methods">
+                    <p class="contact-intro">You can reach me through:</p>
+                    
+                    <div class="contact-links">
+                        <a href="https://twitter.com/CallMeRendani" target="_blank" class="contact-link">
+                            <i class="fab fa-twitter"></i>
+                            <span>@CallMeRendani</span>
+                        </a>
+                        <a href="https://github.com/manugeni" target="_blank" class="contact-link">
+                            <i class="fab fa-github"></i>
+                            <span>@manugeni</span>
+                        </a>
+                        <a href="https://youtube.com/@CallMeRendani" target="_blank" class="contact-link">
+                            <i class="fab fa-youtube"></i>
+                            <span>@CallMeRendani</span>
+                        </a>
                     </div>
 
-                    <div class="contact-form-container">
-                        <h2>Send Message</h2>
-                        <form action="https://formspree.io/f/movjgeaw" method="POST" class="contact-form">
-                            <div class="form-group">
-                                <input type="text" id="name" name="name" required placeholder="Your Name">
+                    <div class="contact-form-section">
+                        <h2>Send me a message</h2>
+                        <form action="https://formspree.io/f/movjgeaw" method="POST">
+                            <div class="form-row">
+                                <input type="text" name="name" placeholder="Name" required>
                             </div>
-                            <div class="form-group">
-                                <input type="email" id="email" name="email" required placeholder="Your Email">
+                            <div class="form-row">
+                                <input type="email" name="email" placeholder="Email" required>
                             </div>
-                            <div class="form-group">
-                                <textarea id="message" name="message" rows="5" required placeholder="Your Message"></textarea>
+                            <div class="form-row">
+                                <textarea name="message" placeholder="Your message" required></textarea>
                             </div>
-                            <button type="submit" class="submit-btn">
-                                <span>Send Message</span>
-                                <i class="fas fa-paper-plane"></i>
-                            </button>
+                            <div class="form-row">
+                                <button type="submit">Send Message</button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -97,23 +75,6 @@
         <p>&copy; 2025 Rendani. All rights reserved.</p>
     </footer>
 
-    <script>
-        // Update current time
-        function updateTime() {
-            const now = new Date();
-            const formatted = now.getUTCFullYear() + '-' + 
-                            String(now.getUTCMonth() + 1).padStart(2, '0') + '-' +
-                            String(now.getUTCDate()).padStart(2, '0') + ' ' +
-                            String(now.getUTCHours()).padStart(2, '0') + ':' +
-                            String(now.getUTCMinutes()).padStart(2, '0') + ':' +
-                            String(now.getUTCSeconds()).padStart(2, '0') + ' UTC';
-            document.getElementById('current-time').textContent = formatted;
-        }
-
-        // Update time every second
-        updateTime();
-        setInterval(updateTime, 1000);
-    </script>
     <script src="/data/js/main.js"></script>
 </body>
 </html>
