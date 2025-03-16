@@ -5,12 +5,57 @@
   <title>Analytics Dashboard</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    h1, h2 { text-align: center; }
-    canvas { max-width: 800px; margin: 0 auto; display: block; }
-    #login-form { max-width: 300px; margin: 0 auto; }
-    #error-message { color: red; display: none; text-align: center; }
-    input, button { width: 100%; margin-bottom: 10px; padding: 5px; }
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #1a1a1a; /* Dark background */
+      color: #e0e0e0; /* Light text */
+      margin: 0;
+    }
+    h1, h2 {
+      text-align: center;
+      color: #ffffff;
+    }
+    canvas {
+      max-width: 800px;
+      margin: 0 auto;
+      display: block;
+      background-color: #2a2a2a; /* Dark chart background */
+      padding: 10px;
+      border-radius: 5px;
+    }
+    #login-form {
+      max-width: 300px;
+      margin: 0 auto;
+      background-color: #2a2a2a;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+    #error-message {
+      color: #ff5555; /* Red error text */
+      display: none;
+      text-align: center;
+    }
+    input, button {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+      border: 1px solid #444;
+      border-radius: 4px;
+      background-color: #333;
+      color: #e0e0e0;
+    }
+    button {
+      background-color: #4a4a4a;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #666;
+    }
+    #dashboard {
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -24,7 +69,7 @@
   </div>
 
   <!-- Dashboard Content (hidden initially) -->
-  <div id="dashboard" style="display: none;">
+  <div id="dashboard">
     <h1>GitHub Pages Analytics</h1>
     <canvas id="pageviewsChart"></canvas>
   </div>
@@ -60,21 +105,35 @@
               datasets: [{
                 label: 'Pageviews',
                 data: data.pageviews,
-                borderColor: 'blue',
+                borderColor: '#4da8da', /* Light blue line */
+                backgroundColor: 'rgba(77, 168, 218, 0.2)', /* Light fill */
                 fill: false
               }]
             },
             options: {
               scales: {
-                x: { title: { display: true, text: 'Date' } },
-                y: { title: { display: true, text: 'Pageviews' } }
+                x: {
+                  title: { display: true, text: 'Date', color: '#e0e0e0' },
+                  ticks: { color: '#e0e0e0' },
+                  grid: { color: '#444' }
+                },
+                y: {
+                  title: { display: true, text: 'Pageviews', color: '#e0e0e0' },
+                  ticks: { color: '#e0e0e0' },
+                  grid: { color: '#444' }
+                }
+              },
+              plugins: {
+                legend: {
+                  labels: { color: '#e0e0e0' }
+                }
               }
             }
           });
         })
         .catch(error => {
           console.error('Error loading data:', error);
-          document.body.innerHTML += '<p>Analytics data unavailable.</p>';
+          document.getElementById('dashboard').innerHTML += '<p style="color: #ff5555; text-align: center;">Analytics data unavailable.</p>';
         });
     }
   </script>
