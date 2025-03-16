@@ -8,8 +8,8 @@
     body {
       font-family: Arial, sans-serif;
       padding: 20px;
-      background-color: #1a1a1a; /* Dark background */
-      color: #e0e0e0; /* Light text */
+      background-color: #1a1a1a;
+      color: #e0e0e0;
       margin: 0;
     }
     h1, h2 {
@@ -20,7 +20,7 @@
       max-width: 800px;
       margin: 0 auto;
       display: block;
-      background-color: #2a2a2a; /* Dark chart background */
+      background-color: #2a2a2a;
       padding: 10px;
       border-radius: 5px;
     }
@@ -33,7 +33,7 @@
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     }
     #error-message {
-      color: #ff5555; /* Red error text */
+      color: #ff5555;
       display: none;
       text-align: center;
     }
@@ -68,13 +68,17 @@
     <p id="error-message">Invalid credentials</p>
   </div>
 
-  <!-- Dashboard Content (hidden initially) -->
+  <!-- Dashboard Content -->
   <div id="dashboard">
     <h1>GitHub Pages Analytics</h1>
     <canvas id="pageviewsChart"></canvas>
   </div>
 
   <script>
+    // Google Analytics API key and property ID
+    const API_KEY = 'AIzaSyC4erWOjqpuzfXFOTNMmcqxNoLmbiwnqy8';
+    const PROPERTY_ID = 'properties/G-RMGEY3K6F2';
+
     // Login function
     function login() {
       const username = document.getElementById('username').value;
@@ -86,55 +90,76 @@
       if (username === 'ADMIN-RM' && password === 'ADMIN-RM-644964') {
         loginForm.style.display = 'none';
         dashboard.style.display = 'block';
-        loadDashboard(); // Load the chart after login
+        loadDashboard();
       } else {
         errorMessage.style.display = 'block';
       }
     }
 
-    // Function to load the dashboard chart
+    // Load dashboard data
     function loadDashboard() {
-      fetch('/data/analytics.json') // Adjust path if needed
-        .then(response => response.json())
-        .then(data => {
-          const ctx = document.getElementById('pageviewsChart').getContext('2d');
-          new Chart(ctx, {
-            type: 'line',
-            data: {
-              labels: data.dates,
-              datasets: [{
-                label: 'Pageviews',
-                data: data.pageviews,
-                borderColor: '#4da8da', /* Light blue line */
-                backgroundColor: 'rgba(77, 168, 218, 0.2)', /* Light fill */
-                fill: false
-              }]
-            },
-            options: {
-              scales: {
-                x: {
-                  title: { display: true, text: 'Date', color: '#e0e0e0' },
-                  ticks: { color: '#e0e0e0' },
-                  grid: { color: '#444' }
-                },
-                y: {
-                  title: { display: true, text: 'Pageviews', color: '#e0e0e0' },
-                  ticks: { color: '#e0e0e0' },
-                  grid: { color: '#444' }
-                }
+      fetch(`https://analyticsdata.googleapis.com/v1beta/${PROPERTY_ID}:runReport?key=${API_KEY}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          dateRanges: [{ startDate: '30daysAgo', endDate: 'today' }],
+          dimensions: [{ name: 'date' }],
+          metrics: [{ name: 'screenPageViews' }]
+        })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (!data.rows || data.rows.length === 0) {
+          throw new Error('No data returned from Google Analytics');
+        }
+        const dates = data.rows.map(row => row.dimensionValues[0].value);
+        const pageviews = data.rows.map(row => parseInt(row.metricValues[0].value));
+
+        const ctx = document.getElementById('pageviewsChart').getContext('2d');
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: dates,
+            datasets: [{
+              label: 'Pageviews',
+              data: pageviews,
+              borderColor: '#4da8da',
+              backgroundColor: 'rgba(77, 168, 218, 0.2)',
+              fill: false
+            }]
+          },
+          options: {
+            scales: {
+              x: {
+                title: { display: true, text: 'Date', color: '#e0e0e0' },
+                ticks: { color: '#e0e0e0' },
+                grid: { color: '#444' }
               },
-              plugins: {
-                legend: {
-                  labels: { color: '#e0e0e0' }
-                }
+              y: {
+                title: { display: true, text: 'Pageviews', color: '#e0e0e0' },
+                ticks: { color: '#e0e0e0' },
+                grid: { color: '#444' }
+              }
+            },
+            plugins: {
+              legend: {
+                labels: { color: '#e0e0e0' }
               }
             }
-          });
-        })
-        .catch(error => {
-          console.error('Error loading data:', error);
-          document.getElementById('dashboard').innerHTML += '<p style="color: #ff5555; text-align: center;">Analytics data unavailable.</p>';
+          }
         });
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+        document.getElementById('dashboard').innerHTML += '<p style="color: #ff5555; text-align: center;">Analytics data unavailable. Check API key, data collection, or console for errors.</p>';
+      });
     }
   </script>
 </body>
