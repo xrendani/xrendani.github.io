@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Analytics Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    h1, h2 { text-align: center; }
+    canvas { max-width: 800px; margin: 0 auto; display: block; }
+    #login-form { max-width: 300px; margin: 0 auto; }
+    #error-message { color: red; display: none; text-align: center; }
+    input, button { width: 100%; margin-bottom: 10px; padding: 5px; }
+  </style>
+</head>
+<body>
+  <!-- Login Form -->
+  <div id="login-form">
+    <h2>Login to Access Dashboard</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <p id="error-message">Invalid credentials</p>
+  </div>
+
+  <!-- Dashboard Content (hidden initially) -->
+  <div id="dashboard" style="display: none;">
+    <h1>GitHub Pages Analytics</h1>
+    <canvas id="pageviewsChart"></canvas>
+  </div>
+
+  <script>
+    // Login function
+    function login() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const errorMessage = document.getElementById('error-message');
+      const loginForm = document.getElementById('login-form');
+      const dashboard = document.getElementById('dashboard');
+
+      if (username === 'ADMIN-RM' && password === 'ADMIN-RM-644964') {
+        loginForm.style.display = 'none';
+        dashboard.style.display = 'block';
+        loadDashboard(); // Load the chart after login
+      } else {
+        errorMessage.style.display = 'block';
+      }
+    }
+
+    // Function to load the dashboard chart
+    function loadDashboard() {
+      fetch('/data/analytics.json') // Adjust path if needed
+        .then(response => response.json())
+        .then(data => {
+          const ctx = document.getElementById('pageviewsChart').getContext('2d');
+          new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: data.dates,
+              datasets: [{
+                label: 'Pageviews',
+                data: data.pageviews,
+                borderColor: 'blue',
+                fill: false
+              }]
+            },
+            options: {
+              scales: {
+                x: { title: { display: true, text: 'Date' } },
+                y: { title: { display: true, text: 'Pageviews' } }
+              }
+            }
+          });
+        })
+        .catch(error => {
+          console.error('Error loading data:', error);
+          document.body.innerHTML += '<p>Analytics data unavailable.</p>';
+        });
+    }
+  </script>
+</body>
+</html>
