@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Fetch and display GitHub repositories
     async function fetchGitHubRepos() {
         try {
-            const response = await fetch('https://api.github.com/users/manugeni/repos?sort=updated&per_page=6');
+            const response = await fetch('https://api.github.com/users/mkblane/repos?sort=updated&per_page=6');
             const repos = await response.json();
             
             const projectsContainer = document.getElementById('projects-container');
