@@ -2,7 +2,7 @@
 
 # 🌟 MY Website
 
-[![Website](https://img.shields.io/website?url=https%3A%2F%2Fmanugeni.github.io&style=flat-square&label=Website&color=2ea44f)](https://manugeni.github.io)
+[![Website](https://img.shields.io/website?url=https%3A%2F%2Fmanugeni.github.io&style=flat-square&label=Website&color=2ea44f)](https://mkblane.github.io)
 [![Made with ❤️](https://img.shields.io/badge/Made%20with-%E2%9D%A4%EF%B8%8F-red?style=flat-square)](https://github.com/manugeni)
 
 My professional portfolio website showcasing my work and skills.
