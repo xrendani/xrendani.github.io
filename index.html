@@ -22,10 +22,10 @@
             <div class="logo-container">
                 <img src="/data/images/Logo.png" alt="manugeni logo" class="hero-logo">
             </div>
-            <h1 class="glitch-title">rendani manugeni</h1>
+            <h1 class="glitch-title">manugeni</h1>
             <div class="terminal-line" id="typed-text">developer && creator</div>
             <nav class="main-nav">
-                <a href="#about">about</a>
+                <a href="#" id="about-link">about</a>
                 <a href="#projects">projects</a>
                 <a href="/contact">contact</a>
             </nav>
@@ -36,8 +36,40 @@
             </div>
         </section>
 
+        <!-- About Modal -->
+        <div class="modal-overlay" id="about-modal">
+            <div class="modal">
+                <div class="modal-header">
+                    <div class="window-button close"></div>
+                    <div class="window-button minimize"></div>
+                    <div class="window-button maximize"></div>
+                    <h2 class="modal-title">AboutMe</h2>
+                    <button class="close-modal" aria-label="Close modal">×</button>
+                </div>
+                <div class="modal-content">
+                    <div class="about-section">
+                        <p>Hi there! 👋 I'm Rendani Manugeni, a passionate developer who loves to build and create.</p>
+                        <p>💻 I specialize in web technologies and enjoy crafting beautiful, functional digital experiences.</p>
+                        <p>🚀 Always learning and exploring new technologies to push the boundaries of what's possible.</p>
+                        <p>🌟 When I'm not coding, you can find me sharing knowledge and building cool stuff!</p>
+                        
+                        <h3 style="color: var(--function-color); margin-top: 1rem;">Tech Stack:</h3>
+                        <div class="tech-stack">
+                            <span class="tech-item">JavaScript</span>
+                            <span class="tech-item">React</span>
+                            <span class="tech-item">Node.js</span>
+                            <span class="tech-item">HTML5</span>
+                            <span class="tech-item">CSS3</span>
+                            <span class="tech-item">Git</span>
+                            <span class="tech-item">VS Code</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <section id="projects" class="projects-section">
-            <h2>Selected Projects</h2>
+            <h2>projects</h2>
             <div class="projects-grid" id="projects-container">
                 <!-- Projects will be loaded dynamically -->
             </div>
@@ -73,12 +105,10 @@
                         projectCard.innerHTML = `
                             <div class="project-header">
                                 <span class="project-title">${repo.name}</span>
-                                <span class="project-stats">
-                                    <span class="stars">${repo.stargazers_count}★</span>
-                                </span>
+                                <span class="project-stats">${repo.stargazers_count}★</span>
                             </div>
                             <p class="project-description">${repo.description || 'No description available'}</p>
-                            <a href="${repo.html_url}" target="_blank" rel="noopener noreferrer" class="project-link">View Project →</a>
+                            <a href="${repo.html_url}" target="_blank" rel="noopener noreferrer" class="project-link">View Source</a>
                         `;
                         container.appendChild(projectCard);
                     }
@@ -86,12 +116,42 @@
             } catch (error) {
                 console.error('Error loading projects:', error);
                 const container = document.getElementById('projects-container');
-                container.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">Unable to load projects at this time.</p>';
+                container.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">// Unable to load projects at this time.</p>';
             }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             loadProjects();
+        });
+
+        // Modal functionality
+        const aboutLink = document.getElementById('about-link');
+        const aboutModal = document.getElementById('about-modal');
+        const closeModal = document.querySelector('.close-modal');
+
+        aboutLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            aboutModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        function closeAboutModal() {
+            aboutModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        closeModal.addEventListener('click', closeAboutModal);
+        aboutModal.addEventListener('click', (e) => {
+            if (e.target === aboutModal) {
+                closeAboutModal();
+            }
+        });
+
+        // Close modal on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && aboutModal.classList.contains('active')) {
+                closeAboutModal();
+            }
         });
     </script>
 </body>
