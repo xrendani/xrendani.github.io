@@ -3,61 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>contact - manugeni</title>
+    <title>Contact - manugeni</title>
     <link rel="stylesheet" href="/data/css/main.css">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="/data/images/favicon.png">
+    <meta name="description" content="Get in touch with manugeni">
 </head>
 <body>
-    <div class="terminal-overlay"></div>
-    
     <header>
         <div class="system-info">
-            <div class="info-line">Current Date and Time (UTC - YYYY-MM-DD HH:MM:SS formatted): <span id="current-time">2025-03-15 23:22:43</span></div>
-            <div class="info-line">Current User's Login: manugeni</div>
+            <div class="info-line">manugeni</div>
+            <div class="info-line" id="current-time"></div>
         </div>
     </header>
 
     <main>
         <section class="contact-section">
-            <div class="page-content">
+            <div class="contact-content">
                 <nav class="breadcrumb">
-                    <a href="/">~</a> / contact
+                    <a href="/" class="home-link">Home</a>
+                    <span class="separator">/</span>
+                    <span class="current">Contact</span>
                 </nav>
                 
-                <h1>> contact</h1>
+                <h1>Get in Touch</h1>
                 
-                <div class="contact-info">
-                    <div class="social-links-list">
-                        <div class="link-item">
-                            <span class="prompt">$</span> github:
-                            <a href="https://github.com/manugeni" target="_blank">manugeni</a>
-                        </div>
-                        <div class="link-item">
-                            <span class="prompt">$</span> twitter:
-                            <a href="https://twitter.com/CallMeRendani" target="_blank">@CallMeRendani</a>
-                        </div>
-                        <div class="link-item">
-                            <span class="prompt">$</span> youtube:
-                            <a href="https://youtube.com/@CallMeRendani" target="_blank">@CallMeRendani</a>
+                <div class="contact-grid">
+                    <div class="social-links-container">
+                        <h2>Social Links</h2>
+                        <div class="social-links-list">
+                            <a href="https://github.com/manugeni" target="_blank" rel="noopener noreferrer" class="social-link">
+                                <span class="social-platform">GitHub</span>
+                                <span class="social-username">@manugeni</span>
+                            </a>
+                            <a href="https://twitter.com/CallMeRendani" target="_blank" rel="noopener noreferrer" class="social-link">
+                                <span class="social-platform">Twitter</span>
+                                <span class="social-username">@CallMeRendani</span>
+                            </a>
+                            <a href="https://youtube.com/@CallMeRendani" target="_blank" rel="noopener noreferrer" class="social-link">
+                                <span class="social-platform">YouTube</span>
+                                <span class="social-username">@CallMeRendani</span>
+                            </a>
                         </div>
                     </div>
 
                     <div class="contact-form-container">
-                        <h2>> send message</h2>
+                        <h2>Send Message</h2>
                         <form action="https://formspree.io/f/movjgeaw" method="POST" class="contact-form">
                             <div class="form-group">
-                                <input type="text" name="name" required placeholder="name">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" name="name" required>
                             </div>
                             <div class="form-group">
-                                <input type="email" name="email" required placeholder="email">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" required>
                             </div>
                             <div class="form-group">
-                                <textarea name="message" required placeholder="message"></textarea>
+                                <label for="message">Message</label>
+                                <textarea id="message" name="message" required rows="5"></textarea>
                             </div>
-                            <button type="submit" class="submit-btn">
-                                <span class="prompt">$</span> send
-                            </button>
+                            <button type="submit" class="submit-btn">Send Message</button>
                         </form>
                     </div>
                 </div>
@@ -68,13 +73,12 @@
     <script>
         function updateTime() {
             const now = new Date();
-            const formatted = now.getUTCFullYear() + '-' + 
-                            String(now.getUTCMonth() + 1).padStart(2, '0') + '-' +
-                            String(now.getUTCDate()).padStart(2, '0') + ' ' +
-                            String(now.getUTCHours()).padStart(2, '0') + ':' +
-                            String(now.getUTCMinutes()).padStart(2, '0') + ':' +
-                            String(now.getUTCSeconds()).padStart(2, '0');
-            document.getElementById('current-time').textContent = formatted;
+            const options = { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: false
+            };
+            document.getElementById('current-time').textContent = now.toLocaleTimeString([], options);
         }
 
         updateTime();
