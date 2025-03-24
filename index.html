@@ -40,29 +40,52 @@
         <div class="modal-overlay" id="about-modal">
             <div class="modal">
                 <div class="modal-header">
-                    <div class="window-button close"></div>
-                    <div class="window-button minimize"></div>
-                    <div class="window-button maximize"></div>
-                    <h2 class="modal-title">AboutMe</h2>
+                    <div class="window-controls">
+                        <div class="window-button close"></div>
+                        <div class="window-button minimize"></div>
+                        <div class="window-button maximize"></div>
+                    </div>
+                    <div class="tab-bar">
+                        <div class="tab active">about.js</div>
+                    </div>
                     <button class="close-modal" aria-label="Close modal">×</button>
                 </div>
                 <div class="modal-content">
-                    <div class="about-section">
-                        <p>Hi there! 👋 I'm Rendani Manugeni, a passionate developer who loves to build and create.</p>
-                        <p>💻 I specialize in web technologies and enjoy crafting beautiful, functional digital experiences.</p>
-                        <p>🚀 Always learning and exploring new technologies to push the boundaries of what's possible.</p>
-                        <p>🌟 When I'm not coding, you can find me sharing knowledge and building cool stuff!</p>
-                        
-                        <h3 style="color: var(--function-color); margin-top: 1rem;">Tech Stack:</h3>
-                        <div class="tech-stack">
-                            <span class="tech-item">JavaScript</span>
-                            <span class="tech-item">React</span>
-                            <span class="tech-item">Node.js</span>
-                            <span class="tech-item">HTML5</span>
-                            <span class="tech-item">CSS3</span>
-                            <span class="tech-item">Git</span>
-                            <span class="tech-item">VS Code</span>
+                    <div class="line-numbers">
+                        <span>1</span>
+                        <span>2</span>
+                        <span>3</span>
+                        <span>4</span>
+                        <span>5</span>
+                        <span>6</span>
+                        <span>7</span>
+                        <span>8</span>
+                        <span>9</span>
+                        <span>10</span>
+                        <span>11</span>
+                        <span>12</span>
+                    </div>
+                    <div class="code-content">
+                        <div class="code-line"><span class="keyword">class</span> <span class="class-name">AboutMe</span> {</div>
+                        <div class="code-line indent">
+                            <span class="keyword">constructor</span>() {
                         </div>
+                        <div class="code-line indent-2">
+                            <span class="property">this</span>.<span class="property">name</span> = <span class="string">"Rendani Manugeni"</span>;
+                        </div>
+                        <div class="code-line indent-2">
+                            <span class="property">this</span>.<span class="property">role</span> = <span class="string">"Full Stack Developer"</span>;
+                        </div>
+                        <div class="code-line indent">}</div>
+                        <div class="code-line"></div>
+                        <div class="code-line indent"><span class="keyword">get</span> <span class="function">bio</span>() {</div>
+                        <div class="code-line indent-2"><span class="keyword">return</span> <span class="string">"👋 Hi! I'm a passionate developer who loves to build and create."</span>;</div>
+                        <div class="code-line indent">}</div>
+                        <div class="code-line"></div>
+                        <div class="code-line indent"><span class="property">techStack</span> = [</div>
+                        <div class="code-line indent-2"><span class="string">"JavaScript"</span>, <span class="string">"React"</span>, <span class="string">"Node.js"</span>, <span class="string">"HTML5"</span>, <span class="string">"CSS3"</span>, <span class="string">"Git"</span></div>
+                        <div class="code-line indent">];</div>
+                        <div class="code-line">}</div>
                     </div>
                 </div>
             </div>
