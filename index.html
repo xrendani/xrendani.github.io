@@ -25,71 +25,15 @@
             <h1 class="glitch-title">manugeni</h1>
             <div class="terminal-line" id="typed-text">developer && creator</div>
             <nav class="main-nav">
-                <a href="#" id="about-link">about</a>
                 <a href="#projects">projects</a>
                 <a href="/contact">contact</a>
             </nav>
             <div class="social-links">
-                <a href="https://github.com/mkblane" target="_blank" rel="noopener noreferrer">github</a>
-                <a href="https://x.com/mkblane" target="_blank" rel="noopener noreferrer">twitter</a>
-                <a href="https://youtube.com/@mkblane" target="_blank" rel="noopener noreferrer">youtube</a>
+                <a href="https://github.com/manugeni" target="_blank" rel="noopener noreferrer">github</a>
+                <a href="https://x.com/CallMeRendani" target="_blank" rel="noopener noreferrer">twitter</a>
+                <a href="https://youtube.com/@CallMeRendani" target="_blank" rel="noopener noreferrer">youtube</a>
             </div>
         </section>
-
-        <!-- About Modal -->
-        <div class="modal-overlay" id="about-modal">
-            <div class="modal">
-                <div class="modal-header">
-                    <div class="window-controls">
-                        <div class="window-button close"></div>
-                        <div class="window-button minimize"></div>
-                        <div class="window-button maximize"></div>
-                    </div>
-                    <div class="tab-bar">
-                        <div class="tab active">about.js</div>
-                    </div>
-                    <button class="close-modal" aria-label="Close modal">×</button>
-                </div>
-                <div class="modal-content">
-                    <div class="line-numbers">
-                        <span>1</span>
-                        <span>2</span>
-                        <span>3</span>
-                        <span>4</span>
-                        <span>5</span>
-                        <span>6</span>
-                        <span>7</span>
-                        <span>8</span>
-                        <span>9</span>
-                        <span>10</span>
-                        <span>11</span>
-                        <span>12</span>
-                    </div>
-                    <div class="code-content">
-                        <div class="code-line"><span class="keyword">class</span> <span class="class-name">AboutMe</span> {</div>
-                        <div class="code-line indent">
-                            <span class="keyword">constructor</span>() {
-                        </div>
-                        <div class="code-line indent-2">
-                            <span class="property">this</span>.<span class="property">name</span> = <span class="string">"Rendani Manugeni"</span>;
-                        </div>
-                        <div class="code-line indent-2">
-                            <span class="property">this</span>.<span class="property">role</span> = <span class="string">"Full Stack Developer"</span>;
-                        </div>
-                        <div class="code-line indent">}</div>
-                        <div class="code-line"></div>
-                        <div class="code-line indent"><span class="keyword">get</span> <span class="function">bio</span>() {</div>
-                        <div class="code-line indent-2"><span class="keyword">return</span> <span class="string">"👋 Hi! I'm a passionate developer who loves to build and create."</span>;</div>
-                        <div class="code-line indent">}</div>
-                        <div class="code-line"></div>
-                        <div class="code-line indent"><span class="property">techStack</span> = [</div>
-                        <div class="code-line indent-2"><span class="string">"JavaScript"</span>, <span class="string">"React"</span>, <span class="string">"Node.js"</span>, <span class="string">"HTML5"</span>, <span class="string">"CSS3"</span>, <span class="string">"Git"</span></div>
-                        <div class="code-line indent">];</div>
-                        <div class="code-line">}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <section id="projects" class="projects-section">
             <h2>projects</h2>
@@ -100,7 +44,7 @@
     </main>
 
     <script>
-        // Update UTC time
+        // Update time
         function updateTime() {
             const now = new Date();
             const options = { 
@@ -117,7 +61,7 @@
         // Load projects
         async function loadProjects() {
             try {
-                const response = await fetch('https://api.github.com/users/mkblane/repos?sort=updated&per_page=6');
+                const response = await fetch('https://api.github.com/users/manugeni/repos?sort=updated&per_page=6');
                 const repos = await response.json();
                 const container = document.getElementById('projects-container');
                 
@@ -145,36 +89,6 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             loadProjects();
-        });
-
-        // Modal functionality
-        const aboutLink = document.getElementById('about-link');
-        const aboutModal = document.getElementById('about-modal');
-        const closeModal = document.querySelector('.close-modal');
-
-        aboutLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            aboutModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        });
-
-        function closeAboutModal() {
-            aboutModal.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        closeModal.addEventListener('click', closeAboutModal);
-        aboutModal.addEventListener('click', (e) => {
-            if (e.target === aboutModal) {
-                closeAboutModal();
-            }
-        });
-
-        // Close modal on escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && aboutModal.classList.contains('active')) {
-                closeAboutModal();
-            }
         });
     </script>
 </body>
