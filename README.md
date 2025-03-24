@@ -12,7 +12,5 @@ My professional portfolio website showcasing my work and skills.
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
 
----
-<sub>Updated: 2025-03-01 23:46:45 UTC by @manugeni</sub>
 
 </div>
