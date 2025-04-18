@@ -8,19 +8,42 @@
     <link rel="stylesheet" href="src/css/styles.css">
 </head>
 <body>
-    <main>
-        <a href="/" class="logo">
-            <img src="src/img/logo.png" alt="rm logo">
-        </a>
-        
-        <h1>rendani</h1>
-        
-        <div class="links">
-            <a href="https://github.com/xrendani" class="social gh" target="_blank">github</a>
-            <a href="https://huggingface.co/xrendani" class="social hf" target="_blank">huggingface</a>
-            <a href="https://youtube.com/@xrendani" class="social yt" target="_blank">youtube</a>
+    <div class="terminal">
+        <div class="breadcrumbs">
+            <span class="path">~/</span>
         </div>
-    </main>
+        
+        <div class="content active" data-view="home">
+            <div class="logo-container">
+                <img src="src/img/logo.png" alt="rm logo" class="logo">
+            </div>
+            <div class="commands">
+                <div class="command" data-cmd="cd github">$ cd github</div>
+                <div class="command" data-cmd="cd social">$ cd social</div>
+            </div>
+        </div>
+
+        <div class="content" data-view="github">
+            <div class="terminal-header">
+                <span class="back" data-cmd="cd ..">← back</span>
+                <h2>github activity</h2>
+            </div>
+            <img src="https://ghchart.rshah.org/xrendani" alt="github contributions" class="github-graph"/>
+            <div id="repos" class="repos-container"></div>
+        </div>
+
+        <div class="content" data-view="social">
+            <div class="terminal-header">
+                <span class="back" data-cmd="cd ..">← back</span>
+                <h2>social connections</h2>
+            </div>
+            <div class="links">
+                <a href="https://github.com/xrendani" class="social gh" target="_blank">github</a>
+                <a href="https://huggingface.co/xrendani" class="social hf" target="_blank">huggingface</a>
+                <a href="https://youtube.com/@xrendani" class="social yt" target="_blank">youtube</a>
+            </div>
+        </div>
+    </div>
 
     <script src="src/js/script.js"></script>
 </body>
