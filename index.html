@@ -3,45 +3,126 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>home | rm</title>
-    <link rel="icon" type="image/png" href="src/img/favicon.png">
+    <title>~/rm | home</title>
+    <link rel="icon" type="image/svg+xml" href="src/img/favicon.svg">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inter-font@4.0.1/inter.min.css">
     <link rel="stylesheet" href="src/css/styles.css">
 </head>
 <body>
+    <div class="background"></div>
+    
     <div class="terminal">
-        <div class="breadcrumbs">
-            <span class="path">~/</span>
+        <div class="terminal-header">
+            <div class="window-controls">
+                <span class="control close"></span>
+                <span class="control minimize"></span>
+                <span class="control maximize"></span>
+            </div>
+            <div class="breadcrumbs">
+                <span class="path">~/</span>
+            </div>
         </div>
         
-        <div class="content active" data-view="home">
-            <div class="logo-container">
-                <img src="src/img/logo.png" alt="rm logo" class="logo">
+        <div class="terminal-content">
+            <div class="content active" data-view="home">
+                <div class="logo-container">
+                    <img src="src/img/logo.svg" alt="rm logo" class="logo" draggable="false">
+                </div>
+                <div class="typewriter">
+                    <span class="greeting">welcome to my digital space.</span>
+                </div>
+                <div class="commands">
+                    <div class="command" data-cmd="cd about">$ cd about</div>
+                    <div class="command" data-cmd="cd projects">$ cd projects</div>
+                    <div class="command" data-cmd="cd github">$ cd github</div>
+                    <div class="command" data-cmd="cd social">$ cd social</div>
+                </div>
             </div>
-            <div class="commands">
-                <div class="command" data-cmd="cd github">$ cd github</div>
-                <div class="command" data-cmd="cd social">$ cd social</div>
+
+            <div class="content" data-view="about">
+                <div class="terminal-header">
+                    <span class="back" data-cmd="cd ..">← ../</span>
+                    <h2>about.txt</h2>
+                </div>
+                <div class="file-content">
+                    <p>Hello, I'm rm.</p>
+                    <p>I build things for the web with a focus on clean design and intuitive interactions.</p>
+                    <p>Currently exploring the intersection of design and technology.</p>
+                    <div class="skills">
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">UI/UX</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content" data-view="projects">
+                <div class="terminal-header">
+                    <span class="back" data-cmd="cd ..">← ../</span>
+                    <h2>projects/</h2>
+                </div>
+                <div class="projects-grid">
+                    <div class="project-card" data-project="project1">
+                        <h3>terminal portfolio</h3>
+                        <p>interactive terminal-style personal website</p>
+                        <span class="tech">HTML/CSS/JS</span>
+                    </div>
+                    <div class="project-card" data-project="project2">
+                        <h3>ai playground</h3>
+                        <p>collection of machine learning experiments</p>
+                        <span class="tech">python/tensorFlow</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content" data-view="github">
+                <div class="terminal-header">
+                    <span class="back" data-cmd="cd ..">← ../</span>
+                    <h2>github/</h2>
+                </div>
+                <div class="github-stats">
+                    <div class="stat-card">
+                        <span class="stat-number" id="repo-count">24</span>
+                        <span class="stat-label">Repositories</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number" id="star-count">142</span>
+                        <span class="stat-label">Stars</span>
+                    </div>
+                </div>
+                <img src="https://ghchart.rshah.org/xrendani" alt="github contributions" class="github-graph" draggable="false"/>
+                <div id="repos" class="repos-container"></div>
+            </div>
+
+            <div class="content" data-view="social">
+                <div class="terminal-header">
+                    <span class="back" data-cmd="cd ..">← ../</span>
+                    <h2>social/</h2>
+                </div>
+                <div class="links">
+                    <a href="https://github.com/xrendani" class="social-link gh" target="_blank">
+                        <span class="social-icon"></span>
+                        <span>GitHub</span>
+                    </a>
+                    <a href="https://huggingface.co/xrendani" class="social-link hf" target="_blank">
+                        <span class="social-icon"></span>
+                        <span>HuggingFace</span>
+                    </a>
+                    <a href="https://youtube.com/@xrendani" class="social-link yt" target="_blank">
+                        <span class="social-icon"></span>
+                        <span>YouTube</span>
+                    </a>
+                    <a href="mailto:hello@example.com" class="social-link email" target="_blank">
+                        <span class="social-icon"></span>
+                        <span>Email</span>
+                    </a>
+                </div>
             </div>
         </div>
 
-        <div class="content" data-view="github">
-            <div class="terminal-header">
-                <span class="back" data-cmd="cd ..">← back</span>
-                <h2>github activity</h2>
-            </div>
-            <img src="https://ghchart.rshah.org/xrendani" alt="github contributions" class="github-graph"/>
-            <div id="repos" class="repos-container"></div>
-        </div>
-
-        <div class="content" data-view="social">
-            <div class="terminal-header">
-                <span class="back" data-cmd="cd ..">← back</span>
-                <h2>social connections</h2>
-            </div>
-            <div class="links">
-                <a href="https://github.com/xrendani" class="social gh" target="_blank">github</a>
-                <a href="https://huggingface.co/xrendani" class="social hf" target="_blank">huggingface</a>
-                <a href="https://youtube.com/@xrendani" class="social yt" target="_blank">youtube</a>
-            </div>
+        <div class="terminal-footer">
+            <span class="hint">Type <span class="cmd">help</span> for available commands</span>
         </div>
     </div>
 
