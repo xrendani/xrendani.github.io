@@ -1,128 +1,88 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>~/rm | home</title>
-    <link rel="icon" type="image/svg+xml" href="src/img/favicon.svg">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inter-font@4.0.1/inter.min.css">
-    <link rel="stylesheet" href="src/css/styles.css">
+    <!-- ... (keep existing head content) ... -->
 </head>
 <body>
     <div class="background"></div>
     
     <div class="terminal">
-        <div class="terminal-header">
-            <div class="window-controls">
-                <span class="control close"></span>
-                <span class="control minimize"></span>
-                <span class="control maximize"></span>
-            </div>
-            <div class="breadcrumbs">
-                <span class="path">~/</span>
-            </div>
-        </div>
+        <!-- ... (keep existing terminal header) ... -->
         
         <div class="terminal-content">
-            <div class="content active" data-view="home">
-                <div class="logo-container">
-                    <img src="src/img/logo.svg" alt="rm logo" class="logo" draggable="false">
+            <!-- ... (keep existing home/about views) ... -->
+
+            <!-- Apps View -->
+            <div class="content" data-view="apps">
+                <div class="terminal-header">
+                    <span class="back" data-cmd="cd ..">← ../</span>
+                    <h2>apps/</h2>
                 </div>
-                <div class="typewriter">
-                    <span class="greeting">welcome to my digital space.</span>
-                </div>
-                <div class="commands">
-                    <div class="command" data-cmd="cd about">$ cd about</div>
-                    <div class="command" data-cmd="cd projects">$ cd projects</div>
-                    <div class="command" data-cmd="cd github">$ cd github</div>
-                    <div class="command" data-cmd="cd social">$ cd social</div>
+                <div class="grid-container">
+                    <a href="https://chat.rendani.me" class="app-card" target="_blank">
+                        <div class="app-icon">🤖</div>
+                        <h3>ai chat</h3>
+                        <p>generative ai conversation interface</p>
+                        <span class="app-tech">next.js · python · aws</span>
+                    </a>
+                    <a href="https://analytics.rendani.me" class="app-card" target="_blank">
+                        <div class="app-icon">📊</div>
+                        <h3>metrics dashboard</h3>
+                        <p>real-time analytics visualization</p>
+                        <span class="app-tech">react · go · postgresql</span>
+                    </a>
                 </div>
             </div>
 
-            <div class="content" data-view="about">
+            <!-- Gallery View -->
+            <div class="content" data-view="gallery">
                 <div class="terminal-header">
                     <span class="back" data-cmd="cd ..">← ../</span>
-                    <h2>about.txt</h2>
+                    <h2>gallery/</h2>
                 </div>
-                <div class="file-content">
-                    <p>Hello, I'm rm.</p>
-                    <p>I build things for the web with a focus on clean design and intuitive interactions.</p>
-                    <p>Currently exploring the intersection of design and technology.</p>
-                    <div class="skills">
-                        <span class="skill-tag">JavaScript</span>
-                        <span class="skill-tag">React</span>
-                        <span class="skill-tag">Node.js</span>
-                        <span class="skill-tag">UI/UX</span>
+                <div class="masonry-grid">
+                    <div class="gallery-item" style="--aspect-ratio: 1">
+                        <img src="/src/assets/img/gallery/ai-art-1.jpg" alt="ai generated art">
+                        <div class="gallery-overlay">
+                            <span>neural abstractions #1</span>
+                        </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="content" data-view="projects">
-                <div class="terminal-header">
-                    <span class="back" data-cmd="cd ..">← ../</span>
-                    <h2>projects/</h2>
-                </div>
-                <div class="projects-grid">
-                    <div class="project-card" data-project="project1">
-                        <h3>terminal portfolio</h3>
-                        <p>interactive terminal-style personal website</p>
-                        <span class="tech">HTML/CSS/JS</span>
-                    </div>
-                    <div class="project-card" data-project="project2">
-                        <h3>ai playground</h3>
-                        <p>collection of machine learning experiments</p>
-                        <span class="tech">python/tensorFlow</span>
+                    <div class="gallery-item" style="--aspect-ratio: 0.75">
+                        <img src="/src/assets/img/gallery/code-1.jpg" alt="code snippet">
+                        <div class="gallery-overlay">
+                            <span>runtime poetry</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="content" data-view="github">
+            <!-- Library View -->
+            <div class="content" data-view="library">
                 <div class="terminal-header">
                     <span class="back" data-cmd="cd ..">← ../</span>
-                    <h2>github/</h2>
+                    <h2>library/</h2>
                 </div>
-                <div class="github-stats">
-                    <div class="stat-card">
-                        <span class="stat-number" id="repo-count">24</span>
-                        <span class="stat-label">Repositories</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-number" id="star-count">142</span>
-                        <span class="stat-label">Stars</span>
-                    </div>
+                <div class="library-grid">
+                    <article class="library-card">
+                        <time>2024-03-15</time>
+                        <h3>optimizing neural interfaces</h3>
+                        <p>exploring low-latency communication between web interfaces and tensorflow models...</p>
+                        <a href="#" class="library-link">read →</a>
+                    </article>
+                    <article class="library-card">
+                        <time>2024-02-28</time>
+                        <h3>webassembly meets pytorch</h3>
+                        <p>implementing browser-based ml pipelines with webassembly backend optimizations...</p>
+                        <a href="#" class="library-link">read →</a>
+                    </article>
                 </div>
-                <img src="https://ghchart.rshah.org/xrendani" alt="github contributions" class="github-graph" draggable="false"/>
-                <div id="repos" class="repos-container"></div>
             </div>
 
-            <div class="content" data-view="social">
-                <div class="terminal-header">
-                    <span class="back" data-cmd="cd ..">← ../</span>
-                    <h2>social/</h2>
-                </div>
-                <div class="links">
-                    <a href="https://github.com/xrendani" class="social-link gh" target="_blank">
-                        <span class="social-icon"></span>
-                        <span>GitHub</span>
-                    </a>
-                    <a href="https://huggingface.co/xrendani" class="social-link hf" target="_blank">
-                        <span class="social-icon"></span>
-                        <span>HuggingFace</span>
-                    </a>
-                    <a href="https://youtube.com/@xrendani" class="social-link yt" target="_blank">
-                        <span class="social-icon"></span>
-                        <span>YouTube</span>
-                    </a>
-                    <a href="mailto:hello@example.com" class="social-link email" target="_blank">
-                        <span class="social-icon"></span>
-                        <span>Email</span>
-                    </a>
-                </div>
-            </div>
+            <!-- ... (keep other existing views) ... -->
         </div>
 
         <div class="terminal-footer">
-            <span class="hint">Type <span class="cmd">help</span> for available commands</span>
+            <span class="hint">type <span class="cmd">help</span> for available commands</span>
         </div>
     </div>
 
